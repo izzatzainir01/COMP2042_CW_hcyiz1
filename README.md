@@ -1,12 +1,16 @@
-# Brick_Destroy
-This is a simple arcace video game.
-Player's goal is to destroy a wall with a small ball.
-The game has  very simple commmand:
-SPACE start/pause the game
-A move left the player
-D move rigth the player
-ESC enter/exit pause menu
-ALT+SHITF+F1 open console
-the game automatically pause if the frame loses focus
+# Brick Destroy
+This is a simple arcade game. The goal is to destroy a wall with a small ball. This is a variation of [Filippo Ranza's base game](https://github.com/FilippoRanza/Brick_Destroy) that I will be expanding on for my university's Developing Maintainable Software module assignment.
 
-Enjoy ;-)
+**Controls:**
+|Key| Description |
+|--|--|
+| Space | Start/stop the game |
+| A | Move player left |
+| D | Move player right |
+| ESC | Enter/exit pause menu |
+| ALT+SHIFT+F1 | Open console |
+
+
+The game will automatically pause if the player clicks out of the game.
+
+Enjoy :D
