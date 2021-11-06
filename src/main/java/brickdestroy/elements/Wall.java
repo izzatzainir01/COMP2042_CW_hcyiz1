@@ -109,7 +109,7 @@ public class Wall {
         for(double y = brickHgt;i < tmp.length;i++, y += 2*brickHgt){
             double x = (brickOnLine * brickLen) - (brickLen / 2);
             p.setLocation(x,y);
-            tmp[i] = new ClayBrick(p,brickSize);
+            tmp[i] = new BrickClay(p,brickSize);
         }
         return tmp;
 
@@ -161,7 +161,7 @@ public class Wall {
     }
 
     private void makeBall(Point2D ballPos){
-        ball = new RubberBall(ballPos);
+        ball = new BallRubber(ballPos);
     }
 
     private Brick[][] makeLevels(Rectangle drawArea,int brickCount,int lineCount,double brickDimensionRatio){
@@ -295,13 +295,13 @@ public class Wall {
         Brick out;
         switch(type){
             case CLAY:
-                out = new ClayBrick(point,size);
+                out = new BrickClay(point,size);
                 break;
             case STEEL:
-                out = new SteelBrick(point,size);
+                out = new BrickSteel(point,size);
                 break;
             case CEMENT:
-                out = new CementBrick(point, size);
+                out = new BrickCement(point, size);
                 break;
             default:
                 throw  new IllegalArgumentException(String.format("Unknown Type:%d\n",type));

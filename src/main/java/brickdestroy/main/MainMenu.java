@@ -26,7 +26,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
 
-public class HomeMenu extends JComponent implements MouseListener, MouseMotionListener {
+public class MainMenu extends JComponent implements MouseListener, MouseMotionListener {
 
     private static final String GREETINGS = "Welcome to:";
     private static final String GAME_TITLE = "Brick Destroy";
@@ -62,7 +62,7 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     private boolean menuClicked;
 
 
-    public HomeMenu(GameFrame owner,Dimension area){
+    public MainMenu(GameFrame owner,Dimension area){
 
         this.setFocusable(true);
         this.requestFocusInWindow();
