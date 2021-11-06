@@ -15,9 +15,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package brickdestroy.main;
 
 import javax.swing.*;
+
+import brickdestroy.debug.DebugConsole;
+import brickdestroy.elements.Ball;
+import brickdestroy.elements.Brick;
+import brickdestroy.elements.Player;
+import brickdestroy.elements.Wall;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;

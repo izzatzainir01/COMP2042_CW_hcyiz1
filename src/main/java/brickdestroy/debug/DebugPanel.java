@@ -15,10 +15,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package brickdestroy.debug;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
+
+import brickdestroy.elements.Wall;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 

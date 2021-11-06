@@ -1,4 +1,4 @@
-package test;
+package brickdestroy.elements;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
