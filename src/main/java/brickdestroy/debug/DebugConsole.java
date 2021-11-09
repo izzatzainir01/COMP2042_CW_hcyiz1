@@ -1,20 +1,3 @@
-/*
- *  Brick Destroy - A simple Arcade video game
- *   Copyright (C) 2017  Filippo Ranza
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package brickdestroy.debug;
 
 import javax.swing.*;
@@ -26,18 +9,16 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class DebugConsole extends JDialog implements WindowListener{
+public class DebugConsole extends JDialog implements WindowListener {
 
     private static final String TITLE = "Debug Console";
-
 
     private JFrame owner;
     private DebugPanel debugPanel;
     private Board gameBoard;
     private Wall wall;
 
-
-    public DebugConsole(JFrame owner,Wall wall,Board gameBoard){
+    public DebugConsole(JFrame owner, Wall wall, Board gameBoard) {
 
         this.wall = wall;
         this.owner = owner;
@@ -45,13 +26,12 @@ public class DebugConsole extends JDialog implements WindowListener{
         initialize();
 
         debugPanel = new DebugPanel(wall);
-        this.add(debugPanel,BorderLayout.CENTER);
-
+        this.add(debugPanel, BorderLayout.CENTER);
 
         this.pack();
     }
 
-    private void initialize(){
+    private void initialize() {
         this.setModal(true);
         this.setTitle(TITLE);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -60,13 +40,11 @@ public class DebugConsole extends JDialog implements WindowListener{
         this.setFocusable(true);
     }
 
-
-    private void setLocation(){
+    private void setLocation() {
         int x = ((owner.getWidth() - this.getWidth()) / 2) + owner.getX();
         int y = ((owner.getHeight() - this.getHeight()) / 2) + owner.getY();
-        this.setLocation(x,y);
+        this.setLocation(x, y);
     }
-
 
     @Override
     public void windowOpened(WindowEvent windowEvent) {
@@ -97,7 +75,7 @@ public class DebugConsole extends JDialog implements WindowListener{
     public void windowActivated(WindowEvent windowEvent) {
         setLocation();
         Ball b = wall.ball;
-        debugPanel.setValues(b.getSpeedX(),b.getSpeedY());
+        debugPanel.setValues(b.getSpeedX(), b.getSpeedY());
     }
 
     @Override
