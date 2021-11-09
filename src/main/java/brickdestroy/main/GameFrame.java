@@ -10,7 +10,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
     private static final String DEF_TITLE = "Brick Destroy";
 
     private Board gameBoard;
-    private MainMenu homeMenu;
+    private MenuHome homeMenu;
 
     private boolean gaming;
 
@@ -23,7 +23,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
 
         gameBoard = new Board(this);
 
-        homeMenu = new MainMenu(this, new Dimension(450, 300));
+        homeMenu = new MenuHome(this, new Dimension(450, 300));
 
         this.add(homeMenu, BorderLayout.CENTER);
 
