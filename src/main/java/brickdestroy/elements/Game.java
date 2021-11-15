@@ -23,7 +23,7 @@ public class Game {
     private int lineCount = 3;
     private double brickDimensionRatio = 6 / 2;
 
-    private Player player;
+    public Player player;
     private Point2D playerPos;
     private int playerPosX;
     private int playerPosY;
@@ -50,7 +50,7 @@ public class Game {
 
         // Defining the Player's position and creating them
         this.playerPosX = frameW / 2;
-        this.playerPosY = (int) (frameH * 0.85);
+        this.playerPosY = (int) (frameH * 0.95);
         this.playerPos = new Point(playerPosX, playerPosY);
         this.player = new Player(playerPos, 150, 10);
 
@@ -58,7 +58,7 @@ public class Game {
         this.ballPosX = frameW / 2;
         this.ballPosY = playerPosY - 10;
         this.ballPos = new Point(ballPosX, ballPosY);
-        this.ball = new BallRubber(ballPos);
+        this.ball = new BallRubber((Point2D) ballPos.clone());
         ball.setSpeed(5, -3);
 
         // Initialising some game properties
@@ -82,7 +82,7 @@ public class Game {
     private Brick[] makeSingleTypeLevel(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio,
             int type) {
         /*
-         * if brickCount is not divisible by line count,brickCount is adjusted to the
+         * If brickCount is not divisible by line count,brickCount is adjusted to the
          * biggest multiple of lineCount smaller then brickCount
          */
         brickCount -= brickCount % lineCount;
@@ -166,6 +166,33 @@ public class Game {
         return tmp;
     }
 
+    private Brick makeBrick(Point point, Dimension size, int type) {
+        Brick out;
+        switch (type) {
+        case CLAY:
+            out = new BrickClay(point, size.width, size.height);
+            break;
+        case STEEL:
+            out = new BrickSteel(point, size.width, size.height);
+            break;
+        case CEMENT:
+            out = new BrickCement(point, size.width, size.height);
+            break;
+        default:
+            throw new IllegalArgumentException(String.format("Unknown Type:%d\n", type));
+        }
+        return out;
+    }
+
+    public void nextLevel() {
+        bricks = levels[level++];
+        this.brickCount = bricks.length;
+    }
+
+    public boolean hasLevel() {
+        return level < levels.length;
+    }
+
     public void move() {
         player.move();
         ball.move();
@@ -221,21 +248,9 @@ public class Game {
         return ((p.getX() < frameBounds.getX()) || (p.getX() > (frameBounds.getX() + frameBounds.getWidth())));
     }
 
-    public int getBrickCount() {
-        return brickCount;
-    }
-
-    public int getBallCount() {
-        return attempts;
-    }
-
-    public boolean isBallLost() {
-        return ballLost;
-    }
-
     public void ballReset() {
-        player.setLocation(ballPos);
-        ball.setLocation(ballPos);
+        player.setLocation(playerPos);
+        ball.setLocation((Point2D) ballPos.clone());
         int speedX, speedY;
         do {
             speedX = rand.nextInt(5) - 2;
@@ -244,8 +259,12 @@ public class Game {
             speedY = -rand.nextInt(3);
         } while (speedY == 0);
 
-        ball.setSpeed(7, -3);
+        ball.setSpeed(5, -3);
         ballLost = false;
+    }
+
+    public void resetBallCount() {
+        attempts = 3;
     }
 
     public void wallReset() {
@@ -253,6 +272,10 @@ public class Game {
             b.repair();
         brickCount = bricks.length;
         attempts = 3;
+    }
+
+    public boolean isBallLost() {
+        return ballLost;
     }
 
     public boolean ballEnd() {
@@ -263,13 +286,16 @@ public class Game {
         return brickCount == 0;
     }
 
-    public void nextLevel() {
-        bricks = levels[level++];
-        this.brickCount = bricks.length;
+    public int getBrickCount() {
+        return brickCount;
     }
 
-    public boolean hasLevel() {
-        return level < levels.length;
+    public int getBallCount() {
+        return attempts;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 
     public void setBallXSpeed(int s) {
@@ -280,26 +306,16 @@ public class Game {
         ball.setYSpeed(s);
     }
 
-    public void resetBallCount() {
-        attempts = 3;
-    }
+    public void render(Graphics2D g) {
+        Graphics2D g2d = (Graphics2D) g.create();
 
-    private Brick makeBrick(Point point, Dimension size, int type) {
-        Brick out;
-        switch (type) {
-        case CLAY:
-            out = new BrickClay(point, size.width, size.height);
-            break;
-        case STEEL:
-            out = new BrickSteel(point, size.width, size.height);
-            break;
-        case CEMENT:
-            out = new BrickCement(point, size.width, size.height);
-            break;
-        default:
-            throw new IllegalArgumentException(String.format("Unknown Type:%d\n", type));
-        }
-        return out;
+        ball.render(g2d);
+
+        for (Brick b : bricks)
+            if (!b.isBroken())
+                b.render(g2d);
+
+        player.render(g2d);
     }
 
 }
