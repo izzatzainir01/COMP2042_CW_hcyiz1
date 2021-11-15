@@ -182,20 +182,23 @@ public class Wall {
 
     private boolean impactWall() {
         for (Brick b : bricks) {
+
             switch (b.findImpact(ball)) {
             // Vertical Impact
-            case Brick.UP_IMPACT:
+            case Brick.UP:
                 ball.reverseY();
                 return b.setImpact(ball.getDown(), Crack.UP);
-            case Brick.DOWN_IMPACT:
+
+            case Brick.DOWN:
                 ball.reverseY();
                 return b.setImpact(ball.getUp(), Crack.DOWN);
 
             // Horizontal Impact
-            case Brick.LEFT_IMPACT:
+            case Brick.LEFT:
                 ball.reverseX();
                 return b.setImpact(ball.getRight(), Crack.RIGHT);
-            case Brick.RIGHT_IMPACT:
+
+            case Brick.RIGHT:
                 ball.reverseX();
                 return b.setImpact(ball.getLeft(), Crack.LEFT);
             }

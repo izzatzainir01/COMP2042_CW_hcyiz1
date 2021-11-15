@@ -11,10 +11,10 @@ import java.awt.geom.Rectangle2D;
  */
 abstract public class Brick {
 
-    public static final int UP_IMPACT = 1;
-    public static final int DOWN_IMPACT = 2;
-    public static final int LEFT_IMPACT = 3;
-    public static final int RIGHT_IMPACT = 4;
+    public static final int UP = 1;
+    public static final int DOWN = 2;
+    public static final int LEFT = 3;
+    public static final int RIGHT = 4;
 
     private Shape brickFace;
 
@@ -81,16 +81,16 @@ abstract public class Brick {
         
         // If the right side of the ball impacts the left side of the brick
         if (brickFace.contains(ball.getRight()))
-            out = LEFT_IMPACT;
+            out = LEFT;
         // If the left side of the ball impacts the right side of the brick
         else if (brickFace.contains(ball.getLeft()))
-            out = RIGHT_IMPACT;
+            out = RIGHT;
         // If the top side of the ball impacts the bottom side of the brick
         else if (brickFace.contains(ball.getUp()))
-            out = DOWN_IMPACT;
+            out = DOWN;
         // If the bottom side of the ball impacts the top side of the brick
         else if (brickFace.contains(ball.getDown()))
-            out = UP_IMPACT;
+            out = UP;
 
         return out;
     }
@@ -105,6 +105,22 @@ abstract public class Brick {
     public void impact() {
         strength--;
         broken = (strength == 0);
+    }
+
+    public int getUpImpact() {
+        return UP;
+    }
+
+    public int getDownImpact() {
+        return DOWN;
+    }
+
+    public int getLeftImpact() {
+        return LEFT;
+    }
+
+    public int getRightImpact() {
+        return RIGHT;
     }
 
     public final boolean isBroken() {
