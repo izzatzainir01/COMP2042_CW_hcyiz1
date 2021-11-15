@@ -6,7 +6,7 @@ import brickdestroy.debug.DebugConsole;
 import brickdestroy.elements.Ball;
 import brickdestroy.elements.Brick;
 import brickdestroy.elements.Player;
-import brickdestroy.elements.Wall;
+import brickdestroy.elements.Game;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,7 +28,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
     private Timer gameTimer;
 
-    private Wall wall;
+    private Game wall;
 
     private String message;
 
@@ -53,7 +53,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
         this.initialize();
         message = "";
-        wall = new Wall(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 420));
+        wall = new Game(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 420));
 
         debugConsole = new DebugConsole(owner, wall, this);
         // initialize the first level

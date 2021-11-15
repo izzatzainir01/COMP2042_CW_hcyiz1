@@ -3,7 +3,7 @@ package brickdestroy.debug;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
-import brickdestroy.elements.Wall;
+import brickdestroy.elements.Game;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ public class DebugPanel extends JPanel {
     private JSlider ballXSpeed;
     private JSlider ballYSpeed;
 
-    public DebugPanel(Wall wall) {
+    public DebugPanel(Game wall) {
 
         initialize();
 
