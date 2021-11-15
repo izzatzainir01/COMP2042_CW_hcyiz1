@@ -53,13 +53,13 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
         this.initialize();
         message = "";
-        wall = new Wall(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 430));
+        wall = new Wall(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 420));
 
         debugConsole = new DebugConsole(owner, wall, this);
         // initialize the first level
         wall.nextLevel();
 
-        gameTimer = new Timer(10, e -> {
+        gameTimer = new Timer(0, e -> {
             wall.move();
             wall.findImpacts();
             message = String.format("Bricks: %d Balls %d", wall.getBrickCount(), wall.getBallCount());
@@ -130,11 +130,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
     private void drawBrick(Brick brick, Graphics2D g2d) {
         Color tmp = g2d.getColor();
 
-        g2d.setColor(brick.getInnerColor());
-        g2d.fill(brick.getBrick());
-
-        g2d.setColor(brick.getBorderColor());
-        g2d.draw(brick.getBrick());
+        brick.render(g2d);
 
         g2d.setColor(tmp);
     }
@@ -147,15 +143,10 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
         g2d.setColor(tmp);
     }
 
-    private void drawPlayer(Player p, Graphics2D g2d) {
+    private void drawPlayer(Player player, Graphics2D g2d) {
         Color tmp = g2d.getColor();
 
-        Shape s = p.getPlayerFace();
-        g2d.setColor(Player.INNER_COLOR);
-        g2d.fill(s);
-
-        g2d.setColor(Player.BORDER_COLOR);
-        g2d.draw(s);
+        player.render(g2d);
 
         g2d.setColor(tmp);
     }
@@ -241,7 +232,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
             wall.player.moveLeft();
             break;
         case KeyEvent.VK_D:
-            wall.player.movRight();
+            wall.player.moveRight();
             break;
         case KeyEvent.VK_ESCAPE:
             showPauseMenu = !showPauseMenu;

@@ -135,19 +135,11 @@ abstract public class Brick {
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
-        g2d.setColor(border);
-        g2d.draw(getBrick());
-
         g2d.setColor(inner);
         g2d.fill(getBrick());
-    }
 
-    public Color getBorderColor() {
-        return border;
-    }
-
-    public Color getInnerColor() {
-        return inner;
+        g2d.setColor(border);
+        g2d.draw(getBrick());
     }
 
 }

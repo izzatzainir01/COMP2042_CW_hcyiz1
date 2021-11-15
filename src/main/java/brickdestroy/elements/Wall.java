@@ -48,9 +48,10 @@ public class Wall {
             speedY = -rnd.nextInt(3);
         } while (speedY == 0);
 
-        ball.setSpeed(speedX, speedY);
+        ball.setSpeed(5, -3);
 
-        player = new Player((Point) ballPos.clone(), 150, 10, drawArea);
+        Point2D playerPos = new Point((int) startPoint.getX(), (int) startPoint.getY() + 10);
+        player = new Player((Point) playerPos, 150, 10);
 
         area = drawArea;
 
@@ -162,7 +163,7 @@ public class Wall {
     }
 
     public void findImpacts() {
-        if (player.impact(ball)) {
+        if (player.checkBallImpact(ball)) {
             ball.reverseY();
         } else if (impactWall()) {
             /*
@@ -224,7 +225,7 @@ public class Wall {
     }
 
     public void ballReset() {
-        player.moveTo(startPoint);
+        player.setLocation(startPoint);
         ball.setLocation(startPoint);
         int speedX, speedY;
         do {
@@ -234,7 +235,7 @@ public class Wall {
             speedY = -rnd.nextInt(3);
         } while (speedY == 0);
 
-        ball.setSpeed(speedX, speedY);
+        ball.setSpeed(7, -3);
         ballLost = false;
     }
 

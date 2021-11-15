@@ -32,6 +32,10 @@ abstract public class Ball {
 
     public Ball(Point2D center, int width, int height) {
 
+        // Define size
+        this.width = width;
+        this.height = height;
+
         // Define location
         this.center = center;
         this.centerX = (int) center.getX();
@@ -43,10 +47,6 @@ abstract public class Ball {
         left = new Point2D.Double();
         right = new Point2D.Double();
         setPoints(this.center);
-
-        // Define size
-        this.width = width;
-        this.height = height;
 
         // Initialise the speed
         speedX = 0;
@@ -71,7 +71,17 @@ abstract public class Ball {
 
     // Move the ball every time this method is called
     public void move() {
-        checkFrameCollision();
+
+        // Check for horizontal collision
+        if (left.getX() < 0 || right.getX() > 600) {
+            // System.out.println(left.getX());
+            speedX *= -1;
+        }
+        // Check for vertical collision
+        if (up.getY() < 0) {
+            speedY *= -1;
+        }
+
         // Change location by adding with speed
         centerX += speedX;
         centerY += speedY;
@@ -92,8 +102,8 @@ abstract public class Ball {
 
         // Set ballFace location
         RectangularShape tmp = (RectangularShape) ballFace;
-        int tempX = (int) (centerX - width/2);
-        int tempY = (int) (centerY - height/2);
+        int tempX = (int) (centerX - width / 2);
+        int tempY = (int) (centerY - height / 2);
 
         tmp.setFrame(tempX, tempY, width, height);
         ballFace = tmp;
@@ -163,27 +173,14 @@ abstract public class Ball {
         speedY *= -1;
     }
 
-    // Private method to set the ball's behaviour if it collides with the frame
-    private void checkFrameCollision() {
-        // Check for horizontal collision
-        if (left.getX() < 0 || right.getX() > 600) {
-            // System.out.println(left.getX());
-            speedX *= -1;
-        }
-        // Check for vertical collision
-        if (up.getY() < 0) {
-            speedY *= -1;
-        }
-    }
-
     // Render the ball
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
-        g2d.setColor(border);
-        g2d.draw(ballFace);
-
         g2d.setColor(inner);
         g2d.fill(ballFace);
+
+        g2d.setColor(border);
+        g2d.draw(ballFace);
     }
 }
