@@ -2,6 +2,7 @@ package brickdestroy.elements;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 /**
@@ -107,6 +108,10 @@ abstract public class Ball {
         down.setLocation(tempX, tempY + (height / 2));
         left.setLocation(tempX - (width / 2), tempY);
         right.setLocation(tempX + (width / 2), tempY);
+    }
+
+    public Rectangle2D getBounds() {
+        return ballFace.getBounds2D();
     }
 
     public Point2D getPosition() {
