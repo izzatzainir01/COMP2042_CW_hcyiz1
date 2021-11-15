@@ -7,8 +7,12 @@ import java.awt.geom.RectangularShape;
 abstract public class Ball {
 
     private Shape ballFace;
+    private int width;
+    private int height;
 
     private Point2D center;
+    private int centerX;
+    private int centerY;
 
     Point2D up;
     Point2D down;
@@ -21,7 +25,7 @@ abstract public class Ball {
     private int speedX;
     private int speedY;
 
-    public Ball(Point2D center, int radiusA, int radiusB, Color inner, Color border) {
+    public Ball(Point2D center, int width, int height, Color inner, Color border) {
         this.center = center;
 
         up = new Point2D.Double();
@@ -29,17 +33,16 @@ abstract public class Ball {
         left = new Point2D.Double();
         right = new Point2D.Double();
 
-        up.setLocation(center.getX(), center.getY() - (radiusB / 2));
-        down.setLocation(center.getX(), center.getY() + (radiusB / 2));
+        up.setLocation(center.getX(), center.getY() - (height / 2));
+        down.setLocation(center.getX(), center.getY() + (height / 2));
+        left.setLocation(center.getX() - (width / 2), center.getY());
+        right.setLocation(center.getX() + (width / 2), center.getY());
 
-        left.setLocation(center.getX() - (radiusA / 2), center.getY());
-        right.setLocation(center.getX() + (radiusA / 2), center.getY());
-
-        ballFace = makeBall(center, radiusA, radiusB);
         this.border = border;
         this.inner = inner;
         speedX = 0;
         speedY = 0;
+        ballFace = makeBall(center, width, height);
     }
 
     protected abstract Shape makeBall(Point2D center, int radiusA, int radiusB);
@@ -93,7 +96,7 @@ abstract public class Ball {
         return ballFace;
     }
 
-    public void moveTo(Point p) {
+    public void setLocation(Point p) {
         center.setLocation(p);
 
         RectangularShape tmp = (RectangularShape) ballFace;
@@ -104,7 +107,7 @@ abstract public class Ball {
         ballFace = tmp;
     }
 
-    private void setPoints(double width, double height) {
+    private void setPoints(Point2D center) {
         up.setLocation(center.getX(), center.getY() - (height / 2));
         down.setLocation(center.getX(), center.getY() + (height / 2));
 
