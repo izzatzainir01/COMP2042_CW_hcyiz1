@@ -1,27 +1,36 @@
 package brickdestroy.elements;
 
 import java.awt.*;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 public class BrickClay extends Brick {
 
-    private static final String NAME = "Clay Brick";
-    private static final Color DEF_INNER = new Color(178, 34, 34).darker();
-    private static final Color DEF_BORDER = Color.GRAY;
-    private static final int CLAY_STRENGTH = 1;
+    private static final Color BORDER = Color.GRAY;
+    private static final Color INNER = new Color(178, 34, 34).darker();
+    private static final int STRENGTH = 1;
 
-    public BrickClay(Point point, Dimension size) {
-        super(NAME, point, size, DEF_BORDER, DEF_INNER, CLAY_STRENGTH);
+    public BrickClay(Point point, int width, int height) {
+        super(point, width, height, STRENGTH);
     }
 
     @Override
-    protected Shape makeBrickFace(Point pos, Dimension size) {
-        return new Rectangle(pos, size);
+    protected Shape makeBrickFace(Point2D pos, int width, int height) {
+        return new Rectangle((Point) pos, new Dimension(width, height));
     }
 
     @Override
     public Shape getBrick() {
-        return super.brickFace;
+        return super.getSuperShape();
+    }
+
+    @Override
+    protected Color setBorderColour() {
+        return BORDER;
+    }
+
+    @Override
+    protected Color setInnerColour() {
+        return INNER;
     }
 
 }

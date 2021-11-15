@@ -91,7 +91,7 @@ public class Wall {
         for (double y = brickHgt; i < tmp.length; i++, y += 2 * brickHgt) {
             double x = (brickOnLine * brickLen) - (brickLen / 2);
             p.setLocation(x, y);
-            tmp[i] = new BrickClay(p, brickSize);
+            tmp[i] = new BrickClay(p, brickSize.width, brickSize.height);
         }
         return tmp;
 
@@ -186,18 +186,18 @@ public class Wall {
             // Vertical Impact
             case Brick.UP_IMPACT:
                 ball.reverseY();
-                return b.setImpact(ball.getDown(), Brick.Crack.UP);
+                return b.setImpact(ball.getDown(), Crack.UP);
             case Brick.DOWN_IMPACT:
                 ball.reverseY();
-                return b.setImpact(ball.getUp(), Brick.Crack.DOWN);
+                return b.setImpact(ball.getUp(), Crack.DOWN);
 
             // Horizontal Impact
             case Brick.LEFT_IMPACT:
                 ball.reverseX();
-                return b.setImpact(ball.getRight(), Brick.Crack.RIGHT);
+                return b.setImpact(ball.getRight(), Crack.RIGHT);
             case Brick.RIGHT_IMPACT:
                 ball.reverseX();
-                return b.setImpact(ball.getLeft(), Brick.Crack.LEFT);
+                return b.setImpact(ball.getLeft(), Crack.LEFT);
             }
         }
         return false;
@@ -275,13 +275,13 @@ public class Wall {
         Brick out;
         switch (type) {
         case CLAY:
-            out = new BrickClay(point, size);
+            out = new BrickClay(point, size.width, size.height);
             break;
         case STEEL:
-            out = new BrickSteel(point, size);
+            out = new BrickSteel(point, size.width, size.height);
             break;
         case CEMENT:
-            out = new BrickCement(point, size);
+            out = new BrickCement(point, size.width, size.height);
             break;
         default:
             throw new IllegalArgumentException(String.format("Unknown Type:%d\n", type));
