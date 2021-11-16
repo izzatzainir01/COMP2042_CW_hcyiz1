@@ -35,7 +35,7 @@ public class Player {
         // Define location (center)
         this.centerX = (int) center.getX();
         this.centerY = (int) center.getY();
-        this.center = new Point(centerX, centerY);
+        this.center = (Point2D) center.clone();
 
         // Define movement and limits
         this.moveAmount = 0;
@@ -55,17 +55,22 @@ public class Player {
         return new Rectangle(tempX, tempY, width, height);
     }
 
+    public Rectangle getBounds() {
+        return playerFace.getBounds();
+    }
+
     // Move the Player
     public void move() {
 
+        // Check when Player hits the frame
         if (centerX + moveAmount < min || centerX + moveAmount > max) {
             // Do nothing lmao
         }
-        else {
+        else 
             centerX += moveAmount;
-        }
-
+        
         setLocation(new Point(centerX, centerY));
+        // setLocation(new Point((int)Ball.centerX, centerY));
     }
 
     // Set the location of the Player's center and Shape
@@ -82,9 +87,12 @@ public class Player {
         playerFace.setLocation(tempX, tempY);
     }
 
-    // Check for the Player's impact with the Ball
-    public boolean checkBallImpact(Ball b) {
-        return playerFace.intersects(b.getBounds()) && playerFace.contains(b.getDown());
+    public Point2D getPosition(){
+        return center;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public void moveLeft() {

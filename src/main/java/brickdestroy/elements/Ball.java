@@ -16,8 +16,8 @@ abstract public class Ball {
     private int height;
 
     private Point2D center;
-    private int centerX;
-    private int centerY;
+    private double centerX;
+    private double centerY;
 
     private Point2D up;
     private Point2D down;
@@ -27,8 +27,8 @@ abstract public class Ball {
     private Color border;
     private Color inner;
 
-    private int speedX;
-    private int speedY;
+    private double speedX;
+    private double speedY;
 
     public Ball(Point2D center, int width, int height) {
 
@@ -37,9 +37,9 @@ abstract public class Ball {
         this.height = height;
 
         // Define location
-        this.center = center;
-        this.centerX = (int) center.getX();
-        this.centerY = (int) center.getY();
+        this.centerX = center.getX();
+        this.centerY = center.getY();
+        this.center = (Point2D) center.clone();
 
         // Define points
         up = new Point2D.Double();
@@ -72,29 +72,19 @@ abstract public class Ball {
     // Move the ball every time this method is called
     public void move() {
 
-        // Check for horizontal collision
-        if (left.getX() < 0 || right.getX() > 600) {
-            // System.out.println(left.getX());
-            speedX *= -1;
-        }
-        // Check for vertical collision
-        if (up.getY() < 0) {
-            speedY *= -1;
-        }
-
         // Change location by adding with speed
         centerX += speedX;
         centerY += speedY;
 
         // Set its new location
-        setLocation(new Point(centerX, centerY));
+        setLocation(centerX, centerY);
     }
 
     // Set the Ball's location
-    public void setLocation(Point2D p) {
+    public void setLocation(double x, double y) {
         // Set center location
-        this.centerX = (int) p.getX();
-        this.centerY = (int) p.getY();
+        this.centerX = x;
+        this.centerY = y;
         this.center.setLocation(centerX, centerY);
 
         // Set points
@@ -102,11 +92,15 @@ abstract public class Ball {
 
         // Set ballFace location
         RectangularShape tmp = (RectangularShape) ballFace;
-        int tempX = (int) (centerX - width / 2);
-        int tempY = (int) (centerY - height / 2);
+        double tempX = centerX - width / 2;
+        double tempY = centerY - height / 2;
 
         tmp.setFrame(tempX, tempY, width, height);
         ballFace = tmp;
+    }
+
+    public void setLocation(Point2D p) {
+        this.setLocation(p.getX(), p.getY());
     }
 
     // Set the Ball's points
@@ -122,6 +116,10 @@ abstract public class Ball {
 
     public Rectangle2D getBounds() {
         return ballFace.getBounds2D();
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public Point2D getPosition() {
@@ -144,7 +142,7 @@ abstract public class Ball {
         return right;
     }
 
-    public void setSpeed(int x, int y) {
+    public void setSpeed(double x, double y) {
         speedX = x;
         speedY = y;
     }
@@ -158,19 +156,19 @@ abstract public class Ball {
     }
 
     public int getSpeedX() {
-        return speedX;
+        return (int) speedX;
     }
 
     public int getSpeedY() {
-        return speedY;
+        return (int) speedY;
     }
 
     public void reverseX() {
-        speedX *= -1;
+        speedX *= -1.0;
     }
 
     public void reverseY() {
-        speedY *= -1;
+        speedY *= -1.0;
     }
 
     // Render the ball

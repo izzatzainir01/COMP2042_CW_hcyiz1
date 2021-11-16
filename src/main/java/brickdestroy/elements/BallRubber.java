@@ -6,12 +6,11 @@ import java.awt.geom.Point2D;
 
 public class BallRubber extends Ball {
 
-    private static final int WIDTH = 10;
     private static final Color BORDER = Color.DARK_GRAY.darker();
     private static final Color INNER = new Color(255, 219, 88);
 
-    public BallRubber(Point2D center) {
-        super(center, WIDTH, WIDTH);
+    public BallRubber(Point2D center, int width) {
+        super(center, width, width);
     }
 
     @Override

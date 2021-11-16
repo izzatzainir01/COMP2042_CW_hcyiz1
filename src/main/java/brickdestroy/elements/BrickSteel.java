@@ -44,7 +44,7 @@ public class BrickSteel extends Brick {
     @Override
     public void impact() {
         if (rand.nextDouble() < STEEL_PROBABILITY) {
-            impact();
+            super.impact();
         }
     }
 }

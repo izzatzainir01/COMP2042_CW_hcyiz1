@@ -56,9 +56,9 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
         // initialize the first level
         game.nextLevel();
 
-        gameTimer = new Timer(0, e -> {
+        gameTimer = new Timer(10, e -> {
             game.move();
-            game.findImpacts();
+            game.checkImpacts();
             message = String.format("Bricks: %d Balls %d", game.getBrickCount(), game.getBallCount());
             if (game.isBallLost()) {
                 if (game.ballEnd()) {
