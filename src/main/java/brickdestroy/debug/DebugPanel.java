@@ -3,7 +3,7 @@ package brickdestroy.debug;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
-import brickdestroy.elements.Game;
+import brickdestroy.main.Game;
 
 import java.awt.*;
 import java.awt.event.ActionListener;

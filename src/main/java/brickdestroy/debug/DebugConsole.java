@@ -15,10 +15,10 @@ public class DebugConsole extends JDialog implements WindowListener {
 
     private JFrame owner;
     private DebugPanel debugPanel;
-    private Board gameBoard;
+    private GameController gameBoard;
     private Game game;
 
-    public DebugConsole(JFrame owner, Game game, Board gameBoard) {
+    public DebugConsole(JFrame owner, Game game, GameController gameBoard) {
 
         this.game = game;
         this.owner = owner;

@@ -1,8 +1,10 @@
-package brickdestroy.elements;
+package brickdestroy.main;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+import brickdestroy.elements.*;
 
 public class Game {
 

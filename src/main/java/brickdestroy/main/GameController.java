@@ -3,13 +3,12 @@ package brickdestroy.main;
 import javax.swing.*;
 
 import brickdestroy.debug.DebugConsole;
-import brickdestroy.elements.Game;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 
-public class Board extends JComponent implements KeyListener, MouseListener, MouseMotionListener {
+public class GameController extends JComponent implements KeyListener, MouseListener, MouseMotionListener {
 
     private static final String CONTINUE = "Continue";
     private static final String RESTART = "Restart";
@@ -40,7 +39,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
     private DebugConsole debugConsole;
 
-    public Board(JFrame owner) {
+    public GameController(JFrame owner) {
         super();
 
         strLen = 0;
