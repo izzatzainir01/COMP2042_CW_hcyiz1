@@ -1,9 +1,5 @@
-# VS Code/Maven project files
-.settings
-.classpath
-.project
+# VS Code project files
 .vscode
-pom.xml
 
 # Notes for self
 *.txt
