@@ -20,10 +20,16 @@ public class MyImage {
         image = new ImageIcon(path).getImage();
     }
 
-    // Rescale while keeping the original image's ratio
+    // Rescale while preserving the ratio
     public void rescale(double newWidth) {
         double ratio = newWidth / image.getWidth(null);
         image = image.getScaledInstance((int) newWidth, (int) (image.getHeight(null) * ratio), Image.SCALE_DEFAULT);
+        image = new ImageIcon(image).getImage();
+    }
+
+    // Resize without preserving the ratio
+    public void resize(int width, int height) {
+        image = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
         image = new ImageIcon(image).getImage();
     }
 

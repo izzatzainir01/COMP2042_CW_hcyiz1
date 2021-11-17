@@ -8,6 +8,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+
+import brickdestroy.main.GameFrame;
+
 import javax.swing.JButton;
 
 /**
@@ -25,26 +28,26 @@ public class MyButton extends JButton implements MouseListener {
     private int fontSize;
 
     public MyButton(String text, int width, int height) {
-        
+
         // Define button background and rescale it
         this.buttonBG = new MyImage("bd_button.png");
-        buttonBG.rescale(width);
+        buttonBG.resize(width, height);
 
-        // Define button border width and initial colour
-        this.borderW = (int) ((double) width * 4 / 153);
+        // Define button border width relative to the frame's width and initial colour
+        this.borderW = (int) (GameFrame.WIDTH * (0.007));
         this.borderC = Color.darkGray;
         this.border = BorderFactory.createLineBorder(borderC, borderW);
 
-        // Define font
-        this.fontSize = (int) (width * 30 / 153); // 35/135 is the ratio of font size to button width that i settled with
+        // Define font size relative to the frame's width
+        this.fontSize = (int) (GameFrame.WIDTH * 0.049);
         this.font = new Font("Impact", Font.PLAIN, fontSize);
-        
+
         // Initialise the button
         this.setBounds(0, 0, width, height);
         this.setPreferredSize(new Dimension(width, height));
         this.setBorder(border);
         this.setIcon(buttonBG.getImageIcon());
-        
+
         this.setText(text);
         this.setFont(font);
         this.setVerticalTextPosition(CENTER);
@@ -52,6 +55,10 @@ public class MyButton extends JButton implements MouseListener {
         this.setForeground(Color.black);
 
         this.addMouseListener(this);
+    }
+
+    public void setFontSize(int size) {
+        this.setFont(new Font("Impact", Font.PLAIN, size));
     }
 
     @Override
@@ -79,7 +86,5 @@ public class MyButton extends JButton implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent e) {
     }
-
-    
 
 }
