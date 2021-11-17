@@ -3,16 +3,12 @@ package brickdestroy.main;
 import javax.swing.*;
 
 import brickdestroy.debug.DebugConsole;
-import brickdestroy.elements.Ball;
-import brickdestroy.elements.Brick;
-import brickdestroy.elements.Player;
-import brickdestroy.elements.Wall;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 
-public class Board extends JComponent implements KeyListener, MouseListener, MouseMotionListener {
+public class GameController extends JComponent implements KeyListener, MouseListener, MouseMotionListener {
 
     private static final String CONTINUE = "Continue";
     private static final String RESTART = "Restart";
@@ -28,7 +24,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
     private Timer gameTimer;
 
-    private Wall wall;
+    private Game game;
 
     private String message;
 
@@ -43,7 +39,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
     private DebugConsole debugConsole;
 
-    public Board(JFrame owner) {
+    public GameController(JFrame owner) {
         super();
 
         strLen = 0;
@@ -53,30 +49,30 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
         this.initialize();
         message = "";
-        wall = new Wall(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT), 30, 3, 6 / 2, new Point(300, 430));
+        game = new Game(new Rectangle(0, 0, DEF_WIDTH, DEF_HEIGHT));
 
-        debugConsole = new DebugConsole(owner, wall, this);
+        debugConsole = new DebugConsole(owner, game, this);
         // initialize the first level
-        wall.nextLevel();
+        game.nextLevel();
 
         gameTimer = new Timer(10, e -> {
-            wall.move();
-            wall.findImpacts();
-            message = String.format("Bricks: %d Balls %d", wall.getBrickCount(), wall.getBallCount());
-            if (wall.isBallLost()) {
-                if (wall.ballEnd()) {
-                    wall.wallReset();
+            game.move();
+            game.checkImpacts();
+            message = String.format("Bricks: %d Balls %d", game.getBrickCount(), game.getBallCount());
+            if (game.isBallLost()) {
+                if (game.ballEnd()) {
+                    game.wallReset();
                     message = "Game over";
                 }
-                wall.ballReset();
+                game.ballReset();
                 gameTimer.stop();
-            } else if (wall.isDone()) {
-                if (wall.hasLevel()) {
+            } else if (game.isDone()) {
+                if (game.hasLevel()) {
                     message = "Go to Next Level";
                     gameTimer.stop();
-                    wall.ballReset();
-                    wall.wallReset();
-                    wall.nextLevel();
+                    game.ballReset();
+                    game.wallReset();
+                    game.nextLevel();
                 } else {
                     message = "ALL WALLS DESTROYED";
                     gameTimer.stop();
@@ -106,13 +102,7 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
         g2d.setColor(Color.BLUE);
         g2d.drawString(message, 250, 225);
 
-        drawBall(wall.ball, g2d);
-
-        for (Brick b : wall.bricks)
-            if (!b.isBroken())
-                drawBrick(b, g2d);
-
-        drawPlayer(wall.player, g2d);
+        game.render(g2d);
 
         if (showPauseMenu)
             drawMenu(g2d);
@@ -124,45 +114,6 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
         Color tmp = g2d.getColor();
         g2d.setColor(BG_COLOR);
         g2d.fillRect(0, 0, getWidth(), getHeight());
-        g2d.setColor(tmp);
-    }
-
-    private void drawBrick(Brick brick, Graphics2D g2d) {
-        Color tmp = g2d.getColor();
-
-        g2d.setColor(brick.getInnerColor());
-        g2d.fill(brick.getBrick());
-
-        g2d.setColor(brick.getBorderColor());
-        g2d.draw(brick.getBrick());
-
-        g2d.setColor(tmp);
-    }
-
-    private void drawBall(Ball ball, Graphics2D g2d) {
-        Color tmp = g2d.getColor();
-
-        Shape s = ball.getBallFace();
-
-        g2d.setColor(ball.getInnerColor());
-        g2d.fill(s);
-
-        g2d.setColor(ball.getBorderColor());
-        g2d.draw(s);
-
-        g2d.setColor(tmp);
-    }
-
-    private void drawPlayer(Player p, Graphics2D g2d) {
-        Color tmp = g2d.getColor();
-
-        Shape s = p.getPlayerFace();
-        g2d.setColor(Player.INNER_COLOR);
-        g2d.fill(s);
-
-        g2d.setColor(Player.BORDER_COLOR);
-        g2d.draw(s);
-
         g2d.setColor(tmp);
     }
 
@@ -242,36 +193,38 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getKeyCode()) {
-        case KeyEvent.VK_A:
-            wall.player.moveLeft();
-            break;
-        case KeyEvent.VK_D:
-            wall.player.movRight();
-            break;
-        case KeyEvent.VK_ESCAPE:
+        int keyCode = keyEvent.getKeyCode();
+        if (keyCode == KeyEvent.VK_A)
+            game.player.moveLeft(true);
+        if (keyCode == KeyEvent.VK_D)
+            game.player.moveRight(true);
+        if (keyCode == KeyEvent.VK_ESCAPE) {
             showPauseMenu = !showPauseMenu;
             repaint();
             gameTimer.stop();
-            break;
-        case KeyEvent.VK_SPACE:
+        }
+        if (keyCode == KeyEvent.VK_SPACE) {
             if (!showPauseMenu)
                 if (gameTimer.isRunning())
                     gameTimer.stop();
                 else
                     gameTimer.start();
-            break;
-        case KeyEvent.VK_F1:
+        }
+        if (keyCode == KeyEvent.VK_F1){
             if (keyEvent.isAltDown() && keyEvent.isShiftDown())
                 debugConsole.setVisible(true);
-        default:
-            wall.player.stop();
         }
+
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        wall.player.stop();
+        int keyCode = keyEvent.getKeyCode();
+        if (keyCode == KeyEvent.VK_A)
+            game.player.moveLeft(false);
+        if (keyCode == KeyEvent.VK_D)
+            game.player.moveRight(false);
+
     }
 
     @Override
@@ -284,8 +237,8 @@ public class Board extends JComponent implements KeyListener, MouseListener, Mou
             repaint();
         } else if (restartButtonRect.contains(p)) {
             message = "Restarting Game...";
-            wall.ballReset();
-            wall.wallReset();
+            game.ballReset();
+            game.wallReset();
             showPauseMenu = false;
             repaint();
         } else if (exitButtonRect.contains(p)) {

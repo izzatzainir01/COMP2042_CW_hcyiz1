@@ -6,20 +6,29 @@ import java.awt.geom.Point2D;
 
 public class BallRubber extends Ball {
 
-    private static final int DEF_RADIUS = 10;
-    private static final Color DEF_INNER_COLOR = new Color(255, 219, 88);
-    private static final Color DEF_BORDER_COLOR = DEF_INNER_COLOR.darker().darker();
+    private static final Color BORDER = Color.DARK_GRAY.darker();
+    private static final Color INNER = new Color(255, 219, 88);
 
-    public BallRubber(Point2D center) {
-        super(center, DEF_RADIUS, DEF_RADIUS, DEF_INNER_COLOR, DEF_BORDER_COLOR);
+    public BallRubber(Point2D center, int width) {
+        super(center, width, width);
     }
 
     @Override
-    protected Shape makeBall(Point2D center, int radiusA, int radiusB) {
+    protected Shape makeBall(Point2D center, int width, int height) {
 
-        double x = center.getX() - (radiusA / 2);
-        double y = center.getY() - (radiusB / 2);
+        double x = center.getX() - (width / 2);
+        double y = center.getY() - (height / 2);
 
-        return new Ellipse2D.Double(x, y, radiusA, radiusB);
+        return new Ellipse2D.Double(x, y, width, height);
+    }
+
+    @Override
+    protected Color setBorderColour() {
+        return BORDER;
+    }
+
+    @Override
+    protected Color setInnerColour() {
+        return INNER;
     }
 }

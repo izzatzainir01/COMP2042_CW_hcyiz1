@@ -6,42 +6,45 @@ import java.util.Random;
 
 public class BrickSteel extends Brick {
 
-    private static final String NAME = "Steel Brick";
-    private static final Color DEF_INNER = new Color(203, 203, 201);
-    private static final Color DEF_BORDER = Color.BLACK;
-    private static final int STEEL_STRENGTH = 1;
+    private static final Color BORDER = Color.BLACK;
+    private static final Color INNER = new Color(203, 203, 201);
+    private static final int STRENGTH = 1;
     private static final double STEEL_PROBABILITY = 0.4;
 
-    private Random rnd;
-    private Shape brickFace;
+    private Shape steelFace;
 
-    public BrickSteel(Point point, Dimension size) {
-        super(NAME, point, size, DEF_BORDER, DEF_INNER, STEEL_STRENGTH);
-        rnd = new Random();
-        brickFace = super.brickFace;
+    private Random rand = new Random();
+
+    public BrickSteel(Point point, int width, int height) {
+        super(point, width, height, STRENGTH);
+
+        this.steelFace = super.getSuperShape();
     }
 
     @Override
-    protected Shape makeBrickFace(Point pos, Dimension size) {
-        return new Rectangle(pos, size);
+    protected Shape makeBrickFace(Point2D pos, int width, int height) {
+        return new Rectangle((Point) pos, new Dimension(width, height));
     }
 
     @Override
     public Shape getBrick() {
-        return brickFace;
+        return steelFace;
     }
 
-    public boolean setImpact(Point2D point, int dir) {
-        if (super.isBroken())
-            return false;
-        impact();
-        return super.isBroken();
+    @Override
+    protected Color setBorderColour() {
+        return BORDER;
     }
 
+    @Override
+    protected Color setInnerColour() {
+        return INNER;
+    }
+
+    @Override
     public void impact() {
-        if (rnd.nextDouble() < STEEL_PROBABILITY) {
+        if (rand.nextDouble() < STEEL_PROBABILITY) {
             super.impact();
         }
     }
-
 }

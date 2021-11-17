@@ -1,167 +1,24 @@
 package brickdestroy.elements;
 
 import java.awt.*;
-import java.awt.Point;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.util.Random;
+import java.awt.geom.Rectangle2D;
 
+/**
+ * The abstract class Brick provides a 'template' for the different types of
+ * Bricks in the game. It is reponsible for defining its shape, looks and
+ * location
+ */
 abstract public class Brick {
 
-    public static final int MIN_CRACK = 1;
-    public static final int DEF_CRACK_DEPTH = 1;
-    public static final int DEF_STEPS = 35;
+    public static final int UP = 1;
+    public static final int DOWN = 2;
+    public static final int LEFT = 3;
+    public static final int RIGHT = 4;
 
-    public static final int UP_IMPACT = 100;
-    public static final int DOWN_IMPACT = 200;
-    public static final int LEFT_IMPACT = 300;
-    public static final int RIGHT_IMPACT = 400;
+    private Shape brickFace;
 
-    public class Crack {
-
-        private static final int CRACK_SECTIONS = 3;
-        private static final double JUMP_PROBABILITY = 0.7;
-
-        public static final int LEFT = 10;
-        public static final int RIGHT = 20;
-        public static final int UP = 30;
-        public static final int DOWN = 40;
-        public static final int VERTICAL = 100;
-        public static final int HORIZONTAL = 200;
-
-        private GeneralPath crack;
-
-        private int crackDepth;
-        private int steps;
-
-        public Crack(int crackDepth, int steps) {
-
-            crack = new GeneralPath();
-            this.crackDepth = crackDepth;
-            this.steps = steps;
-
-        }
-
-        public GeneralPath draw() {
-
-            return crack;
-        }
-
-        public void reset() {
-            crack.reset();
-        }
-
-        protected void makeCrack(Point2D point, int direction) {
-            Rectangle bounds = Brick.this.brickFace.getBounds();
-
-            Point impact = new Point((int) point.getX(), (int) point.getY());
-            Point start = new Point();
-            Point end = new Point();
-
-            switch (direction) {
-            case LEFT:
-                start.setLocation(bounds.x + bounds.width, bounds.y);
-                end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
-                Point tmp = makeRandomPoint(start, end, VERTICAL);
-                makeCrack(impact, tmp);
-
-                break;
-            case RIGHT:
-                start.setLocation(bounds.getLocation());
-                end.setLocation(bounds.x, bounds.y + bounds.height);
-                tmp = makeRandomPoint(start, end, VERTICAL);
-                makeCrack(impact, tmp);
-
-                break;
-            case UP:
-                start.setLocation(bounds.x, bounds.y + bounds.height);
-                end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
-                tmp = makeRandomPoint(start, end, HORIZONTAL);
-                makeCrack(impact, tmp);
-                break;
-            case DOWN:
-                start.setLocation(bounds.getLocation());
-                end.setLocation(bounds.x + bounds.width, bounds.y);
-                tmp = makeRandomPoint(start, end, HORIZONTAL);
-                makeCrack(impact, tmp);
-
-                break;
-
-            }
-        }
-
-        protected void makeCrack(Point start, Point end) {
-
-            GeneralPath path = new GeneralPath();
-
-            path.moveTo(start.x, start.y);
-
-            double w = (end.x - start.x) / (double) steps;
-            double h = (end.y - start.y) / (double) steps;
-
-            int bound = crackDepth;
-            int jump = bound * 5;
-
-            double x, y;
-
-            for (int i = 1; i < steps; i++) {
-
-                x = (i * w) + start.x;
-                y = (i * h) + start.y + randomInBounds(bound);
-
-                if (inMiddle(i, CRACK_SECTIONS, steps))
-                    y += jumps(jump, JUMP_PROBABILITY);
-
-                path.lineTo(x, y);
-
-            }
-
-            path.lineTo(end.x, end.y);
-            crack.append(path, true);
-        }
-
-        private int randomInBounds(int bound) {
-            int n = (bound * 2) + 1;
-            return rnd.nextInt(n) - bound;
-        }
-
-        private boolean inMiddle(int i, int steps, int divisions) {
-            int low = (steps / divisions);
-            int up = low * (divisions - 1);
-
-            return (i > low) && (i < up);
-        }
-
-        private int jumps(int bound, double probability) {
-
-            if (rnd.nextDouble() > probability)
-                return randomInBounds(bound);
-            return 0;
-
-        }
-
-        private Point makeRandomPoint(Point from, Point to, int direction) {
-
-            Point out = new Point();
-            int pos;
-
-            switch (direction) {
-            case HORIZONTAL:
-                pos = rnd.nextInt(to.x - from.x) + from.x;
-                out.setLocation(pos, to.y);
-                break;
-            case VERTICAL:
-                pos = rnd.nextInt(to.y - from.y) + from.y;
-                out.setLocation(to.x, pos);
-                break;
-            }
-            return out;
-        }
-
-    }
-
-    private static Random rnd;
-    Shape brickFace;
+    private Point2D p;
 
     private Color border;
     private Color inner;
@@ -171,17 +28,72 @@ abstract public class Brick {
 
     private boolean broken;
 
-    public Brick(String name, Point pos, Dimension size, Color border, Color inner, int strength) {
-        rnd = new Random();
-        broken = false;
-        brickFace = makeBrickFace(pos, size);
-        this.border = border;
-        this.inner = inner;
-        this.fullStrength = this.strength = strength;
+    public Brick(Point2D pos, int width, int height, int strength) {
 
+        // Define location (top left corner)
+        this.p = pos;
+
+        // Define colours
+        this.border = setBorderColour();
+        this.inner = setInnerColour();
+
+        // Define properties
+        this.fullStrength = strength;
+        this.strength = fullStrength;
+        this.broken = false;
+
+        // Create the brick
+        brickFace = makeBrickFace(pos, width, height);
     }
 
-    protected abstract Shape makeBrickFace(Point pos, Dimension size);
+    // Abstract method for creating the brick
+    protected abstract Shape makeBrickFace(Point2D pos, int width, int height);
+
+    // Abstract method for getting the children bricks' Shape
+    public abstract Shape getBrick();
+
+    // Abstract method for setting the border colour
+    protected abstract Color setBorderColour();
+
+    // Abstract method for setting the inner colour
+    protected abstract Color setInnerColour();
+
+    // Get super Shape
+    public Shape getSuperShape() {
+        return brickFace;
+    }
+
+    // Get the brick's bounds
+    public Rectangle2D getBounds() {
+        return brickFace.getBounds2D();
+    }
+
+    public Point2D getPoint() {
+        return p;
+    }
+
+    // Determine the point of impact between the Brick and the Ball
+    public final int findImpact(Ball ball) {
+        if (broken)
+            return 0;
+
+        int out = 0;
+        
+        // If the right side of the ball impacts the left side of the brick
+        if (brickFace.contains(ball.getRight()))
+            out = LEFT;
+        // If the left side of the ball impacts the right side of the brick
+        else if (brickFace.contains(ball.getLeft()))
+            out = RIGHT;
+        // If the top side of the ball impacts the bottom side of the brick
+        else if (brickFace.contains(ball.getUp()))
+            out = DOWN;
+        // If the bottom side of the ball impacts the top side of the brick
+        else if (brickFace.contains(ball.getDown()))
+            out = UP;
+
+        return out;
+    }
 
     public boolean setImpact(Point2D point, int dir) {
         if (broken)
@@ -190,29 +102,25 @@ abstract public class Brick {
         return broken;
     }
 
-    public abstract Shape getBrick();
-
-    public Color getBorderColor() {
-        return border;
+    public void impact() {
+        strength--;
+        broken = (strength == 0);
     }
 
-    public Color getInnerColor() {
-        return inner;
+    public int getUpImpact() {
+        return UP;
     }
 
-    public final int findImpact(Ball b) {
-        if (broken)
-            return 0;
-        int out = 0;
-        if (brickFace.contains(b.right))
-            out = LEFT_IMPACT;
-        else if (brickFace.contains(b.left))
-            out = RIGHT_IMPACT;
-        else if (brickFace.contains(b.up))
-            out = DOWN_IMPACT;
-        else if (brickFace.contains(b.down))
-            out = UP_IMPACT;
-        return out;
+    public int getDownImpact() {
+        return DOWN;
+    }
+
+    public int getLeftImpact() {
+        return LEFT;
+    }
+
+    public int getRightImpact() {
+        return RIGHT;
     }
 
     public final boolean isBroken() {
@@ -224,9 +132,14 @@ abstract public class Brick {
         strength = fullStrength;
     }
 
-    public void impact() {
-        strength--;
-        broken = (strength == 0);
+    public void render(Graphics2D g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        g2d.setColor(inner);
+        g2d.fill(getBrick());
+
+        g2d.setColor(border);
+        g2d.draw(getBrick());
     }
 
 }
