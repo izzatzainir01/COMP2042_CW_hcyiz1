@@ -24,7 +24,6 @@ public class MenuHome extends JLabel {
 
     public MenuHome() {
 
-
         // Defining background and title images
         menuBG = new MyImage("menu_bg.jpg");
         title = new MyImage("title_version.png");
@@ -35,13 +34,13 @@ public class MenuHome extends JLabel {
 
         // Defining start, info and exit buttons and their locations
         start = new MyButton("Start", buttonW, buttonH);
-        start.setLocation((int) (width * 0.2 - buttonW/2), (int) (height * 0.7 - buttonH/2));
+        start.setLocation((int) (width * 0.2 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
 
         info = new MyButton("Info", buttonW, buttonH);
-        info.setLocation((int) (width * 0.5 - buttonW/2), (int) (height * 0.7 - buttonH/2));
+        info.setLocation((int) (width * 0.5 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
 
         exit = new MyButton("Exit", buttonW, buttonH);
-        exit.setLocation((int) (width * 0.8 - buttonW/2), (int) (height * 0.7 - buttonH/2));
+        exit.setLocation((int) (width * 0.8 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
 
         // Initialise the Label's properties
         this.setBounds(0, 0, width, height);

@@ -17,8 +17,8 @@ public class GameController extends JComponent implements KeyListener, MouseList
     private static final int TEXT_SIZE = 30;
     private static final Color MENU_COLOR = new Color(0, 255, 0);
 
-    private static final int DEF_WIDTH = 600;
-    private static final int DEF_HEIGHT = 450;
+    private static final int DEF_WIDTH = GameFrame.WIDTH;
+    private static final int DEF_HEIGHT = GameFrame.HEIGHT;
 
     private static final Color BG_COLOR = Color.WHITE;
 
@@ -210,7 +210,7 @@ public class GameController extends JComponent implements KeyListener, MouseList
                 else
                     gameTimer.start();
         }
-        if (keyCode == KeyEvent.VK_F1){
+        if (keyCode == KeyEvent.VK_F1) {
             if (keyEvent.isAltDown() && keyEvent.isShiftDown())
                 debugConsole.setVisible(true);
         }

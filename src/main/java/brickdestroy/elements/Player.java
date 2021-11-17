@@ -3,6 +3,8 @@ package brickdestroy.elements;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import brickdestroy.main.GameFrame;
+
 /**
  * The Player class is responsible for defining the Player's shape, looks,
  * location and behaviour.
@@ -57,17 +59,15 @@ public class Player {
         return width;
     }
 
-    // Move the Player
+    // Move the Player. The Player is the only one that checks for frame collisions
+    // within itself because checking it within Game did not work as intended.
     public void move() {
-        // The Player is the only one that checks for frame collisions within itself
-        // because checking it within Game did not work as intended.
-        
         // Check when Player hits the left side of the frame
         if (playerFace.getX() <= 0) {
             moveLeft = false;
         }
         // Check when Player hits the right side of the frame
-        if (playerFace.getX() + width >= 600) {
+        if (playerFace.getX() + width >= GameFrame.WIDTH) {
             moveRight = false;
         }
 

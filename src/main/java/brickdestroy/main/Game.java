@@ -30,9 +30,9 @@ public class Game {
     private int ballW;
     private int ballSpeed = 6;
 
-    private int level;
-    private int attempts;
-    private boolean ballLost;
+    private int level = 0;
+    private int attempts = 3;
+    private boolean ballLost = false;
 
     private Random rand = new Random();
 
@@ -60,11 +60,6 @@ public class Game {
         this.ball = new BallRubber(initialPos, ballW);
         setInitialPos();
         randomBallAngle();
-
-        // Initialising some game properties
-        level = 0;
-        attempts = 3;
-        ballLost = false;
     }
 
     public void nextLevel() {
@@ -112,19 +107,6 @@ public class Game {
         }
         // Check for top vertical collision
         if (ball.getUp().getY() + ball.getSpeedY() < 0) {
-            return 1;
-        }
-        return 0;
-    }
-
-    // Check for Player's impact with the frame's borders
-    private int checkPlayerBorderImpact() {
-        // Check when Player hits the left side of the frame
-        if (player.getCornerPosition().getX() <= 0) {
-            return -1;
-        }
-        // Check when Player hits the right side of the frame
-        if (player.getCornerPosition().getX() + playerW >= frameW) {
             return 1;
         }
         return 0;
