@@ -1,6 +1,9 @@
 package brickdestroy.main;
 
 import javax.swing.*;
+
+import brickdestroy.utility.MyImage;
+
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
@@ -15,7 +18,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
     public static int WIDTH;
     public static int HEIGHT;
 
-    private ImageIcon frameIcon;
+    private MyImage frameIcon;
 
     private MenuController menu;
     private GameController game;
@@ -27,10 +30,11 @@ public class GameFrame extends JFrame implements WindowFocusListener {
 
         // Define frame size based on the screen
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        WIDTH = (int) (screen.getWidth() * 0.6);
+        WIDTH = (int) (screen.getWidth() * 0.5);
         HEIGHT = (int) (screen.getHeight() * 0.6);
 
         // Define frame's icon
+        this.frameIcon = new MyImage("monke.png");
 
         // Initialise frame
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,14 +45,14 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         // Add Menu Controller upon first launch
         addMenuController();
         this.pack();
-        this.setResizable(false);
+        // this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
     public void addMenuController() {
         menu = new MenuController(this);
-        this.add(menu);
+        this.add(menu, BorderLayout.NORTH);
     }
 
     public void removeMenuController() {

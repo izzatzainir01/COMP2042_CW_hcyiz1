@@ -44,6 +44,8 @@ public class MenuHome extends JComponent implements MouseListener, MouseMotionLi
 
     public MenuHome(GameFrame owner, Dimension area) {
 
+        this.setBounds(0, 0, GameFrame.WIDTH, GameFrame.HEIGHT);
+        this.setPreferredSize(new Dimension(GameFrame.WIDTH, GameFrame.HEIGHT));
         this.setFocusable(true);
         this.requestFocusInWindow();
 
@@ -217,7 +219,8 @@ public class MenuHome extends JComponent implements MouseListener, MouseMotionLi
     public void mouseClicked(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
         if (startButton.contains(p)) {
-            // owner.enableGameBoard();
+            owner.addGameController();
+            owner.removeMenuController();
 
         } else if (menuButton.contains(p)) {
             System.out.println("Goodbye " + System.getProperty("user.name"));
