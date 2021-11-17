@@ -99,10 +99,6 @@ abstract public class Ball {
         ballFace = tmp;
     }
 
-    public void setLocation(Point2D p) {
-        this.setLocation(p.getX(), p.getY());
-    }
-
     // Set the Ball's points
     private void setPoints(Point2D center) {
         int tempX = (int) center.getX();
@@ -116,14 +112,6 @@ abstract public class Ball {
 
     public Rectangle2D getBounds() {
         return ballFace.getBounds2D();
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public Point2D getPosition() {
-        return center;
     }
 
     public Point2D getUp() {

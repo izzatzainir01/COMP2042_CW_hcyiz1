@@ -45,6 +45,9 @@ public class MyButton extends JButton implements MouseListener {
         // Initialise the button
         this.setBounds(0, 0, width, height);
         this.setPreferredSize(new Dimension(width, height));
+        this.setContentAreaFilled(false);
+        this.setFocusPainted(false);
+        this.setOpaque(false);
         this.setBorder(border);
         this.setIcon(buttonBG.getImageIcon());
 

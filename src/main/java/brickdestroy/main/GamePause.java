@@ -66,7 +66,24 @@ public class GamePause extends JLabel {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Draw the background image
         g2d.drawImage(background.getImage(), 0, 0, null);
+    }
+
+    public MyButton getContinueButton() {
+        return continueButton;
+    }
+
+    public MyButton getRestartButton() {
+        return restart;
+    }
+
+    public MyButton getExitMenuButton() {
+        return exitMenu;
+    }
+
+    public MyButton getExitDesktopButton() {
+        return exitDesktop;
     }
 
 }

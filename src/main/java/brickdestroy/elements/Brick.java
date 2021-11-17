@@ -18,8 +18,6 @@ abstract public class Brick {
 
     private Shape brickFace;
 
-    private Point2D p;
-
     private Color border;
     private Color inner;
 
@@ -29,9 +27,6 @@ abstract public class Brick {
     private boolean broken;
 
     public Brick(Point2D pos, int width, int height, int strength) {
-
-        // Define location (top left corner)
-        this.p = pos;
 
         // Define colours
         this.border = setBorderColour();
@@ -49,14 +44,14 @@ abstract public class Brick {
     // Abstract method for creating the brick
     protected abstract Shape makeBrickFace(Point2D pos, int width, int height);
 
-    // Abstract method for getting the children bricks' Shape
-    public abstract Shape getBrick();
-
     // Abstract method for setting the border colour
     protected abstract Color setBorderColour();
 
     // Abstract method for setting the inner colour
     protected abstract Color setInnerColour();
+
+    // Abstract method for getting the children bricks' Shape
+    public abstract Shape getBrick();
 
     // Get super Shape
     public Shape getSuperShape() {
@@ -66,33 +61,6 @@ abstract public class Brick {
     // Get the brick's bounds
     public Rectangle2D getBounds() {
         return brickFace.getBounds2D();
-    }
-
-    public Point2D getPoint() {
-        return p;
-    }
-
-    // Determine the point of impact between the Brick and the Ball
-    public final int findImpact(Ball ball) {
-        if (broken)
-            return 0;
-
-        int out = 0;
-        
-        // If the right side of the ball impacts the left side of the brick
-        if (brickFace.contains(ball.getRight()))
-            out = LEFT;
-        // If the left side of the ball impacts the right side of the brick
-        else if (brickFace.contains(ball.getLeft()))
-            out = RIGHT;
-        // If the top side of the ball impacts the bottom side of the brick
-        else if (brickFace.contains(ball.getUp()))
-            out = DOWN;
-        // If the bottom side of the ball impacts the top side of the brick
-        else if (brickFace.contains(ball.getDown()))
-            out = UP;
-
-        return out;
     }
 
     public boolean setImpact(Point2D point, int dir) {
@@ -105,22 +73,6 @@ abstract public class Brick {
     public void impact() {
         strength--;
         broken = (strength == 0);
-    }
-
-    public int getUpImpact() {
-        return UP;
-    }
-
-    public int getDownImpact() {
-        return DOWN;
-    }
-
-    public int getLeftImpact() {
-        return LEFT;
-    }
-
-    public int getRightImpact() {
-        return RIGHT;
     }
 
     public final boolean isBroken() {
