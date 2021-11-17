@@ -1,19 +1,19 @@
 package brickdestroy.main;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import brickdestroy.utility.MyButton;
+
 /**
  * The MenuController is the controller for the Menu, which includes the Home
- * and the Info view. It is responsible for getting user input 
+ * and Info view. It is responsible for getting user input to switch between the
+ * two views as well as calling the GameFrame to start the game.
  */
-public class MenuController extends JPanel implements ActionListener {
+public class MenuController extends JPanel {
 
     GameFrame frame;
     private int width;
@@ -25,7 +25,7 @@ public class MenuController extends JPanel implements ActionListener {
         // Define frame
         this.frame = frame;
 
-        // Define size
+        // Define width and height
         this.width = GameFrame.WIDTH;
         this.height = GameFrame.HEIGHT;
 
@@ -35,11 +35,13 @@ public class MenuController extends JPanel implements ActionListener {
         this.setLayout(null);
         this.requestFocusInWindow(true);
 
+        // Add the home view upon first launch
         addHome();
     }
 
     public void addHome() {
-        home = new MenuHome(frame, new Dimension(width, height));
+        home = new MenuHome();
+        initHomeButtonsListeners();
         this.add(home);
     }
 
@@ -49,15 +51,45 @@ public class MenuController extends JPanel implements ActionListener {
         repaint();
     }
 
-    @Override
-    public void paintComponents(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g.create();
+    // Initialise the Home View buttons' actions
+    private void initHomeButtonsListeners() {
+        MyButton startButton = home.getStartButton();
+        MyButton info = home.getInfoButton();
+        MyButton exit = home.getExitButton();
 
-        home.paint(g);
-    }
+        // Start button calls the GameFrame to add the Game Controller and remove the
+        // Menu Controller.
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == startButton) {
+                    frame.addGameController();
+                    frame.removeMenuController();
+                    System.out.println("Start");
+                }
+            }
+        });
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+        // Info button calls the GameFrame to add the Info View and remove the
+        // Home View.
+        info.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == info) {
+                    System.out.println("Info");
+                }
+            }
+        });
+
+        // Exit button calls the GameFrame to close the game.
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == exit) {
+                    frame.exit();
+                }
+            }
+        });
     }
 
 }

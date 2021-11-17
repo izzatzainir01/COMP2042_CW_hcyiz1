@@ -39,7 +39,7 @@ public class GameController extends JComponent implements KeyListener, MouseList
 
     private DebugConsole debugConsole;
 
-    public GameController(JFrame owner) {
+    public GameController(GameFrame owner) {
         super();
 
         strLen = 0;

@@ -1,6 +1,6 @@
 package brickdestroy.main;
 
-import java.awt.*;
+import java.awt.EventQueue;
 
 public class Main {
 
