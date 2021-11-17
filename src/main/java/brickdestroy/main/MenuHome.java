@@ -217,7 +217,7 @@ public class MenuHome extends JComponent implements MouseListener, MouseMotionLi
     public void mouseClicked(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
         if (startButton.contains(p)) {
-            owner.enableGameBoard();
+            // owner.enableGameBoard();
 
         } else if (menuButton.contains(p)) {
             System.out.println("Goodbye " + System.getProperty("user.name"));

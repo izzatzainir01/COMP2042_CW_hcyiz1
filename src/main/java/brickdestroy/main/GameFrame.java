@@ -5,56 +5,67 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
+/**
+ * GameFrame is the window frame of the game. It is responsible for defining its
+ * size and switching between the two Controllers upon being called.
+ */
 public class GameFrame extends JFrame implements WindowFocusListener {
 
-    private static final String DEF_TITLE = "Brick Destroy";
+    private static final String TITLE = "Brick Destroy";
+    public static int WIDTH;
+    public static int HEIGHT;
 
-    private GameController gameBoard;
-    private MenuHome homeMenu;
+    private ImageIcon frameIcon;
+
+    private MenuController menu;
+    private GameController game;
 
     private boolean gaming;
 
     public GameFrame() {
         super();
 
-        gaming = false;
+        // Define frame size based on the screen
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        WIDTH = (int) (screen.getWidth() * 0.6);
+        HEIGHT = (int) (screen.getHeight() * 0.6);
 
-        this.setLayout(new BorderLayout());
+        // Define frame's icon
 
-        gameBoard = new GameController(this);
-
-        homeMenu = new MenuHome(this, new Dimension(450, 300));
-
-        this.add(homeMenu, BorderLayout.CENTER);
-
-        this.setUndecorated(true);
-
-    }
-
-    public void initialize() {
-        this.setTitle(DEF_TITLE);
+        // Initialise frame
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(WIDTH, HEIGHT);
+        this.setTitle(TITLE);
+        this.setIconImage(frameIcon.getImage());
+
+        // Add Menu Controller upon first launch
+        addMenuController();
         this.pack();
-        this.autoLocate();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    public void enableGameBoard() {
-        this.dispose();
-        this.remove(homeMenu);
-        this.add(gameBoard, BorderLayout.CENTER);
-        this.setUndecorated(false);
-        initialize();
-        /* to avoid problems with graphics focus controller is added here */
-        this.addWindowFocusListener(this);
-
+    public void addMenuController() {
+        menu = new MenuController(this);
+        this.add(menu);
     }
 
-    private void autoLocate() {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (size.width - this.getWidth()) / 2;
-        int y = (size.height - this.getHeight()) / 2;
-        this.setLocation(x, y);
+    public void removeMenuController() {
+        this.remove(menu);
+        revalidate();
+        repaint();
+    }
+
+    public void addGameController() {
+        game = new GameController(this);
+        this.add(game);
+    }
+
+    public void removeGameController() {
+        this.remove(game);
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -71,7 +82,7 @@ public class GameFrame extends JFrame implements WindowFocusListener {
     @Override
     public void windowLostFocus(WindowEvent windowEvent) {
         if (gaming)
-            gameBoard.onLostFocus();
+            game.onLostFocus();
 
     }
 }
