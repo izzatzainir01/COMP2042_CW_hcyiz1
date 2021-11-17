@@ -22,9 +22,8 @@ public class Player {
     private int centerX;
     private int centerY;
 
-    private int moveAmount;
-    private int min;
-    private int max;
+    private boolean moveLeft;
+    private boolean moveRight;
 
     public Player(Point2D center, int width, int height) {
 
@@ -36,11 +35,6 @@ public class Player {
         this.centerX = (int) center.getX();
         this.centerY = (int) center.getY();
         this.center = (Point2D) center.clone();
-
-        // Define movement and limits
-        this.moveAmount = 0;
-        this.min = width / 2;
-        this.max = 600 - width / 2;
 
         // Create the Player's Shape
         playerFace = makeRectangle(center, width, height);
@@ -59,18 +53,39 @@ public class Player {
         return playerFace.getBounds();
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     // Move the Player
     public void move() {
-
-        // Check when Player hits the frame
-        if (centerX + moveAmount < min || centerX + moveAmount > max) {
-            // Do nothing lmao
-        }
-        else 
-            centerX += moveAmount;
+        // The Player is the only one that checks for frame collisions within itself
+        // because checking it within Game did not work as intended.
         
+        // Check when Player hits the left side of the frame
+        if (playerFace.getX() <= 0) {
+            moveLeft = false;
+        }
+        // Check when Player hits the right side of the frame
+        if (playerFace.getX() + width >= 600) {
+            moveRight = false;
+        }
+
+        if (moveLeft)
+            centerX -= SPEED;
+        if (moveRight)
+            centerX += SPEED;
+
         setLocation(new Point(centerX, centerY));
         // setLocation(new Point((int)Ball.centerX, centerY));
+    }
+
+    public void moveLeft(boolean b) {
+        moveLeft = b;
+    }
+
+    public void moveRight(boolean b) {
+        moveRight = b;
     }
 
     // Set the location of the Player's center and Shape
@@ -87,26 +102,12 @@ public class Player {
         playerFace.setLocation(tempX, tempY);
     }
 
-    public Point2D getPosition(){
-        return center;
+    // Get the Player's top left corner position
+    public Point2D getCornerPosition() {
+        return playerFace.getLocation();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void moveLeft() {
-        moveAmount = -SPEED;
-    }
-
-    public void moveRight() {
-        moveAmount = SPEED;
-    }
-
-    public void stop() {
-        moveAmount = 0;
-    }
-
+    // Render the Player
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 

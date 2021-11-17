@@ -193,36 +193,38 @@ public class GameController extends JComponent implements KeyListener, MouseList
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        switch (keyEvent.getKeyCode()) {
-        case KeyEvent.VK_A:
-            game.player.moveLeft();
-            break;
-        case KeyEvent.VK_D:
-            game.player.moveRight();
-            break;
-        case KeyEvent.VK_ESCAPE:
+        int keyCode = keyEvent.getKeyCode();
+        if (keyCode == KeyEvent.VK_A)
+            game.player.moveLeft(true);
+        if (keyCode == KeyEvent.VK_D)
+            game.player.moveRight(true);
+        if (keyCode == KeyEvent.VK_ESCAPE) {
             showPauseMenu = !showPauseMenu;
             repaint();
             gameTimer.stop();
-            break;
-        case KeyEvent.VK_SPACE:
+        }
+        if (keyCode == KeyEvent.VK_SPACE) {
             if (!showPauseMenu)
                 if (gameTimer.isRunning())
                     gameTimer.stop();
                 else
                     gameTimer.start();
-            break;
-        case KeyEvent.VK_F1:
+        }
+        if (keyCode == KeyEvent.VK_F1){
             if (keyEvent.isAltDown() && keyEvent.isShiftDown())
                 debugConsole.setVisible(true);
-        default:
-            game.player.stop();
         }
+
     }
 
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        game.player.stop();
+        int keyCode = keyEvent.getKeyCode();
+        if (keyCode == KeyEvent.VK_A)
+            game.player.moveLeft(false);
+        if (keyCode == KeyEvent.VK_D)
+            game.player.moveRight(false);
+
     }
 
     @Override

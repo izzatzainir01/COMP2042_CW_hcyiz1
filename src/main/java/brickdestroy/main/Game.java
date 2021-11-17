@@ -94,6 +94,7 @@ public class Game {
             ballLost = true;
         }
 
+        // Check Player's impacts
         if (checkPlayerImpact()) // Ball hits Player
             ball.reverseY();
 
@@ -111,6 +112,19 @@ public class Game {
         }
         // Check for top vertical collision
         if (ball.getUp().getY() + ball.getSpeedY() < 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    // Check for Player's impact with the frame's borders
+    private int checkPlayerBorderImpact() {
+        // Check when Player hits the left side of the frame
+        if (player.getCornerPosition().getX() <= 0) {
+            return -1;
+        }
+        // Check when Player hits the right side of the frame
+        if (player.getCornerPosition().getX() + playerW >= frameW) {
             return 1;
         }
         return 0;
