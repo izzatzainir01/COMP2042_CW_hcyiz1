@@ -144,20 +144,20 @@ public class Game {
                     // Vertical impact
                     if (brickBounds.contains(ball.getDown())) {
                         ball.reverseY();
-                        return b.setImpact(ball.getDown(), Crack.UP);
+                        return b.setImpact(ball.getDown(), "up");
                     }
                     if (brickBounds.contains(ball.getUp())) {
                         ball.reverseY();
-                        return b.setImpact(ball.getUp(), Crack.DOWN);
+                        return b.setImpact(ball.getUp(), "down");
                     }
                     // Horizontal
                     if (brickBounds.contains(ball.getLeft())) {
                         ball.reverseX();
-                        return b.setImpact(ball.getLeft(), Crack.RIGHT);
+                        return b.setImpact(ball.getLeft(), "left");
                     }
                     if (brickBounds.contains(ball.getRight())) {
                         ball.reverseX();
-                        return b.setImpact(ball.getRight(), Crack.LEFT);
+                        return b.setImpact(ball.getRight(), "right");
                     }
                 }
             }
@@ -170,6 +170,7 @@ public class Game {
             b.repair();
         brickCount = bricks.length;
         attempts = 3;
+        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
 
     public void ballReset() {

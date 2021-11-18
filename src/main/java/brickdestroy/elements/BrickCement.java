@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+/**
+ * BrickCement is a child class of Brick. It's defining property is its extra
+ * health and its ability to create Cracks upon impact
+ */
 public class BrickCement extends Brick {
 
     private static final Color BORDER = new Color(217, 199, 175);
@@ -27,7 +31,7 @@ public class BrickCement extends Brick {
     protected Shape makeBrickFace(Point2D pos, int width, int height) {
         return new Rectangle((Point) pos, new Dimension(width, height));
     }
-    
+
     @Override
     public Shape getBrick() {
         return cementFace;
@@ -43,13 +47,28 @@ public class BrickCement extends Brick {
         return INNER;
     }
 
+    // This method defines the Cement Brick's behaviour upon impact. It returns a
+    // boolean value of whether the brick is broken or not
     @Override
-    public boolean setImpact(Point2D point, int dir) {
+    public boolean setImpact(Point2D point, String dir) {
+        impact();
+
         if (isBroken())
             return false;
-        impact();
+
         if (!isBroken()) {
-            crack.makeCrack(this, point, dir);
+            if (dir.equalsIgnoreCase("up"))
+                crack.makeCrack(this, point, crack.getUp());
+
+            if (dir.equalsIgnoreCase("down"))
+                crack.makeCrack(this, point, crack.getDown());
+
+            if (dir.equalsIgnoreCase("left"))
+                crack.makeCrack(this, point, crack.getLeft());
+
+            if (dir.equalsIgnoreCase("right"))
+                crack.makeCrack(this, point, crack.getRight());
+
             updateBrick();
             return false;
         }

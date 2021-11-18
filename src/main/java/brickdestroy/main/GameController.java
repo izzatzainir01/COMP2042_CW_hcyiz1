@@ -50,7 +50,7 @@ public class GameController extends JPanel implements KeyListener {
         this.addKeyListener(this);
 
         // Game timer
-        gameTimer = new Timer(0, e -> {
+        gameTimer = new Timer(10, e -> {
             game.tick();
             if (game.isGameStopped())
                 gameTimer.stop();

@@ -11,11 +11,6 @@ import java.awt.geom.Rectangle2D;
  */
 abstract public class Brick {
 
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
-
     private Shape brickFace;
 
     private Color border;
@@ -63,7 +58,7 @@ abstract public class Brick {
         return brickFace.getBounds2D();
     }
 
-    public boolean setImpact(Point2D point, int dir) {
+    public boolean setImpact(Point2D point, String dir) {
         if (broken)
             return false;
         impact();
