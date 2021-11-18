@@ -215,6 +215,10 @@ public class Game {
         player.moveRight(b);
     }
 
+    public boolean isGameStopped() {
+        return stopped;
+    }
+
     public void setGameStopped(boolean b) {
         stopped = b;
     }
