@@ -1,6 +1,10 @@
 package brickdestroy.elements;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -15,32 +19,43 @@ public class BrickSteel extends Brick {
 
     private Random rand = new Random();
 
-    public BrickSteel(Point point, int width, int height) {
-        super(point, width, height, STRENGTH);
+    /**
+     * The {@code BrickSteel} class is a child class of {@code Brick}. Although its
+     * {@code strength} is only 1, it only loses its strength based on a
+     * probability.
+     * <p>
+     * It is responsible for defining its colours and the probability of losing its
+     * {@code strength}.
+     * 
+     * @param pos    - The top left corner.
+     * @param width  - The width.
+     * @param height - The height.
+     */
+    public BrickSteel(Point2D pos, int width, int height) {
+        super(pos, width, height, STRENGTH, BORDER, INNER);
 
         this.steelFace = super.getSuperShape();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected Shape makeBrickFace(Point2D pos, int width, int height) {
         return new Rectangle((Point) pos, new Dimension(width, height));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Shape getBrick() {
+    protected Shape getBrick() {
         return steelFace;
     }
 
-    @Override
-    protected Color setBorderColour() {
-        return BORDER;
-    }
-
-    @Override
-    protected Color setInnerColour() {
-        return INNER;
-    }
-
+    /**
+     * Calls the parent's {@code impact()} method based on the probability.
+     */
     @Override
     public void impact() {
         if (rand.nextDouble() < STEEL_PROBABILITY) {

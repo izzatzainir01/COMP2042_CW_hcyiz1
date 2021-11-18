@@ -4,11 +4,6 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-/**
- * The Levels class is responsible for creating Levels. I separated this from
- * the Game (formerly Wall) class as I feel that the Game shouldn't be
- * responsible for CREATING levels.
- */
 public class Levels {
 
     private static final int LEVELS_COUNT = 4;
@@ -16,6 +11,14 @@ public class Levels {
     private final int CLAY = 1;
     private final int STEEL = 2;
     private final int CEMENT = 3;
+
+    /**
+     * The {@code Levels} class creates levels for the Game. I separated these
+     * methods from the {@code Game} class as I personally believe that the Game
+     * should not be responsible for <b>creating</b> levels.
+     */
+    public Levels() {
+    }
 
     public Brick[][] makeLevels(Rectangle frameBounds, int brickCount, int lineCount, double brickDimensionRatio) {
         Brick[][] tmp = new Brick[LEVELS_COUNT][];

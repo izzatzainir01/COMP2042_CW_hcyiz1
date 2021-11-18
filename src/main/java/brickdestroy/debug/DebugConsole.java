@@ -13,12 +13,12 @@ public class DebugConsole extends JDialog implements WindowListener {
 
     private static final String TITLE = "Debug Console";
 
-    private JFrame owner;
+    private GameFrame owner;
     private DebugPanel debugPanel;
     private GameController gameBoard;
     private Game game;
 
-    public DebugConsole(JFrame owner, Game game, GameController gameBoard) {
+    public DebugConsole(GameFrame owner, Game game, GameController gameBoard) {
 
         this.game = game;
         this.owner = owner;
@@ -41,8 +41,8 @@ public class DebugConsole extends JDialog implements WindowListener {
     }
 
     private void setLocation() {
-        int x = ((owner.getWidth() - this.getWidth()) / 2) + owner.getX();
-        int y = ((owner.getHeight() - this.getHeight()) / 2) + owner.getY();
+        int x = ((GameFrame.WIDTH - this.getWidth()) / 2) + owner.getX();
+        int y = ((GameFrame.HEIGHT - this.getHeight()) / 2) + owner.getY();
         this.setLocation(x, y);
     }
 

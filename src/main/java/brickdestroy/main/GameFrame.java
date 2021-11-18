@@ -1,77 +1,120 @@
 package brickdestroy.main;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
-public class GameFrame extends JFrame implements WindowFocusListener {
+import javax.swing.JFrame;
 
-    private static final String DEF_TITLE = "Brick Destroy";
+import brickdestroy.utility.MyImage;
 
-    private GameController gameBoard;
-    private MenuHome homeMenu;
+/**
+ * GameFrame is the window frame of the game. It is responsible for defining its
+ * size and switching between the two Controllers upon being called.
+ */
+public class GameFrame {
 
-    private boolean gaming;
+    private static final String TITLE = "Brick Destroy";
+    public static int WIDTH;
+    public static int HEIGHT;
 
+    private JFrame frame;
+    private MyImage frameIcon;
+
+    private MenuController menu;
+    private GameController game;
+
+    /**
+     * The {@code GameFrame} class handles the game's window frame using JFrame. It
+     * is responsible for defining its size, location and some other properties.
+     * <p>
+     * To some extent, it is also the Main Controller as it is responsible for
+     * switching between the two Controllers, {@code MenuController} and
+     * {@code GameController}. However, since it does not take any input from the
+     * user, I do not consider it a Controller.
+     */
     public GameFrame() {
-        super();
 
-        gaming = false;
+        // Define frame size based on the screen
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        WIDTH = (int) (screen.getWidth() * 0.5);
+        HEIGHT = (int) (screen.getHeight() * 0.6);
 
-        this.setLayout(new BorderLayout());
+        // Define frame's icon
+        this.frameIcon = new MyImage("monke.png");
 
-        gameBoard = new GameController(this);
+        // Define frame
+        this.frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setTitle(TITLE);
+        frame.setIconImage(frameIcon.getImage());
 
-        homeMenu = new MenuHome(this, new Dimension(450, 300));
-
-        this.add(homeMenu, BorderLayout.CENTER);
-
-        this.setUndecorated(true);
-
+        // Add Menu Controller upon first launch
+        this.addMenuController();
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
-    public void initialize() {
-        this.setTitle(DEF_TITLE);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.pack();
-        this.autoLocate();
-        this.setVisible(true);
+    /**
+     * Add the {@code MenuController}.
+     */
+    public void addMenuController() {
+        menu = new MenuController(this);
+        frame.add(menu);
     }
 
-    public void enableGameBoard() {
-        this.dispose();
-        this.remove(homeMenu);
-        this.add(gameBoard, BorderLayout.CENTER);
-        this.setUndecorated(false);
-        initialize();
-        /* to avoid problems with graphics focus controller is added here */
-        this.addWindowFocusListener(this);
-
+    /**
+     * Remove the {@code MenuController}.
+     */
+    public void removeMenuController() {
+        frame.remove(menu);
+        frame.revalidate();
+        frame.repaint();
     }
 
-    private void autoLocate() {
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (size.width - this.getWidth()) / 2;
-        int y = (size.height - this.getHeight()) / 2;
-        this.setLocation(x, y);
+    /**
+     * Add the {@code GameController}.
+     */
+    public void addGameController() {
+        game = new GameController(this);
+        frame.add(game);
     }
 
-    @Override
-    public void windowGainedFocus(WindowEvent windowEvent) {
-        /*
-         * the first time the frame loses focus is because it has been disposed to
-         * install the GameBoard, so went it regains the focus it's ready to play. of
-         * course calling a method such as 'onLostFocus' is useful only if the GameBoard
-         * as been displayed at least once
-         */
-        gaming = true;
+    /**
+     * Remove the {@code GameController}.
+     */
+    public void removeGameController() {
+        frame.remove(game);
+        frame.revalidate();
+        frame.repaint();
     }
 
-    @Override
-    public void windowLostFocus(WindowEvent windowEvent) {
-        if (gaming)
-            gameBoard.onLostFocus();
+    /**
+     * Close/exit the game.
+     */
+    public void exit() {
+        System.out.println("Exiting game...");
+        System.out.println("Goodbye, " + System.getProperty("user.name") + "!");
+        System.exit(0);
+    }
 
+    /**
+     * Get the frame's X coordinate.
+     * 
+     * @return An {@code int} of the frame's X coordinate.
+     */
+    public int getX() {
+        return frame.getX();
+    }
+
+    /**
+     * Get the frame's Y coordinate.
+     * 
+     * @return An {@code int} of the frame's Y coordinate.
+     */
+    public int getY() {
+        return frame.getY();
     }
 }

@@ -1,22 +1,23 @@
 package brickdestroy.elements;
 
-import java.awt.*;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class Crack {
 
-    private static final int CRACK_SECTIONS = 3;
-    private static final double JUMP_PROBABILITY = 0.7;
+    private final int CRACK_SECTIONS = 3;
+    private final double JUMP_PROBABILITY = 0.7;
 
-    public static final int LEFT = 10;
-    public static final int RIGHT = 20;
-    public static final int UP = 30;
-    public static final int DOWN = 40;
-    public static final int VERTICAL = 100;
-    public static final int HORIZONTAL = 200;
+    private final int LEFT = 10;
+    private final int RIGHT = 20;
+    private final int UP = 30;
+    private final int DOWN = 40;
+
+    private static final int VERTICAL = 100;
+    private static final int HORIZONTAL = 200;
 
     private GeneralPath crack;
 
@@ -25,16 +26,23 @@ public class Crack {
 
     private Random rand = new Random();
 
+    /**
+     * Imma be honest I didn't really touch the {@code Crack} class at all cause it
+     * looks really complicated and I'm too scared to touch it. Therefore, I know
+     * next to nothing about it. I just know that it creates cracks on the Bricks.
+     * <p>
+     * ¯\_(ツ)_/¯
+     * 
+     * @param crackDepth
+     * @param steps
+     */
     public Crack(int crackDepth, int steps) {
-
         crack = new GeneralPath();
         this.crackDepth = crackDepth;
         this.steps = steps;
-
     }
 
     public GeneralPath draw() {
-
         return crack;
     }
 
@@ -77,12 +85,10 @@ public class Crack {
             makeCrack(impact, tmp);
 
             break;
-
         }
     }
 
     protected void makeCrack(Point start, Point end) {
-
         GeneralPath path = new GeneralPath();
 
         path.moveTo(start.x, start.y);
@@ -96,7 +102,6 @@ public class Crack {
         double x, y;
 
         for (int i = 1; i < steps; i++) {
-
             x = (i * w) + start.x;
             y = (i * h) + start.y + randomInBounds(bound);
 
@@ -104,9 +109,7 @@ public class Crack {
                 y += jumps(jump, JUMP_PROBABILITY);
 
             path.lineTo(x, y);
-
         }
-
         path.lineTo(end.x, end.y);
         crack.append(path, true);
     }
@@ -124,15 +127,12 @@ public class Crack {
     }
 
     private int jumps(int bound, double probability) {
-
         if (rand.nextDouble() > probability)
             return randomInBounds(bound);
         return 0;
-
     }
 
     private Point makeRandomPoint(Point from, Point to, int direction) {
-
         Point out = new Point();
         int pos;
 
@@ -147,6 +147,22 @@ public class Crack {
             break;
         }
         return out;
+    }
+
+    public int getUp() {
+        return UP;
+    }
+
+    public int getDown() {
+        return DOWN;
+    }
+
+    public int getLeft() {
+        return LEFT;
+    }
+
+    public int getRight() {
+        return RIGHT;
     }
 
 }

@@ -1,41 +1,40 @@
 package brickdestroy.elements;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-/**
- * The abstract class Brick provides a 'template' for the different types of
- * Bricks in the game. It is reponsible for defining its shape, looks and
- * location
- */
 abstract public class Brick {
 
-    public static final int UP = 1;
-    public static final int DOWN = 2;
-    public static final int LEFT = 3;
-    public static final int RIGHT = 4;
-
     private Shape brickFace;
-
-    private Point2D p;
 
     private Color border;
     private Color inner;
 
     private int fullStrength;
     private int strength;
-
     private boolean broken;
 
-    public Brick(Point2D pos, int width, int height, int strength) {
-
-        // Define location (top left corner)
-        this.p = pos;
+    /**
+     * The Brick abstract class provides a template that allows different types of
+     * Bricks to be created. It is reponsible for defining its shape and location.
+     * The colour of the Brick is left to its children to define.
+     * <p>
+     * While it doesn't define its behaviour in the game within itself, it does, however,
+     * define some simple behaviour regarding its health.
+     * 
+     * @param pos      - The top left corner position.
+     * @param width    - The width.
+     * @param height   - The height.
+     * @param strength - The strength or 'health'.
+     */
+    public Brick(Point2D pos, int width, int height, int strength, Color border, Color inner) {
 
         // Define colours
-        this.border = setBorderColour();
-        this.inner = setInnerColour();
+        this.border = border;
+        this.inner = inner;
 
         // Define properties
         this.fullStrength = strength;
@@ -46,98 +45,99 @@ abstract public class Brick {
         brickFace = makeBrickFace(pos, width, height);
     }
 
-    // Abstract method for creating the brick
+    /**
+     * An abstract method for creating the Brick's {@code Shape}.
+     * 
+     * @param pos    - The top-left corner.
+     * @param width  - The width.
+     * @param height - The height.
+     * @return
+     */
     protected abstract Shape makeBrickFace(Point2D pos, int width, int height);
 
-    // Abstract method for getting the children bricks' Shape
-    public abstract Shape getBrick();
+    /**
+     * An abstract method for getting the child classes' {@code Shape}.
+     * 
+     * @return The {@code Shape} of the child class.
+     */
+    protected abstract Shape getBrick();
 
-    // Abstract method for setting the border colour
-    protected abstract Color setBorderColour();
-
-    // Abstract method for setting the inner colour
-    protected abstract Color setInnerColour();
-
-    // Get super Shape
+    /**
+     * Get the shape of the parent {@code Shape}.
+     * 
+     * @return The {@code Shape} of the parent.
+     */
     public Shape getSuperShape() {
         return brickFace;
     }
 
-    // Get the brick's bounds
+    /**
+     * Get the bounds of the Brick.
+     * 
+     * @return A {@code Rectangle2D} of the Brick's bounds.
+     */
     public Rectangle2D getBounds() {
         return brickFace.getBounds2D();
     }
 
-    public Point2D getPoint() {
-        return p;
-    }
+    /**
+     * This method is called when the Game detects a collision between the Ball and
+     * the Brick. It calls the {@code impact()} method.
+     * 
+     * @param point - The point of impact.
+     * @param dir   - The direction at which the {@code Crack} will be created.
+     * @return A {@code boolean} value of the Brick's state. {@code false} if the
+     *         Brick is broken.
+     */
+    public boolean setImpact(Point2D point, String dir) {
+        impact();
 
-    // Determine the point of impact between the Brick and the Ball
-    public final int findImpact(Ball ball) {
-        if (broken)
-            return 0;
-
-        int out = 0;
-        
-        // If the right side of the ball impacts the left side of the brick
-        if (brickFace.contains(ball.getRight()))
-            out = LEFT;
-        // If the left side of the ball impacts the right side of the brick
-        else if (brickFace.contains(ball.getLeft()))
-            out = RIGHT;
-        // If the top side of the ball impacts the bottom side of the brick
-        else if (brickFace.contains(ball.getUp()))
-            out = DOWN;
-        // If the bottom side of the ball impacts the top side of the brick
-        else if (brickFace.contains(ball.getDown()))
-            out = UP;
-
-        return out;
-    }
-
-    public boolean setImpact(Point2D point, int dir) {
         if (broken)
             return false;
-        impact();
+
         return broken;
     }
 
-    public void impact() {
+    /**
+     * Decrements the strength or 'health' of the Brick and updates the Brick's
+     * {@code broken} status.
+     */
+    protected void impact() {
         strength--;
         broken = (strength == 0);
     }
 
-    public int getUpImpact() {
-        return UP;
-    }
-
-    public int getDownImpact() {
-        return DOWN;
-    }
-
-    public int getLeftImpact() {
-        return LEFT;
-    }
-
-    public int getRightImpact() {
-        return RIGHT;
-    }
-
-    public final boolean isBroken() {
-        return broken;
-    }
-
+    /**
+     * Sets the Brick's {@code broken} status to {@code true} and restores its full
+     * strength.
+     */
     public void repair() {
         broken = false;
         strength = fullStrength;
     }
 
+    /**
+     * Get the {@code broken} status of the Brick.
+     * 
+     * @return A {@code boolean} value of the {@code broken} status of the Brick.
+     */
+    public final boolean isBroken() {
+        return broken;
+    }
+
+    /**
+     * Render the Brick's inner and border colours.
+     * 
+     * @param g - A {@code Graphics2D} object.
+     */
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Set the interior colour
         g2d.setColor(inner);
         g2d.fill(getBrick());
 
+        // Set the border colour
         g2d.setColor(border);
         g2d.draw(getBrick());
     }

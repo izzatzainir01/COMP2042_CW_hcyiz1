@@ -1,89 +1,97 @@
 package brickdestroy.main;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import brickdestroy.elements.*;
 
 public class Game {
 
-    private int frameW;
-    private int frameH;
+    private int frameW = GameFrame.WIDTH;
+    private int frameH = GameFrame.HEIGHT;
 
     private Brick[] bricks;
     private Brick[][] levels;
-
     private int brickCount = 30;
-    private int lineCount = 3;
-    private double brickDimensionRatio = 6 / 2;
 
     private Point2D initialPos;
     private int initialPosX;
     private int initialPosY;
 
-    public Player player;
-    private int playerW;
-    private int playerH;
+    private Player player;
 
     private BallRubber ball;
-    private int ballW;
-    private int ballSpeed = 6;
+    private int ballSpeed = 7;
 
-    private int level;
-    private int attempts;
-    private boolean ballLost;
+    private int level = 0;
+    private int attempts = 3;
+    private boolean stopped = true;
+    private boolean ballLost = false;
+
+    private String message;
 
     private Random rand = new Random();
 
-    public Game(Rectangle frameBounds) {
-
-        // Defining the frame's size
-        this.frameW = (int) frameBounds.getWidth();
-        this.frameH = (int) frameBounds.getHeight();
+    public Game() {
 
         // Creating the levels
-        this.levels = new Levels().makeLevels(frameBounds, brickCount, lineCount, brickDimensionRatio);
+        Rectangle frameBounds = new Rectangle(frameW, frameH);
+        this.levels = new Levels().makeLevels(frameBounds, brickCount, 3, 6 / 2);
 
         // Defining the Player and Ball's initial position
         this.initialPosX = frameW / 2;
         this.initialPosY = (int) (frameH * 0.95);
         this.initialPos = new Point(initialPosX, initialPosY);
 
-        // Defining the Player's size and creating it
-        this.playerW = (int) (frameW * 1.0 / 4.0);
-        this.playerH = (int) (frameH * 1.0 / 45.0);
-        this.player = new Player(initialPos, playerW, playerH);
+        // Defining the player
+        this.player = new Player(initialPos, (int) (frameW * 1.0 / 4.0), (int) (frameH * 1.0 / 45.0));
 
-        // Defining the Ball's width, creating it and setting its properties
-        this.ballW = (int) (frameW * 1.0 / 60.0);
-        this.ball = new BallRubber(initialPos, ballW);
+        // Defining the Ball and setting its properties
+        this.ball = new BallRubber(initialPos, (int) (frameW * 1.0 / 60.0));
         setInitialPos();
         randomBallAngle();
 
-        // Initialising some game properties
-        level = 0;
-        attempts = 3;
-        ballLost = false;
+        // Initialise the first level
+        nextLevel();
+
+        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
 
-    public void nextLevel() {
-        bricks = levels[level++];
-        this.brickCount = bricks.length;
-    }
-
-    public boolean hasLevel() {
-        return level < levels.length;
-    }
-
-    public void move() {
+    public void tick() {
         player.move();
         ball.move();
+        checkImpacts();
+        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
+        if (ballLost) {
+            if (attempts == 0) {
+                wallReset();
+                message = "Game over";
+            }
+            ballReset();
+            stopped = true;
+        } else if (brickCount == 0) {
+            if (level < levels.length) {
+                message = "Go to Next Level";
+                stopped = true;
+                ballReset();
+                wallReset();
+                nextLevel();
+            } else {
+                message = "ALL WALLS DESTROYED";
+                stopped = true;
+            }
+        }
+
     }
 
     // Check for all impacts and decide what to do upon any of the impacts
-    public void checkImpacts() {
-
+    private void checkImpacts() {
         // Check Ball's impacts
         if (checkBallBorderImpact() == -1) // Border horizontal
             ball.reverseX();
@@ -93,7 +101,6 @@ public class Game {
             attempts--;
             ballLost = true;
         }
-
         // Check Player's impacts
         if (checkPlayerImpact()) // Ball hits Player
             ball.reverseY();
@@ -101,7 +108,6 @@ public class Game {
         // Check bricks' impacts
         if (checkBrickImpact()) // Ball hits any brick
             brickCount--;
-
     }
 
     // Check for the Ball's impact with the frame's borders
@@ -112,19 +118,6 @@ public class Game {
         }
         // Check for top vertical collision
         if (ball.getUp().getY() + ball.getSpeedY() < 0) {
-            return 1;
-        }
-        return 0;
-    }
-
-    // Check for Player's impact with the frame's borders
-    private int checkPlayerBorderImpact() {
-        // Check when Player hits the left side of the frame
-        if (player.getCornerPosition().getX() <= 0) {
-            return -1;
-        }
-        // Check when Player hits the right side of the frame
-        if (player.getCornerPosition().getX() + playerW >= frameW) {
             return 1;
         }
         return 0;
@@ -141,26 +134,32 @@ public class Game {
 
     // Check for the Ball's impact with the Bricks
     private boolean checkBrickImpact() {
+        Rectangle2D ballBounds = ball.getBounds();
+        Rectangle2D brickBounds;
+        // Check every brick
         for (Brick b : bricks) {
-            switch (b.findImpact(ball)) {
-
-            // Vertical Impact
-            case Brick.UP:
-                ball.reverseY();
-                return b.setImpact(ball.getDown(), Crack.UP);
-
-            case Brick.DOWN:
-                ball.reverseY();
-                return b.setImpact(ball.getUp(), Crack.DOWN);
-
-            // Horizontal Impact
-            case Brick.LEFT:
-                ball.reverseX();
-                return b.setImpact(ball.getRight(), Crack.RIGHT);
-
-            case Brick.RIGHT:
-                ball.reverseX();
-                return b.setImpact(ball.getLeft(), Crack.LEFT);
+            if (!b.isBroken()) {
+                brickBounds = b.getBounds();
+                if (ballBounds.intersects(brickBounds)) {
+                    // Vertical impact
+                    if (brickBounds.contains(ball.getDown())) {
+                        ball.reverseY();
+                        return b.setImpact(ball.getDown(), "up");
+                    }
+                    if (brickBounds.contains(ball.getUp())) {
+                        ball.reverseY();
+                        return b.setImpact(ball.getUp(), "down");
+                    }
+                    // Horizontal
+                    if (brickBounds.contains(ball.getLeft())) {
+                        ball.reverseX();
+                        return b.setImpact(ball.getLeft(), "left");
+                    }
+                    if (brickBounds.contains(ball.getRight())) {
+                        ball.reverseX();
+                        return b.setImpact(ball.getRight(), "right");
+                    }
+                }
             }
         }
         return false;
@@ -171,21 +170,28 @@ public class Game {
             b.repair();
         brickCount = bricks.length;
         attempts = 3;
+        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
 
     public void ballReset() {
-        // Set the Player and Ball's locations
         setInitialPos();
-        // Set random Ball launch angle
         randomBallAngle();
-
         ballLost = false;
+    }
+
+    public void nextLevel() {
+        bricks = levels[level++];
+        this.brickCount = bricks.length;
+    }
+
+    public void resetBallCount() {
+        attempts = 3;
     }
 
     // Set the initial position of the Player and the Ball
     private void setInitialPos() {
         player.setLocation(initialPos);
-        ball.setLocation(initialPosX, initialPosY - ball.getWidth());
+        ball.setLocation(initialPosX, initialPosY - ball.getBounds().getWidth());
     }
 
     // Use the right-angle triangle formula to determine the Ball's launch angle
@@ -201,30 +207,23 @@ public class Game {
         ball.setSpeed(tempX, tempY);
     }
 
-    public void resetBallCount() {
-        attempts = 3;
+    public void movePlayerLeft(boolean b) {
+        player.moveLeft(b);
     }
 
-    public boolean isBallLost() {
-        return ballLost;
+    public void movePlayerRight(boolean b) {
+        player.moveRight(b);
     }
 
-    public boolean ballEnd() {
-        return attempts == 0;
+    public boolean isGameStopped() {
+        return stopped;
     }
 
-    public boolean isDone() {
-        return brickCount == 0;
+    public void setGameStopped(boolean b) {
+        stopped = b;
     }
 
-    public int getBrickCount() {
-        return brickCount;
-    }
-
-    public int getBallCount() {
-        return attempts;
-    }
-
+    // Methods used by the debug panel
     public Ball getBall() {
         return ball;
     }
@@ -240,13 +239,29 @@ public class Game {
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
-        ball.render(g2d);
-
-        for (Brick b : bricks)
-            if (!b.isBroken())
+        for (Brick b : bricks) {
+            if (!b.isBroken()) {
                 b.render(g2d);
+            }
+        }
+
+        g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.03)));
+
+        int fontWidth = g2d.getFontMetrics().stringWidth(message);
+        int fontHeight=  g2d.getFontMetrics().getHeight();
+
+        g2d.setColor(Color.BLUE);
+        g2d.drawString(message, frameW / 2 - fontWidth / 2, frameH / 2);
+
+        if (stopped) {
+            g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.02)));
+            fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
+            g2d.drawString("Press SPACE to start", frameW/2 - fontWidth/2, frameH/2 + fontHeight);
+        }
 
         player.render(g2d);
+
+        ball.render(g2d);
     }
 
 }
