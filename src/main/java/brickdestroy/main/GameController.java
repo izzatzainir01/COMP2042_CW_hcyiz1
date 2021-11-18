@@ -14,11 +14,6 @@ import java.awt.event.KeyListener;
 import brickdestroy.debug.DebugConsole;
 import brickdestroy.utility.MyButton;
 
-/**
- * The Game Controller is the controller for the gameplay, which includes the
- * Game and Pause view. It is responsible for getting user input to control the
- * gameplay and switching between views.
- */
 public class GameController extends JPanel implements KeyListener {
 
     private GameFrame frame;
@@ -34,10 +29,22 @@ public class GameController extends JPanel implements KeyListener {
 
     private boolean isPaused = false;
 
+    /**
+     * The {@code GameController} class is the Controller for the game's actual
+     * gameplay, which includes the {@code Game} and {@code GamePause} views. It
+     * is responsible for getting the user input to switch between the two views as
+     * well as controlling the game.
+     * <p>
+     * The {@code GameFrame} parameter is necessary in order for the GameController
+     * to call the GameFrame to change Controllers.
+     * 
+     * @param frame - The {@code GameFrame}.
+     */
     public GameController(GameFrame frame) {
-
+        // Define the frame
         this.frame = frame;
 
+        // Define the Game and Debug console
         game = new Game();
         debugConsole = new DebugConsole(frame, game, this);
 
@@ -61,6 +68,9 @@ public class GameController extends JPanel implements KeyListener {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -69,6 +79,9 @@ public class GameController extends JPanel implements KeyListener {
         game.render(g2d);
     }
 
+    /**
+     * Add the {@code GamePause} view.
+     */
     private void addPause() {
         pause = new GamePause();
         initPauseButtonsListener();
@@ -77,12 +90,18 @@ public class GameController extends JPanel implements KeyListener {
         repaint();
     }
 
+    /**
+     * Add the {@code GamePause} view.
+     */
     private void removePause() {
         this.remove(pause);
         revalidate();
         repaint();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
@@ -123,10 +142,11 @@ public class GameController extends JPanel implements KeyListener {
         if (keyCode == KeyEvent.VK_F1) {
             debugConsole.setVisible(true);
         }
-        if (keyCode == KeyEvent.VK_M)
-            System.out.println(gameTimer.isRunning());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         int keyCode = keyEvent.getKeyCode();
@@ -138,7 +158,9 @@ public class GameController extends JPanel implements KeyListener {
             game.movePlayerRight(false);
     }
 
-    // Initialise the Pause view's buttons
+    /**
+     * Add {@code ActionListeners} on the GamePause's buttons.
+     */
     private void initPauseButtonsListener() {
         MyButton continueButton = pause.getContinueButton();
         MyButton restart = pause.getRestartButton();
@@ -192,6 +214,7 @@ public class GameController extends JPanel implements KeyListener {
         });
     }
 
+    // Unused
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }

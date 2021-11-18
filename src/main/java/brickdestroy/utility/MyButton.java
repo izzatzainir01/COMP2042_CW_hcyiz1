@@ -27,9 +27,19 @@ public class MyButton extends JButton implements MouseListener {
     private Font font;
     private int fontSize;
 
+    /**
+     * The {@code MyButton} class is a class I made to make my life easier. It
+     * predefines some properties to help me create the buttons a lot faster.
+     * <p>
+     * It is responsible for defining its size and looks.
+     * 
+     * @param text   - The text on the button.
+     * @param width  - The width.
+     * @param height - The height.
+     */
     public MyButton(String text, int width, int height) {
 
-        // Define button background and rescale it
+        // Define button background and resize it
         this.buttonBG = new MyImage("bd_button.png");
         buttonBG.resize(width, height);
 
@@ -60,10 +70,9 @@ public class MyButton extends JButton implements MouseListener {
         this.addMouseListener(this);
     }
 
-    public void setFontSize(int size) {
-        this.setFont(new Font("Impact", Font.PLAIN, size));
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         // Change border colour to white upon mouse entry
@@ -71,6 +80,9 @@ public class MyButton extends JButton implements MouseListener {
         this.setBorder(border);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         // Change border colour to darkGray upon mouse exit
@@ -78,6 +90,7 @@ public class MyButton extends JButton implements MouseListener {
         this.setBorder(border);
     }
 
+    // Unused methods from here on
     @Override
     public void mouseClicked(MouseEvent e) {
     }

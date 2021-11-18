@@ -1,6 +1,8 @@
 package brickdestroy.main;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 
@@ -22,6 +24,14 @@ public class MenuHome extends JLabel {
     private int buttonW;
     private int buttonH;
 
+    /**
+     * The {@code MenuHome} class the view for the game's home menu. It extends
+     * {@code JLabel} as I needed to access the {@code paintComponent()} method to
+     * draw the images.
+     * <p>
+     * It is responsible for defining the components that make up the home menu and
+     * adding them.
+     */
     public MenuHome() {
 
         // Defining background and title images
@@ -34,12 +44,11 @@ public class MenuHome extends JLabel {
 
         // Defining start, info and exit buttons and their locations
         start = new MyButton("Start", buttonW, buttonH);
-        start.setLocation((int) (width * 0.2 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
-
         info = new MyButton("Info", buttonW, buttonH);
-        info.setLocation((int) (width * 0.5 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
-
         exit = new MyButton("Exit", buttonW, buttonH);
+
+        start.setLocation((int) (width * 0.2 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
+        info.setLocation((int) (width * 0.5 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
         exit.setLocation((int) (width * 0.8 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
 
         // Initialise the Label's properties
@@ -52,6 +61,9 @@ public class MenuHome extends JLabel {
         this.add(exit);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -61,20 +73,37 @@ public class MenuHome extends JLabel {
 
         // Rescale, set location then draw the title image
         title.rescale(width * 0.85);
-        title.setLocation(
-                new Point((int) (width / 2 - title.getWidth() / 2), (int) (height * 0.4 - title.getHeight())));
+        title.setLocation((width / 2 - title.getWidth() / 2), (int) (height * 0.4 - title.getHeight()));
         g2d.drawImage(title.getImage(), (int) title.getX(), (int) title.getY(), title.getWidth(), title.getHeight(),
                 null);
     }
 
+    /**
+     * Get the Start button. This is for the MenuController to detect an
+     * {@code ActionEvent} from outside this class.
+     * 
+     * @return A {@code MyButton} of the Start button.
+     */
     public MyButton getStartButton() {
         return start;
     }
 
+    /**
+     * Get the Info button. This is for the MenuController to detect an
+     * {@code ActionEvent} from outside this class.
+     * 
+     * @return A {@code MyButton} of the Info button.
+     */
     public MyButton getInfoButton() {
         return info;
     }
 
+    /**
+     * Get the Exit button. This is for the MenuController to detect an
+     * {@code ActionEvent} from outside this class.
+     * 
+     * @return A {@code MyButton} of the Exit button.
+     */
     public MyButton getExitButton() {
         return exit;
     }

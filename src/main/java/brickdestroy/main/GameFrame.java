@@ -1,6 +1,5 @@
 package brickdestroy.main;
 
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -24,6 +23,15 @@ public class GameFrame {
     private MenuController menu;
     private GameController game;
 
+    /**
+     * The {@code GameFrame} class handles the game's window frame using JFrame. It
+     * is responsible for defining its size, location and some other properties.
+     * <p>
+     * To some extent, it is also the Main Controller as it is responsible for
+     * switching between the two Controllers, {@code MenuController} and
+     * {@code GameController}. However, since it does not take any input from the
+     * user, I do not consider it a Controller.
+     */
     public GameFrame() {
 
         // Define frame size based on the screen
@@ -49,38 +57,63 @@ public class GameFrame {
         frame.setVisible(true);
     }
 
+    /**
+     * Add the {@code MenuController}.
+     */
     public void addMenuController() {
         menu = new MenuController(this);
         frame.add(menu);
     }
 
+    /**
+     * Remove the {@code MenuController}.
+     */
     public void removeMenuController() {
         frame.remove(menu);
         frame.revalidate();
         frame.repaint();
     }
 
+    /**
+     * Add the {@code GameController}.
+     */
     public void addGameController() {
         game = new GameController(this);
         frame.add(game);
     }
 
+    /**
+     * Remove the {@code GameController}.
+     */
     public void removeGameController() {
         frame.remove(game);
         frame.revalidate();
         frame.repaint();
     }
 
+    /**
+     * Close/exit the game.
+     */
     public void exit() {
         System.out.println("Exiting game...");
         System.out.println("Goodbye, " + System.getProperty("user.name") + "!");
         System.exit(0);
     }
 
+    /**
+     * Get the frame's X coordinate.
+     * 
+     * @return An {@code int} of the frame's X coordinate.
+     */
     public int getX() {
         return frame.getX();
     }
 
+    /**
+     * Get the frame's Y coordinate.
+     * 
+     * @return An {@code int} of the frame's Y coordinate.
+     */
     public int getY() {
         return frame.getY();
     }

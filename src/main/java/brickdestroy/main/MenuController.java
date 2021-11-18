@@ -8,11 +8,6 @@ import javax.swing.JPanel;
 
 import brickdestroy.utility.MyButton;
 
-/**
- * The MenuController is the controller for the Menu, which includes the Home
- * and Info view. It is responsible for getting user input to switch between the
- * two views as well as calling the GameFrame to start the game.
- */
 public class MenuController extends JPanel {
 
     GameFrame frame;
@@ -21,6 +16,16 @@ public class MenuController extends JPanel {
 
     private MenuHome home;
 
+    /**
+     * The {@code MenuController} class is the Controller for the game's Main Menu,
+     * which includes the {@code MenuHome} and {@code MenuInfo} views. It is
+     * responsible for getting the user input to switch between the two views.
+     * <p>
+     * The {@code GameFrame} parameter is necessary in order for the MenuController
+     * to call the GameFrame to change Controllers.
+     * 
+     * @param frame - The {@code GameFrame}.
+     */
     public MenuController(GameFrame frame) {
         // Define frame
         this.frame = frame;
@@ -39,19 +44,27 @@ public class MenuController extends JPanel {
         addHome();
     }
 
+    /**
+     * Add the {@code MenuHome} view.
+     */
     public void addHome() {
         home = new MenuHome();
         initHomeButtonsListeners();
         this.add(home);
     }
 
+    /**
+     * Remove the {@code MenuHome} view.
+     */
     public void removeHome() {
         this.remove(home);
         revalidate();
         repaint();
     }
 
-    // Initialise the Home View buttons' actions
+    /**
+     * Add {@code ActionListeners} on the MenuHome's buttons.
+     */
     private void initHomeButtonsListeners() {
         MyButton startButton = home.getStartButton();
         MyButton info = home.getInfoButton();
