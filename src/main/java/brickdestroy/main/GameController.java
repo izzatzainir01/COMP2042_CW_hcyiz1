@@ -52,9 +52,6 @@ public class GameController extends JPanel implements KeyListener {
         // Game timer
         gameTimer = new Timer(10, e -> {
             game.tick();
-            if (game.isGameStopped())
-                gameTimer.stop();
-
             revalidate();
             repaint();
         });
@@ -91,28 +88,31 @@ public class GameController extends JPanel implements KeyListener {
         // D key pressed
         if (keyCode == KeyEvent.VK_D)
             game.movePlayerRight(true);
-        // Escape pressed
-        if (keyCode == KeyEvent.VK_ESCAPE) {
-            isPaused = !isPaused;
-            if (isPaused) {
-                addPause();
-                gameTimer.stop();
-            } else {
-                removePause();
-                gameTimer.start();
-            }
-        }
         // Space pressed
         if (keyCode == KeyEvent.VK_SPACE) {
             if (!isPaused)
                 if (gameTimer.isRunning()) {
+                    game.setGameStopped(true);
                     gameTimer.stop();
+                    repaint();
                 } else {
+                    game.setGameStopped(false);
                     gameTimer.start();
                 }
-            if (game.isGameStopped()) {
-                game.setGameStart();
+        }
+        // Escape pressed
+        if (keyCode == KeyEvent.VK_ESCAPE) {
+            isPaused = !isPaused;
+            if (isPaused) {
+                game.setGameStopped(true);
+                addPause();
+                gameTimer.stop();
+                repaint();
+            } else {
+                game.setGameStopped(false);
+                removePause();
                 gameTimer.start();
+                repaint();
             }
         }
         // F1 pressed
@@ -147,6 +147,7 @@ public class GameController extends JPanel implements KeyListener {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == continueButton) {
                     isPaused = false;
+                    game.setGameStopped(false);
                     gameTimer.start();
                     removePause();
                 }
@@ -159,6 +160,7 @@ public class GameController extends JPanel implements KeyListener {
                 if (e.getSource() == restart) {
                     game.ballReset();
                     game.wallReset();
+                    game.setGameStopped(true);
                     isPaused = false;
                     removePause();
                 }

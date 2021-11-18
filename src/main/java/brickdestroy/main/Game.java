@@ -31,7 +31,7 @@ public class Game {
 
     private int level = 0;
     private int attempts = 3;
-    private boolean stopGame = false;
+    private boolean stopped = true;
     private boolean ballLost = false;
 
     private String message;
@@ -74,17 +74,17 @@ public class Game {
                 message = "Game over";
             }
             ballReset();
-            stopGame = true;
+            stopped = true;
         } else if (brickCount == 0) {
             if (level < levels.length) {
                 message = "Go to Next Level";
-                stopGame = true;
+                stopped = true;
                 ballReset();
                 wallReset();
                 nextLevel();
             } else {
                 message = "ALL WALLS DESTROYED";
-                stopGame = true;
+                stopped = true;
             }
         }
 
@@ -215,12 +215,8 @@ public class Game {
         player.moveRight(b);
     }
 
-    public boolean isGameStopped() {
-        return stopGame;
-    }
-
-    public void setGameStart() {
-        stopGame = false;
+    public void setGameStopped(boolean b) {
+        stopped = b;
     }
 
     // Methods used by the debug panel
@@ -246,9 +242,18 @@ public class Game {
         }
 
         g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.03)));
+
         int fontWidth = g2d.getFontMetrics().stringWidth(message);
+        int fontHeight=  g2d.getFontMetrics().getHeight();
+
         g2d.setColor(Color.BLUE);
         g2d.drawString(message, frameW / 2 - fontWidth / 2, frameH / 2);
+
+        if (stopped) {
+            g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.02)));
+            fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
+            g2d.drawString("Press SPACE to start", frameW/2 - fontWidth/2, frameH/2 + fontHeight);
+        }
 
         player.render(g2d);
 
