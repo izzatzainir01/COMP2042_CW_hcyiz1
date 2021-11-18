@@ -1,14 +1,11 @@
 package brickdestroy.elements;
 
-import java.awt.*;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-/**
- * The Crack class is for drawing cracks on a Brick.
- */
 public class Crack {
 
     private final int CRACK_SECTIONS = 3;
@@ -29,6 +26,16 @@ public class Crack {
 
     private Random rand = new Random();
 
+    /**
+     * Imma be honest I didn't really touch the {@code Crack} class at all cause it
+     * looks really complicated and I'm too scared to touch it. Therefore, I know
+     * next to nothing about it. I just know that it creates cracks on the Bricks.
+     * <p>
+     * ¯\_(ツ)_/¯
+     * 
+     * @param crackDepth
+     * @param steps
+     */
     public Crack(int crackDepth, int steps) {
         crack = new GeneralPath();
         this.crackDepth = crackDepth;
