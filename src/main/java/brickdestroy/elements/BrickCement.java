@@ -59,10 +59,9 @@ public class BrickCement extends Brick {
      */
     @Override
     public boolean setImpact(Point2D point, String dir) {
-        impact();
-
         if (isBroken())
             return false;
+        impact();
 
         if (!isBroken()) {
             // Crack direction = up

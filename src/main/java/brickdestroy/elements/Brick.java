@@ -22,8 +22,8 @@ abstract public class Brick {
      * Bricks to be created. It is reponsible for defining its shape and location.
      * The colour of the Brick is left to its children to define.
      * <p>
-     * While it doesn't define its behaviour in the game within itself, it does, however,
-     * define some simple behaviour regarding its health.
+     * While it doesn't define its behaviour in the game within itself, it does,
+     * however, define some simple behaviour regarding its health.
      * 
      * @param pos      - The top left corner position.
      * @param width    - The width.
@@ -90,10 +90,9 @@ abstract public class Brick {
      *         Brick is broken.
      */
     public boolean setImpact(Point2D point, String dir) {
-        impact();
-
         if (broken)
             return false;
+        impact();
 
         return broken;
     }
