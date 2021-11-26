@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JLabel;
 
+import brickdestroy.elements.Game;
+
 public class GameView extends JLabel {
 
     private Game game;

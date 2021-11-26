@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import brickdestroy.debug.DebugConsole;
+import brickdestroy.elements.Game;
 
 public class GameController extends JPanel implements KeyListener {
 

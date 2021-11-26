@@ -1,4 +1,4 @@
-package brickdestroy.main;
+package brickdestroy.elements;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import brickdestroy.elements.*;
+import brickdestroy.main.GameFrame;
 
 public class Game {
 
