@@ -23,8 +23,8 @@ public class MyImage {
      */
     public MyImage(String fileName) {
         // Format the path to the image file
-        String path = String.format("img/%s", fileName);
-        image = new ImageIcon(path).getImage();
+        String path = String.format("/img/%s", fileName);
+        image = new ImageIcon(getClass().getResource(path)).getImage();
     }
 
     /**
