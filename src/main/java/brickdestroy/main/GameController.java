@@ -4,15 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import brickdestroy.debug.DebugConsole;
-import brickdestroy.utility.MyButton;
 
 public class GameController extends JPanel implements KeyListener {
 
@@ -21,7 +16,8 @@ public class GameController extends JPanel implements KeyListener {
     private int height = GameFrame.HEIGHT;
 
     private Game game;
-    private GamePause pause;
+    private GameView gameView;
+    private GamePauseView pause;
 
     private DebugConsole debugConsole;
 
@@ -31,8 +27,8 @@ public class GameController extends JPanel implements KeyListener {
 
     /**
      * The {@code GameController} class is the Controller for the game's actual
-     * gameplay, which includes the {@code Game} and {@code GamePause} views. It
-     * is responsible for getting the user input to switch between the two views as
+     * gameplay, which includes the {@code Game} and {@code GamePause} views. It is
+     * responsible for getting the user input to switch between the two views as
      * well as controlling the game.
      * <p>
      * The {@code GameFrame} parameter is necessary in order for the GameController
@@ -41,6 +37,7 @@ public class GameController extends JPanel implements KeyListener {
      * @param frame - The {@code GameFrame}.
      */
     public GameController(GameFrame frame) {
+
         // Define the frame
         this.frame = frame;
 
@@ -56,6 +53,9 @@ public class GameController extends JPanel implements KeyListener {
         this.requestFocusInWindow(true);
         this.addKeyListener(this);
 
+        // Add the GameView
+        addGameView();
+
         // Game timer
         gameTimer = new Timer(10, e -> {
             if (game.isGameStopped()) {
@@ -63,40 +63,81 @@ public class GameController extends JPanel implements KeyListener {
             }
 
             game.tick();
-            revalidate();
-            repaint();
+            gameView.revalidate();
+            gameView.repaint();
         });
     }
 
     /**
-     * {@inheritDoc}
+     * Add the {@code GameView} view.
      */
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
-
-        game.render(g2d);
+    private void addGameView() {
+        gameView = new GameView(game);
+        this.add(gameView);
     }
 
     /**
-     * Add the {@code GamePause} view.
+     * Remove the {@code GameView} view.
      */
-    private void addPause() {
-        pause = new GamePause();
-        initPauseButtonsListener();
-        this.add(pause);
+    private void removeGameView() {
+        this.remove(gameView);
         revalidate();
         repaint();
     }
 
     /**
-     * Add the {@code GamePause} view.
+     * Add the {@code GamePause} view. The {@code GameView} is removed automatically
+     * through this method.
      */
-    private void removePause() {
+    private void addPauseView() {
+        pause = new GamePauseView();
+        initPauseButtonsListener();
+        this.add(pause);
+        removeGameView();
+    }
+
+    /**
+     * Add the {@code GamePause} view. The {@code GameView} is added automatically
+     * through this method.
+     */
+    private void removePauseView() {
+        addGameView();
         this.remove(pause);
         revalidate();
         repaint();
+    }
+
+    /**
+     * Add {@code ActionListeners} on the GamePause's buttons.
+     */
+    private void initPauseButtonsListener() {
+
+        // Continue button resumes the game
+        pause.setContinueAction(e -> {
+            isPaused = false;
+            game.setGameStopped(false);
+            gameTimer.start();
+            removePauseView();
+        });
+
+        // Restart button restarts the game
+        pause.setRestartAction(e -> {
+            game.ballReset();
+            game.wallReset();
+            game.setGameStopped(true);
+            isPaused = false;
+            removePauseView();
+        });
+
+        // ExitMenu button calls the GameFrame to add the MenuController and remove the
+        // GameController
+        pause.setExitMenuAction(e -> {
+            frame.addMenuController();
+            frame.removeGameController();
+        });
+
+        // ExitDesktop button calls the GameFrame to exit the game
+        pause.setExitDesktopAction(e -> frame.exit());
     }
 
     /**
@@ -117,7 +158,7 @@ public class GameController extends JPanel implements KeyListener {
                 if (gameTimer.isRunning()) {
                     game.setGameStopped(true);
                     gameTimer.stop();
-                    repaint();
+                    gameView.repaint();
                 } else {
                     game.setGameStopped(false);
                     gameTimer.start();
@@ -128,13 +169,15 @@ public class GameController extends JPanel implements KeyListener {
             isPaused = !isPaused;
             if (isPaused) {
                 game.setGameStopped(true);
-                addPause();
+                addPauseView();
                 gameTimer.stop();
+                revalidate();
                 repaint();
             } else {
                 game.setGameStopped(false);
-                removePause();
+                removePauseView();
                 gameTimer.start();
+                revalidate();
                 repaint();
             }
         }
@@ -156,62 +199,6 @@ public class GameController extends JPanel implements KeyListener {
         // D key released
         if (keyCode == KeyEvent.VK_D)
             game.movePlayerRight(false);
-    }
-
-    /**
-     * Add {@code ActionListeners} on the GamePause's buttons.
-     */
-    private void initPauseButtonsListener() {
-        MyButton continueButton = pause.getContinueButton();
-        MyButton restart = pause.getRestartButton();
-        MyButton exitMenu = pause.getExitMenuButton();
-        MyButton exitDesktop = pause.getExitDesktopButton();
-
-        // Continue button resumes the game
-        continueButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == continueButton) {
-                    isPaused = false;
-                    game.setGameStopped(false);
-                    gameTimer.start();
-                    removePause();
-                }
-            }
-        });
-        // Restart button restarts the game
-        restart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == restart) {
-                    game.ballReset();
-                    game.wallReset();
-                    game.setGameStopped(true);
-                    isPaused = false;
-                    removePause();
-                }
-            }
-        });
-        // ExitMenu button calls the GameFrame to add the MenuController and remove the
-        // GameController
-        exitMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == exitMenu) {
-                    frame.addMenuController();
-                    frame.removeGameController();
-                }
-            }
-        });
-        // ExitDesktop button calls the GameFrame to exit
-        exitDesktop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == exitDesktop) {
-                    frame.exit();
-                }
-            }
-        });
     }
 
     // Unused

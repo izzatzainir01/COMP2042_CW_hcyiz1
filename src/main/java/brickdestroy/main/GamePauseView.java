@@ -3,16 +3,17 @@ package brickdestroy.main;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class GamePause extends JLabel {
+public class GamePauseView extends JLabel {
 
-    private int width;
-    private int height;
+    private int width = GameFrame.WIDTH;
+    private int height = GameFrame.HEIGHT;
 
     private MyImage background;
 
@@ -33,18 +34,15 @@ public class GamePause extends JLabel {
      * It is responsible for defining the components that make up the pause screen
      * and adding them.
      */
-    public GamePause() {
-
-        this.width = GameFrame.WIDTH;
-        this.height = GameFrame.HEIGHT;
+    public GamePauseView() {
 
         // Define the background
         background = new MyImage("cement_wall.jpg");
 
         // Define button sizes
-        buttonW1 = (int) (GameFrame.WIDTH * 0.5);
+        buttonW1 = (int) (width * 0.5);
         buttonW2 = (int) (buttonW1 * 0.49);
-        buttonH = (int) (GameFrame.HEIGHT * 0.15);
+        buttonH = (int) (height * 0.15);
 
         // Define buttons and their locations
         restart = new MyButton("Restart", buttonW1, buttonH);
@@ -71,7 +69,7 @@ public class GamePause extends JLabel {
     }
 
     /**
-     * {@inheritDoc}
+     * Paint the Pause View's background image.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -82,42 +80,38 @@ public class GamePause extends JLabel {
     }
 
     /**
-     * Get the Continue button. This is for the GameController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Continue button.
      * 
-     * @return A {@code MyButton} of the Continue button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getContinueButton() {
-        return continueButton;
+    public void setContinueAction(ActionListener l) {
+        continueButton.addActionListener(l);
     }
 
     /**
-     * Get the Restart button. This is for the GameController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Restart button.
      * 
-     * @return A {@code MyButton} of the Restart button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getRestartButton() {
-        return restart;
+    public void setRestartAction(ActionListener l) {
+        restart.addActionListener(l);
     }
 
     /**
-     * Get the ExitMenu button. This is for the GameController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Exit Menu button.
      * 
-     * @return A {@code MyButton} of the Exit button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getExitMenuButton() {
-        return exitMenu;
+    public void setExitMenuAction(ActionListener l) {
+        exitMenu.addActionListener(l);
     }
 
     /**
-     * Get the ExitDesktop button. This is for the GameController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Exit Desktop button.
      * 
-     * @return A {@code MyButton} of the ExitDesktop button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getExitDesktopButton() {
-        return exitDesktop;
+    public void setExitDesktopAction(ActionListener l) {
+        exitDesktop.addActionListener(l);
     }
 }
