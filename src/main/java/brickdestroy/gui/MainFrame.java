@@ -1,4 +1,4 @@
-package brickdestroy.main;
+package brickdestroy.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;

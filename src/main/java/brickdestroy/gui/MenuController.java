@@ -1,4 +1,4 @@
-package brickdestroy.main;
+package brickdestroy.gui;
 
 import javax.swing.JPanel;
 

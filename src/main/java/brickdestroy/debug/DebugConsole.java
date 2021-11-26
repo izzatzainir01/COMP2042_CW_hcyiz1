@@ -3,7 +3,7 @@ package brickdestroy.debug;
 import javax.swing.*;
 
 import brickdestroy.elements.*;
-import brickdestroy.main.*;
+import brickdestroy.gui.*;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;

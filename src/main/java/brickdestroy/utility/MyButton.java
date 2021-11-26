@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
-import brickdestroy.main.MainFrame;
+import brickdestroy.gui.MainFrame;
 
 import javax.swing.JButton;
 

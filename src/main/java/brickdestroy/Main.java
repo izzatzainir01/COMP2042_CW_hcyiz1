@@ -2,7 +2,7 @@ package brickdestroy;
 
 import java.awt.EventQueue;
 
-import brickdestroy.main.MainFrame;
+import brickdestroy.gui.MainFrame;
 
 public class Main {
 

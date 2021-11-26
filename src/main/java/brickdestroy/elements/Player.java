@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
-import brickdestroy.main.MainFrame;
+import brickdestroy.gui.MainFrame;
 
 public class Player {
 
