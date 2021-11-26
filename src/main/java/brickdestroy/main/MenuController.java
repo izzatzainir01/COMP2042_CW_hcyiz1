@@ -7,8 +7,8 @@ import java.awt.Dimension;
 public class MenuController extends JPanel {
 
     private GameFrame frame;
-    private int width = GameFrame.WIDTH;
-    private int height = GameFrame.HEIGHT;
+    private int width = GameFrame.getWidth();
+    private int height = GameFrame.getHeight();
 
     private MenuHomeView home;
 

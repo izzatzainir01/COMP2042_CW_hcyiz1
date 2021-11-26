@@ -1,14 +1,13 @@
 package brickdestroy.elements;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
 import brickdestroy.main.GameFrame;
 
-/**
- * The Player class is responsible for defining the Player's shape, looks,
- * location and behaviour.
- */
 public class Player {
 
     private final Color BORDER = Color.GREEN.darker().darker();
@@ -93,7 +92,7 @@ public class Player {
             moveLeft = false;
         }
         // Check when Player hits the right side of the frame
-        if (playerFace.getX() + width >= GameFrame.WIDTH) {
+        if (playerFace.getX() + width >= GameFrame.getWidth()) {
             moveRight = false;
         }
 

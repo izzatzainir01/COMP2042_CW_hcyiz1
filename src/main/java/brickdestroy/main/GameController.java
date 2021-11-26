@@ -12,8 +12,8 @@ import brickdestroy.debug.DebugConsole;
 public class GameController extends JPanel implements KeyListener {
 
     private GameFrame frame;
-    private int width = GameFrame.WIDTH;
-    private int height = GameFrame.HEIGHT;
+    private int width = GameFrame.getWidth();
+    private int height = GameFrame.getHeight();
 
     private Game game;
     private GameView gameView;

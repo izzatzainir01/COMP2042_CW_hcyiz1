@@ -13,8 +13,8 @@ import brickdestroy.elements.*;
 
 public class Game {
 
-    private int frameW = GameFrame.WIDTH;
-    private int frameH = GameFrame.HEIGHT;
+    private int frameW = GameFrame.getWidth();
+    private int frameH = GameFrame.getHeight();
 
     private Brick[] bricks;
     private Brick[][] levels;

@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 public class GameView extends JLabel {
 
     private Game game;
-    private int width = GameFrame.WIDTH;
-    private int height = GameFrame.HEIGHT;
+    private int width = GameFrame.getWidth();
+    private int height = GameFrame.getHeight();
 
     /**
      * The {@code GameView} class is the view for the game's elements. It extends

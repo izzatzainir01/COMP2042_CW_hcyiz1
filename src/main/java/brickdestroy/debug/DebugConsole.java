@@ -41,8 +41,8 @@ public class DebugConsole extends JDialog implements WindowListener {
     }
 
     private void setLocation() {
-        int x = ((GameFrame.WIDTH - this.getWidth()) / 2) + owner.getX();
-        int y = ((GameFrame.HEIGHT - this.getHeight()) / 2) + owner.getY();
+        int x = ((GameFrame.getWidth() - this.getWidth()) / 2) + owner.getX();
+        int y = ((GameFrame.getHeight() - this.getHeight()) / 2) + owner.getY();
         this.setLocation(x, y);
     }
 
