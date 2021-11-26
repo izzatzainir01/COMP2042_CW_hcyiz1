@@ -9,12 +9,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import brickdestroy.main.GameFrame;
+import brickdestroy.main.MainFrame;
 
 public class Game {
 
-    private int frameW = GameFrame.getWidth();
-    private int frameH = GameFrame.getHeight();
+    private int frameW = MainFrame.getWidth();
+    private int frameH = MainFrame.getHeight();
 
     private Brick[] bricks;
     private Brick[][] levels;

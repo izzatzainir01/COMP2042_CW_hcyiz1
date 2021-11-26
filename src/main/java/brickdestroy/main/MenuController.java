@@ -6,9 +6,9 @@ import java.awt.Dimension;
 
 public class MenuController extends JPanel {
 
-    private GameFrame frame;
-    private int width = GameFrame.getWidth();
-    private int height = GameFrame.getHeight();
+    private MainFrame frame;
+    private int width = MainFrame.getWidth();
+    private int height = MainFrame.getHeight();
 
     private MenuHomeView home;
 
@@ -22,7 +22,7 @@ public class MenuController extends JPanel {
      * 
      * @param frame - The {@code GameFrame}.
      */
-    public MenuController(GameFrame frame) {
+    public MenuController(MainFrame frame) {
         // Define frame
         this.frame = frame;
 

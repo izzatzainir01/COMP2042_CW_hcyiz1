@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import brickdestroy.utility.MyImage;
 
-public class GameFrame {
+public class MainFrame {
 
     private static int WIDTH;
     private static int HEIGHT;
@@ -27,7 +27,7 @@ public class GameFrame {
      * {@code GameController}. However, since it does not take any input from the
      * user, I do not consider it a Controller.
      */
-    public GameFrame() {
+    public MainFrame() {
 
         // Define frame size based on the screen
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();

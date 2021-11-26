@@ -12,8 +12,8 @@ import brickdestroy.utility.MyImage;
 
 public class MenuHomeView extends JLabel {
 
-    private int width = GameFrame.getWidth();
-    private int height = GameFrame.getHeight();
+    private int width = MainFrame.getWidth();
+    private int height = MainFrame.getHeight();
 
     private MyImage menuBG;
     private MyImage title;

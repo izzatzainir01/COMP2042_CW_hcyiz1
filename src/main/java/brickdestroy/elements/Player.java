@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 
-import brickdestroy.main.GameFrame;
+import brickdestroy.main.MainFrame;
 
 public class Player {
 
@@ -92,7 +92,7 @@ public class Player {
             moveLeft = false;
         }
         // Check when Player hits the right side of the frame
-        if (playerFace.getX() + width >= GameFrame.getWidth()) {
+        if (playerFace.getX() + width >= MainFrame.getWidth()) {
             moveRight = false;
         }
 

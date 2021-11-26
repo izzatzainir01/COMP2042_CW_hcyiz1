@@ -12,9 +12,9 @@ import brickdestroy.elements.Game;
 
 public class GameController extends JPanel implements KeyListener {
 
-    private GameFrame frame;
-    private int width = GameFrame.getWidth();
-    private int height = GameFrame.getHeight();
+    private MainFrame frame;
+    private int width = MainFrame.getWidth();
+    private int height = MainFrame.getHeight();
 
     private Game game;
     private GameView gameView;
@@ -37,7 +37,7 @@ public class GameController extends JPanel implements KeyListener {
      * 
      * @param frame - The {@code GameFrame}.
      */
-    public GameController(GameFrame frame) {
+    public GameController(MainFrame frame) {
 
         // Define the frame
         this.frame = frame;

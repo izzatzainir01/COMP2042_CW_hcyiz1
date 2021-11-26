@@ -11,8 +11,8 @@ import brickdestroy.elements.Game;
 public class GameView extends JLabel {
 
     private Game game;
-    private int width = GameFrame.getWidth();
-    private int height = GameFrame.getHeight();
+    private int width = MainFrame.getWidth();
+    private int height = MainFrame.getHeight();
 
     /**
      * The {@code GameView} class is the view for the game's elements. It extends
