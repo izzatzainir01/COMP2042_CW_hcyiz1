@@ -1,6 +1,8 @@
-package brickdestroy.main;
+package brickdestroy;
 
 import java.awt.EventQueue;
+
+import brickdestroy.main.GameFrame;
 
 public class Main {
 
