@@ -190,39 +190,21 @@ abstract public class Ball {
     }
 
     /**
-     * Set the new speed in the X axis.
-     * 
-     * @param x - The new speed in the X axis.
-     */
-    public void setXSpeed(int x) {
-        speedX = x;
-    }
-
-    /**
-     * Set the new speed in the Y axis.
-     * 
-     * @param y - The new speed in the Y axis.
-     */
-    public void setYSpeed(int y) {
-        speedY = y;
-    }
-
-    /**
      * Get the current speed of the Ball in the X axis.
      * 
-     * @return An {@code int} of the current speed in the X axis.
+     * @return A {@code double} of the current speed in the X axis.
      */
-    public int getSpeedX() {
-        return (int) speedX;
+    public double getSpeedX() {
+        return speedX;
     }
 
     /**
      * Get the current speed in the Y axis.
      * 
-     * @return An {@code int} of the current speed in the Y axis.
+     * @return A {@code double} of the current speed in the Y axis.
      */
-    public int getSpeedY() {
-        return (int) speedY;
+    public double getSpeedY() {
+        return speedY;
     }
 
     /**

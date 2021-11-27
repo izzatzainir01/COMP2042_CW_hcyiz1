@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import brickdestroy.debug.DebugConsole;
 import brickdestroy.elements.Game;
 
 public class GameController extends JPanel implements KeyListener {
@@ -44,7 +43,7 @@ public class GameController extends JPanel implements KeyListener {
 
         // Define the Game and Debug console
         game = new Game();
-        debugConsole = new DebugConsole(frame, game, this);
+        debugConsole = new DebugConsole(game, this);
 
         // Initialise the Panel's properties
         this.setBounds(0, 0, width, height);
@@ -67,6 +66,10 @@ public class GameController extends JPanel implements KeyListener {
             gameView.revalidate();
             gameView.repaint();
         });
+    }
+
+    public void repaintGameView() {
+        gameView.repaint();
     }
 
     /**

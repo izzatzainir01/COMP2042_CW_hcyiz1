@@ -27,7 +27,7 @@ public class Game {
     private Player player;
 
     private BallRubber ball;
-    private int ballSpeed = 7;
+    private double ballSpeed = 7;
 
     private int level = 0;
     private int attempts = 3;
@@ -195,7 +195,7 @@ public class Game {
     }
 
     // Use the right-angle triangle formula to determine the Ball's launch angle
-    private void randomBallAngle() {
+    public void randomBallAngle() {
         double tempX, tempY;
 
         tempX = ballSpeed * rand.nextDouble(0.2, 0.6); // X speed = random ratio of ballSpeed
@@ -224,16 +224,15 @@ public class Game {
     }
 
     // Methods used by the debug panel
-    public Ball getBall() {
-        return ball;
+    public void setBallSpeed(double speed) {
+        double ratio = speed/ballSpeed;
+        
+        ball.setSpeed(ball.getSpeedX() * ratio, ball.getSpeedY() * ratio);
+        this.ballSpeed = speed;
     }
 
-    public void setBallXSpeed(int s) {
-        ball.setXSpeed(s);
-    }
-
-    public void setBallYSpeed(int s) {
-        ball.setYSpeed(s);
+    public double getBallSpeed() {
+        return ballSpeed;
     }
 
     public void render(Graphics2D g) {
