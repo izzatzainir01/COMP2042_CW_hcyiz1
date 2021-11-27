@@ -2,12 +2,12 @@ package brickdestroy;
 
 import java.awt.EventQueue;
 
-import brickdestroy.main.GameFrame;
+import brickdestroy.gui.MainFrame;
 
 public class Main {
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> new GameFrame());
+        EventQueue.invokeLater(() -> new MainFrame());
     }
 
 }

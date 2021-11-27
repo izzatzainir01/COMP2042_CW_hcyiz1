@@ -9,13 +9,10 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
-import brickdestroy.main.GameFrame;
+import brickdestroy.gui.MainFrame;
 
 import javax.swing.JButton;
 
-/**
- * My own button that predefines some properties to make my life easier.
- */
 public class MyButton extends JButton implements MouseListener {
 
     private MyImage buttonBG;
@@ -44,12 +41,12 @@ public class MyButton extends JButton implements MouseListener {
         buttonBG.resize(width, height);
 
         // Define button border width relative to the frame's width and initial colour
-        this.borderW = (int) (GameFrame.WIDTH * (0.007));
+        this.borderW = (int) (MainFrame.getWidth() * (0.007));
         this.borderC = Color.darkGray;
         this.border = BorderFactory.createLineBorder(borderC, borderW);
 
         // Define font size relative to the frame's width
-        this.fontSize = (int) (GameFrame.WIDTH * 0.049);
+        this.fontSize = (int) (MainFrame.getWidth() * 0.049);
         this.font = new Font("Impact", Font.PLAIN, fontSize);
 
         // Initialise the button
@@ -71,21 +68,19 @@ public class MyButton extends JButton implements MouseListener {
     }
 
     /**
-     * {@inheritDoc}
+     * Change the button's border colour to white upon mouse entry.
      */
     @Override
     public void mouseEntered(MouseEvent e) {
-        // Change border colour to white upon mouse entry
         border = BorderFactory.createLineBorder(Color.white, borderW);
         this.setBorder(border);
     }
 
     /**
-     * {@inheritDoc}
+     * Change button's border colour to dark gray upon mouse exit.
      */
     @Override
     public void mouseExited(MouseEvent e) {
-        // Change border colour to darkGray upon mouse exit
         border = BorderFactory.createLineBorder(borderC, borderW);
         this.setBorder(border);
     }

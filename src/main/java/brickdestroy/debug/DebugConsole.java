@@ -3,7 +3,7 @@ package brickdestroy.debug;
 import javax.swing.*;
 
 import brickdestroy.elements.*;
-import brickdestroy.main.*;
+import brickdestroy.gui.*;
 
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -13,12 +13,12 @@ public class DebugConsole extends JDialog implements WindowListener {
 
     private static final String TITLE = "Debug Console";
 
-    private GameFrame owner;
+    private MainFrame owner;
     private DebugPanel debugPanel;
     private GameController gameBoard;
     private Game game;
 
-    public DebugConsole(GameFrame owner, Game game, GameController gameBoard) {
+    public DebugConsole(MainFrame owner, Game game, GameController gameBoard) {
 
         this.game = game;
         this.owner = owner;
@@ -41,8 +41,8 @@ public class DebugConsole extends JDialog implements WindowListener {
     }
 
     private void setLocation() {
-        int x = ((GameFrame.WIDTH - this.getWidth()) / 2) + owner.getX();
-        int y = ((GameFrame.HEIGHT - this.getHeight()) / 2) + owner.getY();
+        int x = ((MainFrame.getWidth() - this.getWidth()) / 2) + owner.getX();
+        int y = ((MainFrame.getHeight() - this.getHeight()) / 2) + owner.getY();
         this.setLocation(x, y);
     }
 

@@ -1,4 +1,4 @@
-package brickdestroy.main;
+package brickdestroy.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -7,15 +7,10 @@ import javax.swing.JFrame;
 
 import brickdestroy.utility.MyImage;
 
-/**
- * GameFrame is the window frame of the game. It is responsible for defining its
- * size and switching between the two Controllers upon being called.
- */
-public class GameFrame {
+public class MainFrame {
 
-    private static final String TITLE = "Brick Destroy";
-    public static int WIDTH;
-    public static int HEIGHT;
+    private static int WIDTH;
+    private static int HEIGHT;
 
     private JFrame frame;
     private MyImage frameIcon;
@@ -32,7 +27,7 @@ public class GameFrame {
      * {@code GameController}. However, since it does not take any input from the
      * user, I do not consider it a Controller.
      */
-    public GameFrame() {
+    public MainFrame() {
 
         // Define frame size based on the screen
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -46,7 +41,7 @@ public class GameFrame {
         this.frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
-        frame.setTitle(TITLE);
+        frame.setTitle("Brick Destroy");
         frame.setIconImage(frameIcon.getImage());
 
         // Add Menu Controller upon first launch
@@ -98,6 +93,24 @@ public class GameFrame {
         System.out.println("Exiting game...");
         System.out.println("Goodbye, " + System.getProperty("user.name") + "!");
         System.exit(0);
+    }
+
+    /**
+     * Get the frame's width.
+     * 
+     * @return An {@code int} of the frame's width
+     */
+    public static int getWidth() {
+        return WIDTH;
+    }
+
+    /**
+     * Get the frame's height.
+     * 
+     * @return An {@code int} of the frame's height
+     */
+    public static int getHeight() {
+        return HEIGHT;
     }
 
     /**

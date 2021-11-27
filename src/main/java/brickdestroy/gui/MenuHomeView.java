@@ -1,18 +1,19 @@
-package brickdestroy.main;
+package brickdestroy.gui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class MenuHome extends JLabel {
+public class MenuHomeView extends JLabel {
 
-    private int width = GameFrame.WIDTH;
-    private int height = GameFrame.HEIGHT;
+    private int width = MainFrame.getWidth();
+    private int height = MainFrame.getHeight();
 
     private MyImage menuBG;
     private MyImage title;
@@ -25,14 +26,14 @@ public class MenuHome extends JLabel {
     private int buttonH;
 
     /**
-     * The {@code MenuHome} class the view for the game's home menu. It extends
-     * {@code JLabel} as I needed to access the {@code paintComponent()} method to
+     * The {@code MenuHome} class is the view for the game's home menu. It extends
+     * {@code JLabel} as I need to access the {@code paintComponent()} method to
      * draw the images.
      * <p>
-     * It is responsible for defining the components that make up the home menu and
-     * adding them.
+     * It is responsible for defining and adding the components that make up the
+     * home menu.
      */
-    public MenuHome() {
+    public MenuHomeView() {
 
         // Defining background and title images
         menuBG = new MyImage("menu_bg.jpg");
@@ -62,10 +63,11 @@ public class MenuHome extends JLabel {
     }
 
     /**
-     * {@inheritDoc}
+     * Paint the Home View's background and title image
      */
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
         // Draw the background image
@@ -79,33 +81,30 @@ public class MenuHome extends JLabel {
     }
 
     /**
-     * Get the Start button. This is for the MenuController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Start button.
      * 
-     * @return A {@code MyButton} of the Start button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getStartButton() {
-        return start;
+    public void setStartAction(ActionListener l) {
+        start.addActionListener(l);
     }
 
     /**
-     * Get the Info button. This is for the MenuController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Info button.
      * 
-     * @return A {@code MyButton} of the Info button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getInfoButton() {
-        return info;
+    public void setInfoAction(ActionListener l) {
+        info.addActionListener(l);
     }
 
     /**
-     * Get the Exit button. This is for the MenuController to detect an
-     * {@code ActionEvent} from outside this class.
+     * Set an {@code Action} for the Exit button.
      * 
-     * @return A {@code MyButton} of the Exit button.
+     * @param l An {@code ActionListener}
      */
-    public MyButton getExitButton() {
-        return exit;
+    public void setExitAction(ActionListener l) {
+        exit.addActionListener(l);
     }
 
 }

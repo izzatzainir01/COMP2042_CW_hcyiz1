@@ -1,4 +1,4 @@
-package brickdestroy.main;
+package brickdestroy.elements;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,12 +9,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import brickdestroy.elements.*;
+import brickdestroy.gui.MainFrame;
 
 public class Game {
 
-    private int frameW = GameFrame.WIDTH;
-    private int frameH = GameFrame.HEIGHT;
+    private int frameW = MainFrame.getWidth();
+    private int frameH = MainFrame.getHeight();
 
     private Brick[] bricks;
     private Brick[][] levels;
