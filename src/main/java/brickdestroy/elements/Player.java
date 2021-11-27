@@ -13,8 +13,6 @@ public class Player {
     private final Color BORDER = Color.GREEN.darker().darker();
     private final Color INNER = Color.GREEN;
 
-    private static final int SPEED = 5;
-
     private Rectangle playerFace;
     private int width;
     private int height;
@@ -23,6 +21,7 @@ public class Player {
     private int centerX;
     private int centerY;
 
+    private int speed = 0;
     private boolean moveLeft;
     private boolean moveRight;
 
@@ -97,9 +96,9 @@ public class Player {
         }
 
         if (moveLeft)
-            centerX -= SPEED;
+            centerX -= speed;
         if (moveRight)
-            centerX += SPEED;
+            centerX += speed;
 
         setLocation(new Point(centerX, centerY));
         // setLocation(new Point((int)Ball.centerX, centerY));
@@ -139,6 +138,15 @@ public class Player {
         int tempX = centerX - width / 2;
         int tempY = centerY - height / 2;
         playerFace.setLocation(tempX, tempY);
+    }
+
+    /**
+     * Set the speed of the Player.
+     * 
+     * @param speed The speed of the player
+     */
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     /**

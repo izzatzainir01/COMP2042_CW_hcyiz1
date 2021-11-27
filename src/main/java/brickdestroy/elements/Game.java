@@ -47,11 +47,13 @@ public class Game {
         this.initialPosY = (int) (frameH * 0.95);
         this.initialPos = new Point(initialPosX, initialPosY);
 
-        // Defining the player
+        // Defining the player and initialising its speed
         this.player = new Player(initialPos, (int) (frameW * 1.0 / 4.0), (int) (frameH * 1.0 / 45.0));
+        player.setSpeed((int) (MainFrame.getWidth() * 0.0065));
 
         // Defining the Ball and setting its properties
         this.ball = new BallRubber(initialPos, (int) (frameW * 1.0 / 60.0));
+        this.ballSpeed = MainFrame.getWidth() * 0.0091;
         setInitialPos();
         randomBallAngle();
 

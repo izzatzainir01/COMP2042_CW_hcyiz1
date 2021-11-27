@@ -25,8 +25,8 @@ abstract public class Ball {
     private Color border;
     private Color inner;
 
-    private double speedX;
-    private double speedY;
+    private double speedX = 0;
+    private double speedY = 0;
 
     /**
      * The {@code Ball} abstract class provides a template that allows different
@@ -60,10 +60,6 @@ abstract public class Ball {
         left = new Point2D.Double();
         right = new Point2D.Double();
         setPoints(this.center);
-
-        // Initialise the speed
-        speedX = 0;
-        speedY = 0;
 
         // Define the Ball's colours
         this.border = border;

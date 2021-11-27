@@ -15,7 +15,6 @@ import brickdestroy.elements.Game;
 public class DebugConsole extends JDialog {
 
     private Game game;
-    private GameController controller;
 
     private JPanel panel;
 
@@ -40,7 +39,6 @@ public class DebugConsole extends JDialog {
 
         // Define the Game and its Controller
         this.game = game;
-        this.controller = controller;
 
         // Initialise the debug console
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -51,7 +49,7 @@ public class DebugConsole extends JDialog {
         // Define, initialise and add the panel
         panel = new JPanel();
         initialisePanel();
-        
+
         this.add(panel, BorderLayout.CENTER);
         this.pack();
         this.setLocationRelativeTo(null);
@@ -70,19 +68,16 @@ public class DebugConsole extends JDialog {
         skipLevel = makeButton("Skip Level", e -> {
             game.nextLevel();
             game.ballReset();
-            controller.repaintGameView();
         });
 
         // Create the Reset Balls button
         resetBalls = makeButton("Reset Balls", e -> {
             game.resetBallCount();
-            controller.repaintGameView();
         });
 
         // Create the slider
-        speedSlider = makeSlider(0, 10, (int) game.getBallSpeed(), e -> {
+        speedSlider = makeSlider((int) game.getBallSpeed(), e -> {
             game.setBallSpeed(speedSlider.getValue());
-            controller.repaintGameView();
         });
 
         // Adding the components to the panel.
@@ -111,14 +106,15 @@ public class DebugConsole extends JDialog {
     /**
      * Create a {@code JSlider} with some predefined properties.
      * 
-     * @param min The minimum value of the slider
-     * @param max The maximum value of the slider
-     * @param def The initial value of the slider
-     * @param e   An {@code ActionListener}
+     * @param ballSpeed The initial value of the slider
+     * @param e         An {@code ActionListener}
      * @return A {@code JSlider} object
      */
-    private JSlider makeSlider(int min, int max, int def, ChangeListener e) {
-        JSlider slider = new JSlider(min, max, def);
+    private JSlider makeSlider(int ballSpeed, ChangeListener e) {
+        int min = (ballSpeed - 5 < 0) ? 0 : ballSpeed - 5;
+        int max = ballSpeed + 5;
+
+        JSlider slider = new JSlider(min, max, ballSpeed);
 
         slider.setPaintTicks(true);
         slider.setSnapToTicks(true);
