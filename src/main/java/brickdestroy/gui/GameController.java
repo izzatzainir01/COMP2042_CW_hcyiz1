@@ -170,7 +170,6 @@ public class GameController extends JPanel implements KeyListener {
                 revalidate();
                 repaint();
             } else {
-                game.setGameStopped(false);
                 removePauseView();
                 revalidate();
                 repaint();
@@ -178,6 +177,7 @@ public class GameController extends JPanel implements KeyListener {
         }
         // F1 pressed
         if (keyCode == KeyEvent.VK_F1) {
+            game.setGameStopped(true);
             debugConsole.setVisible(true);
         }
     }
