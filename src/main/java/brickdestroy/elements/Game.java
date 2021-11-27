@@ -34,9 +34,7 @@ public class Game {
     private boolean stopped = true;
     private boolean ballLost = false;
 
-    private String message;
-
-    private Random rand = new Random();
+    private String message = "";
 
     public Game() {
 
@@ -64,30 +62,31 @@ public class Game {
     }
 
     public void tick() {
-        player.move();
-        ball.move();
-        checkImpacts();
-        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
-        if (ballLost) {
-            if (attempts == 0) {
-                wallReset();
-                message = "Game over";
-            }
-            ballReset();
-            stopped = true;
-        } else if (brickCount == 0) {
-            if (level < levels.length) {
-                message = "Go to Next Level";
-                stopped = true;
+        if (!stopped) {
+            player.move();
+            ball.move();
+            checkImpacts();
+            message = String.format("Bricks: %d Balls %d", brickCount, attempts);
+            if (ballLost) {
+                if (attempts == 0) {
+                    wallReset();
+                    message = "Game over";
+                }
                 ballReset();
-                wallReset();
-                nextLevel();
-            } else {
-                message = "ALL WALLS DESTROYED";
                 stopped = true;
+            } else if (brickCount == 0) {
+                if (level < levels.length) {
+                    message = "Go to Next Level";
+                    stopped = true;
+                    ballReset();
+                    wallReset();
+                    nextLevel();
+                } else {
+                    message = "ALL WALLS DESTROYED";
+                    stopped = true;
+                }
             }
         }
-
     }
 
     // Check for all impacts and decide what to do upon any of the impacts
@@ -165,29 +164,6 @@ public class Game {
         return false;
     }
 
-    public void wallReset() {
-        for (Brick b : bricks)
-            b.repair();
-        brickCount = bricks.length;
-        attempts = 3;
-        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
-    }
-
-    public void ballReset() {
-        setInitialPos();
-        randomBallAngle();
-        ballLost = false;
-    }
-
-    public void nextLevel() {
-        bricks = levels[level++];
-        this.brickCount = bricks.length;
-    }
-
-    public void resetBallCount() {
-        attempts = 3;
-    }
-
     // Set the initial position of the Player and the Ball
     private void setInitialPos() {
         player.setLocation(initialPos);
@@ -195,7 +171,8 @@ public class Game {
     }
 
     // Use the right-angle triangle formula to determine the Ball's launch angle
-    public void randomBallAngle() {
+    private void randomBallAngle() {
+        Random rand = new Random();
         double tempX, tempY;
 
         tempX = ballSpeed * rand.nextDouble(0.2, 0.6); // X speed = random ratio of ballSpeed
@@ -223,10 +200,33 @@ public class Game {
         stopped = b;
     }
 
+    public void wallReset() {
+        for (Brick b : bricks)
+            b.repair();
+        brickCount = bricks.length;
+        resetBallCount();
+        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
+    }
+
+    public void ballReset() {
+        setInitialPos();
+        randomBallAngle();
+        ballLost = false;
+    }
+
+    public void resetBallCount() {
+        attempts = 3;
+    }
+
     // Methods used by the debug panel
+    public void nextLevel() {
+        bricks = levels[level++];
+        this.brickCount = bricks.length;
+    }
+
     public void setBallSpeed(double speed) {
-        double ratio = speed/ballSpeed;
-        
+        double ratio = speed / ballSpeed;
+
         ball.setSpeed(ball.getSpeedX() * ratio, ball.getSpeedY() * ratio);
         this.ballSpeed = speed;
     }
@@ -238,28 +238,33 @@ public class Game {
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Render the bricks
         for (Brick b : bricks) {
             if (!b.isBroken()) {
                 b.render(g2d);
             }
         }
 
+        // Set message font
         g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.03)));
 
+        // Get font width and height
         int fontWidth = g2d.getFontMetrics().stringWidth(message);
-        int fontHeight=  g2d.getFontMetrics().getHeight();
+        int fontHeight = g2d.getFontMetrics().getHeight();
 
+        // Draw the message
         g2d.setColor(Color.BLUE);
         g2d.drawString(message, frameW / 2 - fontWidth / 2, frameH / 2);
 
+        // Draw the SPACE to start message if the game is stopped
         if (stopped) {
             g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.02)));
             fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
-            g2d.drawString("Press SPACE to start", frameW/2 - fontWidth/2, frameH/2 + fontHeight);
+            g2d.drawString("Press SPACE to start", frameW / 2 - fontWidth / 2, frameH / 2 + fontHeight);
         }
 
+        // Render the player and the ball
         player.render(g2d);
-
         ball.render(g2d);
     }
 

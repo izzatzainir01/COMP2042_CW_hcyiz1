@@ -58,14 +58,11 @@ public class GameController extends JPanel implements KeyListener {
 
         // Game timer
         gameTimer = new Timer(10, e -> {
-            if (game.isGameStopped()) {
-                gameTimer.stop();
-            }
-
             game.tick();
             gameView.revalidate();
             gameView.repaint();
         });
+        gameTimer.start();
     }
 
     public void repaintGameView() {
@@ -119,8 +116,6 @@ public class GameController extends JPanel implements KeyListener {
         // Continue button resumes the game
         pause.setContinueAction(e -> {
             isPaused = false;
-            game.setGameStopped(false);
-            gameTimer.start();
             removePauseView();
         });
 
@@ -159,13 +154,11 @@ public class GameController extends JPanel implements KeyListener {
         // Space pressed
         if (keyCode == KeyEvent.VK_SPACE) {
             if (!isPaused)
-                if (gameTimer.isRunning()) {
+                if (!game.isGameStopped()) {
                     game.setGameStopped(true);
-                    gameTimer.stop();
                     gameView.repaint();
                 } else {
                     game.setGameStopped(false);
-                    gameTimer.start();
                 }
         }
         // Escape pressed
@@ -174,13 +167,11 @@ public class GameController extends JPanel implements KeyListener {
             if (isPaused) {
                 game.setGameStopped(true);
                 addPauseView();
-                gameTimer.stop();
                 revalidate();
                 repaint();
             } else {
                 game.setGameStopped(false);
                 removePauseView();
-                gameTimer.start();
                 revalidate();
                 repaint();
             }
