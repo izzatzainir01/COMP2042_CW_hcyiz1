@@ -28,12 +28,26 @@ public abstract class MenuInfoView extends JLabel {
     private MyButton back;
     private MyButton switcher;
 
-    public MenuInfoView(String title, String content, String switcherText) {
+    /**
+     * The {@code MenuInfoView} class is an abstract class that provides a template
+     * for the Info view.
+     * <p>
+     * It is responsible for defining its components and taking in arguments in the
+     * constructor from its child classes to create the content. The Info View
+     * contains a 'Switcher' button that you can define to make it switch between
+     * the different views. That being said, it is technically just a normal button
+     * that you can set any action to from the controller.
+     * 
+     * @param title        The title of the view
+     * @param contentFile  The file name that contains the data for the content
+     * @param switcherText The text inside the switcher button
+     */
+    public MenuInfoView(String title, String filePath, String switcherText) {
 
         // Define background image
         background = new MyImage("cement_wall.jpg");
 
-        // Define description label and setting its properties
+        // Define description text area and set its properties
         description = new JTextArea();
         description.setSize((int) (width * 0.8), (int) (height * 0.5));
         description.setLocation(width / 2 - description.getWidth() / 2, (int) (height * 0.2));
@@ -42,7 +56,7 @@ public abstract class MenuInfoView extends JLabel {
         description.setWrapStyleWord(true);
         description.setLineWrap(true);
         description.setFont(setFontSize(25));
-        description.setText(content);
+        description.setText(getContent(filePath));
 
         // Define title
         this.title = title;
@@ -62,6 +76,7 @@ public abstract class MenuInfoView extends JLabel {
         // Add the description label and controls button
         this.add(description);
         this.add(back);
+        this.add(switcher);
     }
 
     /**
@@ -75,7 +90,7 @@ public abstract class MenuInfoView extends JLabel {
         // Draw background image
         g2d.drawImage(background.getImage(), 0, 0, width, height, null);
 
-        // Draw Description title text
+        // Draw title text
         g2d.setFont(setFontSize(40));
         g2d.drawString(title, (int) (width * 0.1), (int) (height * 0.15));
     }
@@ -113,13 +128,12 @@ public abstract class MenuInfoView extends JLabel {
      * 
      * @return A {@code String} of the data in description.txt
      */
-    public static String getContent(String fileName) {
+    private String getContent(String filePath) {
         FileReader file;
         String content = "";
-        String path = String.format("target/classes/%s", fileName);
 
         try {
-            file = new FileReader(path);
+            file = new FileReader(filePath);
             int data = file.read();
             while (data != -1) {
                 content += (char) data;
