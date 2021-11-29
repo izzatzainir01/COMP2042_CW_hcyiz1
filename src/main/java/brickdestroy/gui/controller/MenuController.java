@@ -1,7 +1,11 @@
-package brickdestroy.gui;
+package brickdestroy.gui.controller;
 
 import javax.swing.JPanel;
 
+import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.view.MenuHomeView;
+
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class MenuController extends JPanel {
@@ -32,38 +36,28 @@ public class MenuController extends JPanel {
         this.setLayout(null);
 
         // Add the home view upon first launch
-        addHome();
-    }
-
-    /**
-     * Add the {@code MenuHome} view.
-     */
-    private void addHome() {
-        home = new MenuHomeView();
+        addView(home = new MenuHomeView());
         initHomeButtonsListeners();
-        this.add(home);
     }
 
     /**
-     * Remove the {@code MenuHome} view.
+     * Add a {@code Component} to this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be added
      */
-    private void removeHome() {
-        this.remove(home);
+    private void addView(Component comp) {
+        this.add(comp);
         revalidate();
         repaint();
     }
 
     /**
-     * Add {@code ActionListeners} on the MenuHome's buttons.
+     * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
-
-        home.setStartAction(e -> {
-            frame.addGameController();
-            frame.removeMenuController();
-        });
-
-        home.setInfoAction(e -> System.out.println("Info"));
+        home.setStartAction(e -> frame.addController(new GameController(frame)));
+        home.setInfoAction(e -> frame.addController(new InfoController(frame)));
         home.setExitAction(e -> frame.exit());
     }
 
