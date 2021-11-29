@@ -6,9 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -17,7 +14,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public abstract class MenuInfoView extends JLabel {
+public class MenuInfoView extends JLabel {
 
     private int width = MainFrame.getWidth();
     private int height = MainFrame.getHeight();
@@ -44,7 +41,7 @@ public abstract class MenuInfoView extends JLabel {
      * @param contentFile  The file name that contains the data for the content
      * @param switcherText The text inside the switcher button
      */
-    public MenuInfoView(String title, String filePath, String switcherText) {
+    public MenuInfoView(String title, String content, String switcherText) {
 
         // Define background image
         background = new MyImage("cement_wall.jpg");
@@ -58,7 +55,7 @@ public abstract class MenuInfoView extends JLabel {
         description.setWrapStyleWord(true);
         description.setLineWrap(true);
         description.setFont(setFontSize(25));
-        description.setText(getContent(filePath));
+        description.setText(content);
         description.setForeground(Color.BLACK);
 
         // Define title
@@ -126,31 +123,6 @@ public abstract class MenuInfoView extends JLabel {
      */
     private Font setFontSize(int size) {
         return new Font("Impact", Font.PLAIN, size);
-    }
-
-    /**
-     * This method retrieves text data from the description.txt file.
-     * 
-     * @return A {@code String} of the data in description.txt
-     */
-    private String getContent(String filePath) {
-        FileReader file;
-        String content = "";
-
-        try {
-            file = new FileReader(filePath);
-            int data = file.read();
-            while (data != -1) {
-                content += (char) data;
-                data = file.read();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return content;
     }
 
 }

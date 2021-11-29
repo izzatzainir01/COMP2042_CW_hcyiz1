@@ -2,12 +2,16 @@ package brickdestroy.gui.controller;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
-import brickdestroy.gui.view.InfoControlsView;
-import brickdestroy.gui.view.InfoDescriptionView;
+import brickdestroy.gui.view.MenuInfoView;
 
 public class InfoController extends JPanel {
 
@@ -15,9 +19,18 @@ public class InfoController extends JPanel {
     private int width = MainFrame.getWidth();
     private int height = MainFrame.getHeight();
 
-    private InfoDescriptionView description;
-    private InfoControlsView controls;
+    private MenuInfoView description;
+    private MenuInfoView controls;
 
+    /**
+     * The {@code InfoController} class is the controller for the menu's information
+     * views, which include variations of the {@code MenuInfoView} class.
+     * <p>
+     * It is responsible for defining the different variations of the info views and
+     * getting user input to switch between the different Info views.
+     * 
+     * @param frame The {@code MainFrame}
+     */
     public InfoController(MainFrame frame) {
 
         // Define frame
@@ -29,7 +42,7 @@ public class InfoController extends JPanel {
         this.setLayout(null);
 
         // Add the description view
-        addView(description = new InfoDescriptionView());
+        addView(description = new MenuInfoView("Description", getContent("description.txt"), "Controls"));
         initDescriptionButtonsListeners();
     }
 
@@ -65,7 +78,7 @@ public class InfoController extends JPanel {
         description.setBackAction(e -> frame.addController(new MenuController(frame)));
 
         description.setSwitcherAction(e -> {
-            addView(controls = new InfoControlsView());
+            addView(controls = new MenuInfoView("Controls", getContent("controls.txt"), "Description"));
             initControlsButtonsListener();
             removeView(description);
         });
@@ -79,10 +92,37 @@ public class InfoController extends JPanel {
         controls.setBackAction(e -> frame.addController(new MenuController(frame)));
 
         controls.setSwitcherAction(e -> {
-            addView(description = new InfoDescriptionView());
+            addView(description = new MenuInfoView("Description", getContent("description.txt"), "Controls"));
             initDescriptionButtonsListeners();
             removeView(controls);
         });
+    }
+
+    /**
+     * Retrieve data from a text file.
+     * 
+     * @param fileName The file that the data will be retrieved from
+     * @return A {@code String} of the data within the file
+     */
+    private String getContent(String fileName) {
+        FileReader file;
+        String content = "";
+
+        try {
+            file = new FileReader(new File(getClass().getResource("/" + fileName).toURI()));
+            int data;
+            while ((data = file.read()) != -1) {
+                content += (char) data;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return content;
     }
 
 }
