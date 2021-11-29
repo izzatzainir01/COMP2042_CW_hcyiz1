@@ -26,9 +26,9 @@ public abstract class MenuInfoView extends JLabel {
     private String title = "";
 
     private MyButton back;
-    private MyButton controls;
+    private MyButton switcher;
 
-    public MenuInfoView(String title, String content) {
+    public MenuInfoView(String title, String content, String switcherText) {
 
         // Define background image
         background = new MyImage("cement_wall.jpg");
@@ -52,8 +52,8 @@ public abstract class MenuInfoView extends JLabel {
         back.setLocation((int) (width * 0.1), (int) (height * 0.75));
 
         // Define controls button
-        controls = new MyButton("Controls", (int) (width * 0.2), (int) (height * 0.15));
-        controls.setLocation((int) (width * 0.9 - controls.getWidth()), (int) (height * 0.75));
+        switcher = new MyButton(switcherText, (int) (width * 0.2), (int) (height * 0.15));
+        switcher.setLocation((int) (width * 0.9 - switcher.getWidth()), (int) (height * 0.75));
 
         // Initialise the class's properties
         this.setBounds(0, 0, width, height);
@@ -62,7 +62,6 @@ public abstract class MenuInfoView extends JLabel {
         // Add the description label and controls button
         this.add(description);
         this.add(back);
-        this.add(controls);
     }
 
     /**
@@ -95,8 +94,8 @@ public abstract class MenuInfoView extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public void setControlsAction(ActionListener l) {
-        controls.addActionListener(l);
+    public void setSwitcherAction(ActionListener l) {
+        switcher.addActionListener(l);
     }
 
     /**
