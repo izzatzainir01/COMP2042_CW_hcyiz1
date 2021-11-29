@@ -1,4 +1,4 @@
-package brickdestroy.gui;
+package brickdestroy.gui.view;
 
 public class InfoDescriptionView extends MenuInfoView {
 

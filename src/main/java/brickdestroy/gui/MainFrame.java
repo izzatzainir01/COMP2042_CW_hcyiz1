@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import brickdestroy.gui.controller.GameController;
+import brickdestroy.gui.controller.MenuController;
 import brickdestroy.utility.MyImage;
 
 public class MainFrame {

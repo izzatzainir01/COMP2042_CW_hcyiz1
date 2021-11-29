@@ -1,4 +1,4 @@
-package brickdestroy.gui;
+package brickdestroy.gui.view;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JLabel;
 
 import brickdestroy.elements.Game;
+import brickdestroy.gui.MainFrame;
 
 public class GameView extends JLabel {
 

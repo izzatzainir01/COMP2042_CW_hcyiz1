@@ -11,6 +11,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 
 import brickdestroy.elements.Game;
+import brickdestroy.gui.controller.GameController;
 
 public class DebugConsole extends JDialog {
 

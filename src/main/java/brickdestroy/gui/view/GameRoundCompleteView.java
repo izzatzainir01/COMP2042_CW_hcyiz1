@@ -1,4 +1,4 @@
-package brickdestroy.gui;
+package brickdestroy.gui.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
+import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 

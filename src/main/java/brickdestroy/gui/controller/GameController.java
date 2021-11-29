@@ -1,4 +1,4 @@
-package brickdestroy.gui;
+package brickdestroy.gui.controller;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -9,6 +9,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import brickdestroy.elements.Game;
+import brickdestroy.gui.DebugConsole;
+import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.view.GamePauseView;
+import brickdestroy.gui.view.GameRoundCompleteView;
+import brickdestroy.gui.view.GameView;
 
 public class GameController extends JPanel implements KeyListener {
 

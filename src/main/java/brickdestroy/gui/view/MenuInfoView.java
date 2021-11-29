@@ -1,4 +1,4 @@
-package brickdestroy.gui;
+package brickdestroy.gui.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 

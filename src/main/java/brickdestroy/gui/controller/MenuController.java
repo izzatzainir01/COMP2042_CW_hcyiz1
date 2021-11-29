@@ -1,6 +1,11 @@
-package brickdestroy.gui;
+package brickdestroy.gui.controller;
 
 import javax.swing.JPanel;
+
+import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.view.InfoControlsView;
+import brickdestroy.gui.view.InfoDescriptionView;
+import brickdestroy.gui.view.MenuHomeView;
 
 import java.awt.Component;
 import java.awt.Dimension;
