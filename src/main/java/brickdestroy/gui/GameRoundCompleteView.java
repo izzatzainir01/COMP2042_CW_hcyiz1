@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
@@ -45,9 +46,9 @@ public class GameRoundCompleteView extends JLabel {
         exit = new MyButton("Exit", (int) (width * 0.2), (int) (height * 0.15));
 
         // Set button locations
-        nextLevel.setLocation((int) (width * 0.65 - nextLevel.getWidth() / 2),
+        nextLevel.setLocation((int) (width * 0.35 - nextLevel.getWidth() / 2),
                 (int) (height * 0.7));
-        exit.setLocation((int) (width * 0.35 - exit.getWidth() / 2), (int) (height * 0.7));
+        exit.setLocation((int) (width * 0.65 - exit.getWidth() / 2), (int) (height * 0.7));
 
         // Define the score
         this.score = score;
@@ -92,6 +93,14 @@ public class GameRoundCompleteView extends JLabel {
         g2d.setFont(setFontSize(80));
         stringW = g2d.getFontMetrics().stringWidth(scoreString);
         g2d.drawString(scoreString, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.55));
+    }
+
+    public void setExitAction(ActionListener l) {
+        exit.addActionListener(l);
+    }
+
+    public void setNextLevelAction(ActionListener l) {
+        nextLevel.addActionListener(l);
     }
 
     /**
