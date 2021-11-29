@@ -49,7 +49,7 @@ public class MenuInfoView extends JLabel {
         // Define description text area and set its properties
         description = new JTextArea();
         description.setSize((int) (width * 0.8), (int) (height * 0.5));
-        description.setLocation(width / 2 - description.getWidth() / 2, (int) (height * 0.2));
+        description.setLocation(width / 2 - description.getWidth() / 2, (int) (height * 0.22));
         description.setOpaque(false);
         description.setEditable(false);
         description.setWrapStyleWord(true);
