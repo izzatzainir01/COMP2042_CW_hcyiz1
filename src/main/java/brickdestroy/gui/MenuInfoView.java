@@ -1,5 +1,6 @@
 package brickdestroy.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -57,16 +58,17 @@ public abstract class MenuInfoView extends JLabel {
         description.setLineWrap(true);
         description.setFont(setFontSize(25));
         description.setText(getContent(filePath));
+        description.setForeground(Color.BLACK);
 
         // Define title
         this.title = title;
 
-        // Define back button
+        // Define back and switcher buttons
         back = new MyButton("Back", (int) (width * 0.2), (int) (height * 0.15));
-        back.setLocation((int) (width * 0.1), (int) (height * 0.75));
+        switcher = new MyButton(switcherText, (int) (width * 0.25), (int) (height * 0.15));
 
-        // Define controls button
-        switcher = new MyButton(switcherText, (int) (width * 0.2), (int) (height * 0.15));
+        // Set buttons locations
+        back.setLocation((int) (width * 0.1), (int) (height * 0.75));
         switcher.setLocation((int) (width * 0.9 - switcher.getWidth()), (int) (height * 0.75));
 
         // Initialise the class's properties
@@ -80,7 +82,7 @@ public abstract class MenuInfoView extends JLabel {
     }
 
     /**
-     * Pain the background image and the title
+     * Paint the background image and the title
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -90,7 +92,9 @@ public abstract class MenuInfoView extends JLabel {
         // Draw background image
         g2d.drawImage(background.getImage(), 0, 0, width, height, null);
 
+        
         // Draw title text
+        g2d.setColor(Color.BLACK);
         g2d.setFont(setFontSize(40));
         g2d.drawString(title, (int) (width * 0.1), (int) (height * 0.15));
     }

@@ -12,7 +12,8 @@ public class MenuController extends JPanel {
     private int height = MainFrame.getHeight();
 
     private MenuHomeView home;
-    private MenuInfoView info;
+    private InfoDescriptionView description;
+    private InfoControlsView controls;
 
     /**
      * The {@code MenuController} class is the Controller for the game's Main Menu,
@@ -63,7 +64,7 @@ public class MenuController extends JPanel {
     }
 
     /**
-     * Add {@code ActionListeners} on the MenuHome's buttons.
+     * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
 
@@ -73,11 +74,48 @@ public class MenuController extends JPanel {
         });
 
         home.setInfoAction(e -> {
-            // addView(info = new MenuInfoView());
+            addView(description = new InfoDescriptionView());
+            initDescriptionButtonsListeenrs();
             removeView(home);
         });
         
         home.setExitAction(e -> frame.exit());
+    }
+
+    /**
+     * Add {@code ActionListeners} on the InfoDescriptionView's buttons.
+     */
+    private void initDescriptionButtonsListeenrs() {
+
+        description.setBackAction(e -> {
+            addView(home = new MenuHomeView());
+            initHomeButtonsListeners();
+            removeView(description);
+        });
+
+        description.setSwitcherAction(e -> {
+            addView(controls = new InfoControlsView());
+            initControlsButtonsListener();
+            removeView(description);
+        });
+    }
+
+    /**
+     * Add {@code ActionListeners} on the InfoControlsView's buttons.
+     */
+    private void initControlsButtonsListener() {
+
+        controls.setBackAction(e -> {
+            addView(home = new MenuHomeView());
+            initHomeButtonsListeners();
+            removeView(controls);
+        });
+
+        controls.setSwitcherAction(e -> {
+            addView(description = new InfoDescriptionView());
+            initDescriptionButtonsListeenrs();
+            removeView(controls);
+        });
     }
 
 }
