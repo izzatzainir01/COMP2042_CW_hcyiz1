@@ -31,6 +31,7 @@ public class Game {
 
     private int level = 0;
     private int attempts = 3;
+    private int score = 0;
     private boolean stopped = true;
     private boolean ballLost = false;
 
@@ -71,18 +72,13 @@ public class Game {
             message = String.format("Bricks: %d Balls %d", brickCount, attempts);
             if (ballLost) {
                 if (attempts == 0) {
-                    wallReset();
                     message = "Game over";
                 }
                 ballReset();
                 stopped = true;
             } else if (brickCount == 0) {
                 if (level < levels.length) {
-                    message = "Go to Next Level";
                     stopped = true;
-                    ballReset();
-                    wallReset();
-                    nextLevel();
                 } else {
                     message = "ALL WALLS DESTROYED";
                     stopped = true;
@@ -109,6 +105,7 @@ public class Game {
         // Check bricks' impacts
         if (checkBrickImpact()) // Ball hits any brick
             brickCount--;
+
     }
 
     // Check for the Ball's impact with the frame's borders
@@ -137,29 +134,43 @@ public class Game {
     private boolean checkBrickImpact() {
         Rectangle2D ballBounds = ball.getBounds();
         Rectangle2D brickBounds;
+        String brickName;
+        boolean state = false;
+
         // Check every brick
         for (Brick b : bricks) {
             if (!b.isBroken()) {
+                brickName = b.getClass().getSimpleName();
                 brickBounds = b.getBounds();
                 if (ballBounds.intersects(brickBounds)) {
+
                     // Vertical impact
                     if (brickBounds.contains(ball.getDown())) {
                         ball.reverseY();
-                        return b.setImpact(ball.getDown(), "up");
-                    }
-                    if (brickBounds.contains(ball.getUp())) {
+                        state = b.setImpact(ball.getDown(), "up");
+                    } else if (brickBounds.contains(ball.getUp())) {
                         ball.reverseY();
-                        return b.setImpact(ball.getUp(), "down");
+                        state = b.setImpact(ball.getUp(), "down");
                     }
                     // Horizontal
-                    if (brickBounds.contains(ball.getLeft())) {
+                    else if (brickBounds.contains(ball.getLeft())) {
                         ball.reverseX();
-                        return b.setImpact(ball.getLeft(), "left");
-                    }
-                    if (brickBounds.contains(ball.getRight())) {
+                        state = b.setImpact(ball.getLeft(), "left");
+                    } else if (brickBounds.contains(ball.getRight())) {
                         ball.reverseX();
-                        return b.setImpact(ball.getRight(), "right");
+                        state = b.setImpact(ball.getRight(), "right");
                     }
+
+                    // Determining score based on brick type
+                    if (brickName.equals("BrickClay")) {
+                        score += 10;
+                    } else if (brickName.equals("BrickCement")) {
+                        score += 20;
+                    } else if (brickName.equals("BrickSteel")) {
+                        score += 30;
+                    }
+
+                    return state;
                 }
             }
         }
@@ -202,10 +213,21 @@ public class Game {
         stopped = b;
     }
 
-    public void wallReset() {
+    public void nextLevel() {
+        if (level < levels.length) {
+            bricks = levels[level++];
+            this.brickCount = bricks.length;
+            ballReset();
+            score = 0;
+        }
+    }
+
+    public void levelReset() {
         for (Brick b : bricks)
             b.repair();
         brickCount = bricks.length;
+        score = 0;
+        ballReset();
         resetBallCount();
         message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
@@ -216,16 +238,23 @@ public class Game {
         ballLost = false;
     }
 
-    public void resetBallCount() {
+    public void resetBallCount() { // change name to resetAttempts
         attempts = 3;
     }
 
-    // Methods used by the debug panel
-    public void nextLevel() {
-        bricks = levels[level++];
-        this.brickCount = bricks.length;
+    public int getBrickCount() {
+        return brickCount;
     }
 
+    public int getAttemptCount() {
+        return attempts;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    // Methods used by the debug panel
     public void setBallSpeed(double speed) {
         double ratio = speed / ballSpeed;
 

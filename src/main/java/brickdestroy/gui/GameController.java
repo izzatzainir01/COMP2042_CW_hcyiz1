@@ -3,6 +3,7 @@ package brickdestroy.gui;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -17,6 +18,7 @@ public class GameController extends JPanel implements KeyListener {
 
     private Game game;
     private GameView gameView;
+    private GameRoundCompleteView roundComplete;
     private GamePauseView pause;
 
     private DebugConsole debugConsole;
@@ -45,6 +47,9 @@ public class GameController extends JPanel implements KeyListener {
         game = new Game();
         debugConsole = new DebugConsole(game, this);
 
+        // Define the round complete view
+        roundComplete = new GameRoundCompleteView(0);
+
         // Initialise the Panel's properties
         this.setBounds(0, 0, width, height);
         this.setPreferredSize(new Dimension(width, height));
@@ -54,78 +59,69 @@ public class GameController extends JPanel implements KeyListener {
         this.addKeyListener(this);
 
         // Add the GameView
-        addGameView();
+        addView(gameView = new GameView(game));
 
         // Game timer
         gameTimer = new Timer(10, e -> {
             game.tick();
+
+            // When a round is successfully completedd
+            if (game.getBrickCount() == 0) {
+                addView(roundComplete = new GameRoundCompleteView(game.getScore()));
+                initRoundCompleteButtons();
+                removeView(gameView);
+                gameTimer.stop();
+            }
+
             gameView.revalidate();
             gameView.repaint();
         });
         gameTimer.start();
     }
 
-    public void repaintGameView() {
-        gameView.repaint();
-    }
-
     /**
-     * Add the {@code GameView} view.
+     * Add a {@code Component} to this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be added
      */
-    private void addGameView() {
-        gameView = new GameView(game);
-        this.add(gameView);
-    }
-
-    /**
-     * Remove the {@code GameView} view.
-     */
-    private void removeGameView() {
-        this.remove(gameView);
+    private void addView(Component comp) {
+        this.add(comp);
         revalidate();
         repaint();
     }
 
     /**
-     * Add the {@code GamePause} view. The {@code GameView} is removed automatically
-     * through this method.
+     * Remove a {@code Component} from this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be removed
      */
-    private void addPauseView() {
-        pause = new GamePauseView();
-        initPauseButtonsListener();
-        this.add(pause);
-        removeGameView();
-    }
-
-    /**
-     * Add the {@code GamePause} view. The {@code GameView} is added automatically
-     * through this method.
-     */
-    private void removePauseView() {
-        addGameView();
-        this.remove(pause);
+    private void removeView(Component comp) {
+        this.remove(comp);
         revalidate();
         repaint();
     }
 
     /**
-     * Add {@code ActionListeners} on the GamePause's buttons.
+     * Add {@code ActionListeners} on the GamePauseView's buttons.
      */
     private void initPauseButtonsListener() {
 
         // Continue button resumes the game
         pause.setContinueAction(e -> {
             isPaused = false;
-            removePauseView();
+            addView(gameView);
+            removeView(pause);
         });
 
         // Restart button restarts the game
         pause.setRestartAction(e -> {
-            game.ballReset();
-            game.wallReset();
+            game.levelReset();
             game.setGameStopped(true);
             isPaused = false;
-            removePauseView();
+            addView(gameView);
+            removeView(pause);
         });
 
         // ExitMenu button calls the GameFrame to add the MenuController and remove the
@@ -137,6 +133,25 @@ public class GameController extends JPanel implements KeyListener {
 
         // ExitDesktop button calls the GameFrame to exit the game
         pause.setExitDesktopAction(e -> frame.exit());
+    }
+
+    /**
+     * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
+     */
+    private void initRoundCompleteButtons() {
+
+        roundComplete.setExitAction(e -> {
+            frame.addMenuController();
+            frame.removeGameController();
+        });
+
+        roundComplete.setNextLevelAction(e -> {
+            game.nextLevel();
+            addView(gameView);
+            removeView(roundComplete);
+            gameTimer.start();
+        });
+
     }
 
     /**
@@ -166,13 +181,12 @@ public class GameController extends JPanel implements KeyListener {
             isPaused = !isPaused;
             if (isPaused) {
                 game.setGameStopped(true);
-                addPauseView();
-                revalidate();
-                repaint();
+                addView(pause = new GamePauseView());
+                initPauseButtonsListener();
+                removeView(gameView);
             } else {
-                removePauseView();
-                revalidate();
-                repaint();
+                addView(gameView);
+                removeView(pause);
             }
         }
         // F1 pressed

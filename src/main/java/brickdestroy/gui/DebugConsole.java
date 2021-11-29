@@ -67,7 +67,6 @@ public class DebugConsole extends JDialog {
         // Create the Skip Level button
         skipLevel = makeButton("Skip Level", e -> {
             game.nextLevel();
-            game.ballReset();
         });
 
         // Create the Reset Balls button
