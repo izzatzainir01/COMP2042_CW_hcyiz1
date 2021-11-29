@@ -56,17 +56,8 @@ public class MenuController extends JPanel {
      * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
-
-        home.setStartAction(e -> {
-            frame.addGameController();
-            frame.removeMenuController();
-        });
-
-        home.setInfoAction(e -> {
-            frame.addInfoController();
-            frame.removeMenuController();
-        });
-
+        home.setStartAction(e -> frame.addController(new GameController(frame)));
+        home.setInfoAction(e -> frame.addController(new InfoController(frame)));
         home.setExitAction(e -> frame.exit());
     }
 

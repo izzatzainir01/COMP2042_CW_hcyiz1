@@ -4,9 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import brickdestroy.gui.controller.GameController;
-import brickdestroy.gui.controller.InfoController;
 import brickdestroy.gui.controller.MenuController;
 import brickdestroy.utility.MyImage;
 
@@ -18,9 +17,7 @@ public class MainFrame {
     private JFrame frame;
     private MyImage frameIcon;
 
-    private MenuController menu;
-    private InfoController info;
-    private GameController game;
+    private JPanel controller;
 
     /**
      * The {@code GameFrame} class handles the game's window frame using JFrame. It
@@ -49,7 +46,7 @@ public class MainFrame {
         frame.setIconImage(frameIcon.getImage());
 
         // Add Menu Controller upon first launch
-        this.addMenuController();
+        addController(new MenuController(this));
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -57,54 +54,32 @@ public class MainFrame {
     }
 
     /**
-     * Add the {@code MenuController}.
+     * Add a controller to the frame. This method replaces the previous controller
+     * with a new one, then it removes the old one.
+     * 
+     * @param controller The new controller
      */
-    public void addMenuController() {
-        menu = new MenuController(this);
-        frame.add(menu);
-    }
+    public void addController(JPanel controller) {
 
-    /**
-     * Remove the {@code MenuController}.
-     */
-    public void removeMenuController() {
-        frame.remove(menu);
+        // Set a temporary reference to the original controller
+        JPanel temp = null;
+        if (this.controller != null) {
+            temp = this.controller;
+        }
+
+        // Set the controller to the new one
+        this.controller = controller;
+        frame.add(this.controller);
         frame.revalidate();
         frame.repaint();
-    }
 
-    /**
-     * Add the {@code GameController}.
-     */
-    public void addGameController() {
-        game = new GameController(this);
-        frame.add(game);
-    }
-
-    /**
-     * Remove the {@code GameController}.
-     */
-    public void removeGameController() {
-        frame.remove(game);
-        frame.revalidate();
-        frame.repaint();
-    }
-
-    /**
-     * Add the {@code InfoController}.
-     */
-    public void addInfoController() {
-        info = new InfoController(this);
-        frame.add(info);
-    }
-
-    /**
-     * Remove the {@code InfoController}.
-     */
-    public void removeInfoController() {
-        frame.remove(info);
-        frame.revalidate();
-        frame.repaint();
+        // Remove the old controller
+        if (temp != null) {
+            frame.remove(temp);
+            frame.revalidate();
+            frame.repaint();
+            temp = null;
+        }
     }
 
     /**
@@ -134,21 +109,4 @@ public class MainFrame {
         return HEIGHT;
     }
 
-    /**
-     * Get the frame's X coordinate.
-     * 
-     * @return An {@code int} of the frame's X coordinate.
-     */
-    public int getX() {
-        return frame.getX();
-    }
-
-    /**
-     * Get the frame's Y coordinate.
-     * 
-     * @return An {@code int} of the frame's Y coordinate.
-     */
-    public int getY() {
-        return frame.getY();
-    }
 }

@@ -62,10 +62,7 @@ public class InfoController extends JPanel {
      */
     private void initDescriptionButtonsListeners() {
 
-        description.setBackAction(e -> {
-            frame.addMenuController();
-            frame.removeInfoController();
-        });
+        description.setBackAction(e -> frame.addController(new MenuController(frame)));
 
         description.setSwitcherAction(e -> {
             addView(controls = new InfoControlsView());
@@ -79,10 +76,7 @@ public class InfoController extends JPanel {
      */
     private void initControlsButtonsListener() {
 
-        controls.setBackAction(e -> {
-            frame.addMenuController();
-            frame.removeInfoController();
-        });
+        controls.setBackAction(e -> frame.addController(new MenuController(frame)));
 
         controls.setSwitcherAction(e -> {
             addView(description = new InfoDescriptionView());

@@ -81,6 +81,7 @@ public class GameController extends JPanel implements KeyListener {
             gameView.revalidate();
             gameView.repaint();
         });
+
         gameTimer.start();
     }
 
@@ -132,8 +133,9 @@ public class GameController extends JPanel implements KeyListener {
         // ExitMenu button calls the GameFrame to add the MenuController and remove the
         // GameController
         pause.setExitMenuAction(e -> {
-            frame.addMenuController();
-            frame.removeGameController();
+            gameTimer.stop();
+            this.removeKeyListener(this);
+            frame.addController(new MenuController(frame));
         });
 
         // ExitDesktop button calls the GameFrame to exit the game
@@ -146,8 +148,9 @@ public class GameController extends JPanel implements KeyListener {
     private void initRoundCompleteButtons() {
 
         roundComplete.setExitAction(e -> {
-            frame.addMenuController();
-            frame.removeGameController();
+            gameTimer.stop();
+            this.removeKeyListener(this);
+            frame.addController(new MenuController(frame));
         });
 
         roundComplete.setNextLevelAction(e -> {
