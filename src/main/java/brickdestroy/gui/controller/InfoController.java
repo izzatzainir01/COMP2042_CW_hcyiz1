@@ -2,11 +2,9 @@ package brickdestroy.gui.controller;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 
 import javax.swing.JPanel;
 
@@ -105,20 +103,19 @@ public class InfoController extends JPanel {
      * @return A {@code String} of the data within the file
      */
     private String getContent(String fileName) {
-        FileReader file;
+        InputStream file;
         String content = "";
 
         try {
-            file = new FileReader(new File(getClass().getResource("/" + fileName).toURI()));
+            file = getClass().getClassLoader().getResourceAsStream(fileName);
             int data;
             while ((data = file.read()) != -1) {
                 content += (char) data;
             }
+            file.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
