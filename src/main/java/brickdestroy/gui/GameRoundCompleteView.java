@@ -95,12 +95,22 @@ public class GameRoundCompleteView extends JLabel {
         g2d.drawString(scoreString, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.55));
     }
 
-    public void setExitAction(ActionListener l) {
-        exit.addActionListener(l);
-    }
-
+    /**
+     * Set an {@code Action} for the Next Level button.
+     * 
+     * @param l An {@code ActionListener}
+     */
     public void setNextLevelAction(ActionListener l) {
         nextLevel.addActionListener(l);
+    }
+
+    /**
+     * Set an {@code Action} for the Exit button.
+     * 
+     * @param l An {@code ActionListener}
+     */
+    public void setExitAction(ActionListener l) {
+        exit.addActionListener(l);
     }
 
     /**

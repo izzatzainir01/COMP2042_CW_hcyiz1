@@ -65,6 +65,7 @@ public class GameController extends JPanel implements KeyListener {
         gameTimer = new Timer(10, e -> {
             game.tick();
 
+            // When a round is successfully completedd
             if (game.getBrickCount() == 0) {
                 addView(roundComplete = new GameRoundCompleteView(game.getScore()));
                 initRoundCompleteButtons();
@@ -78,16 +79,24 @@ public class GameController extends JPanel implements KeyListener {
         gameTimer.start();
     }
 
-    public void repaintGameView() {
-        gameView.repaint();
-    }
-
+    /**
+     * Add a {@code Component} to this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be added
+     */
     private void addView(Component comp) {
         this.add(comp);
         revalidate();
         repaint();
     }
 
+    /**
+     * Remove a {@code Component} from this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be removed
+     */
     private void removeView(Component comp) {
         this.remove(comp);
         revalidate();
@@ -95,7 +104,7 @@ public class GameController extends JPanel implements KeyListener {
     }
 
     /**
-     * Add {@code ActionListeners} on the GamePause's buttons.
+     * Add {@code ActionListeners} on the GamePauseView's buttons.
      */
     private void initPauseButtonsListener() {
 
@@ -126,6 +135,9 @@ public class GameController extends JPanel implements KeyListener {
         pause.setExitDesktopAction(e -> frame.exit());
     }
 
+    /**
+     * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
+     */
     private void initRoundCompleteButtons() {
 
         roundComplete.setExitAction(e -> {
