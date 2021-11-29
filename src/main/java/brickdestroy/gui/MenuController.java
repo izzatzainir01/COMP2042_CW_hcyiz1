@@ -2,6 +2,7 @@ package brickdestroy.gui;
 
 import javax.swing.JPanel;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
 public class MenuController extends JPanel {
@@ -11,6 +12,7 @@ public class MenuController extends JPanel {
     private int height = MainFrame.getHeight();
 
     private MenuHomeView home;
+    private MenuInfoView info;
 
     /**
      * The {@code MenuController} class is the Controller for the game's Main Menu,
@@ -32,23 +34,30 @@ public class MenuController extends JPanel {
         this.setLayout(null);
 
         // Add the home view upon first launch
-        addHome();
-    }
-
-    /**
-     * Add the {@code MenuHome} view.
-     */
-    private void addHome() {
-        home = new MenuHomeView();
+        addView(home = new MenuHomeView());
         initHomeButtonsListeners();
-        this.add(home);
     }
 
     /**
-     * Remove the {@code MenuHome} view.
+     * Add a {@code Component} to this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be added
      */
-    private void removeHome() {
-        this.remove(home);
+    private void addView(Component comp) {
+        this.add(comp);
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Remove a {@code Component} from this controller and automatically call
+     * {@code revalidate()} and {@code repaint()}.
+     * 
+     * @param comp The component to be removed
+     */
+    private void removeView(Component comp) {
+        this.remove(comp);
         revalidate();
         repaint();
     }
@@ -63,7 +72,11 @@ public class MenuController extends JPanel {
             frame.removeMenuController();
         });
 
-        home.setInfoAction(e -> System.out.println("Info"));
+        home.setInfoAction(e -> {
+            // addView(info = new MenuInfoView());
+            removeView(home);
+        });
+        
         home.setExitAction(e -> frame.exit());
     }
 
