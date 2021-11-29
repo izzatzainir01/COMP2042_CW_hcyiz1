@@ -3,8 +3,6 @@ package brickdestroy.gui.controller;
 import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
-import brickdestroy.gui.view.InfoControlsView;
-import brickdestroy.gui.view.InfoDescriptionView;
 import brickdestroy.gui.view.MenuHomeView;
 
 import java.awt.Component;
@@ -17,8 +15,6 @@ public class MenuController extends JPanel {
     private int height = MainFrame.getHeight();
 
     private MenuHomeView home;
-    private InfoDescriptionView description;
-    private InfoControlsView controls;
 
     /**
      * The {@code MenuController} class is the Controller for the game's Main Menu,
@@ -57,18 +53,6 @@ public class MenuController extends JPanel {
     }
 
     /**
-     * Remove a {@code Component} from this controller and automatically call
-     * {@code revalidate()} and {@code repaint()}.
-     * 
-     * @param comp The component to be removed
-     */
-    private void removeView(Component comp) {
-        this.remove(comp);
-        revalidate();
-        repaint();
-    }
-
-    /**
      * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
@@ -79,48 +63,11 @@ public class MenuController extends JPanel {
         });
 
         home.setInfoAction(e -> {
-            addView(description = new InfoDescriptionView());
-            initDescriptionButtonsListeenrs();
-            removeView(home);
+            frame.addInfoController();
+            frame.removeMenuController();
         });
-        
+
         home.setExitAction(e -> frame.exit());
-    }
-
-    /**
-     * Add {@code ActionListeners} on the InfoDescriptionView's buttons.
-     */
-    private void initDescriptionButtonsListeenrs() {
-
-        description.setBackAction(e -> {
-            addView(home = new MenuHomeView());
-            initHomeButtonsListeners();
-            removeView(description);
-        });
-
-        description.setSwitcherAction(e -> {
-            addView(controls = new InfoControlsView());
-            initControlsButtonsListener();
-            removeView(description);
-        });
-    }
-
-    /**
-     * Add {@code ActionListeners} on the InfoControlsView's buttons.
-     */
-    private void initControlsButtonsListener() {
-
-        controls.setBackAction(e -> {
-            addView(home = new MenuHomeView());
-            initHomeButtonsListeners();
-            removeView(controls);
-        });
-
-        controls.setSwitcherAction(e -> {
-            addView(description = new InfoDescriptionView());
-            initDescriptionButtonsListeenrs();
-            removeView(controls);
-        });
     }
 
 }

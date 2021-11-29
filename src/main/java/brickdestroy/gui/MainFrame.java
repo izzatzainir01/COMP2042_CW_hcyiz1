@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import brickdestroy.gui.controller.GameController;
+import brickdestroy.gui.controller.InfoController;
 import brickdestroy.gui.controller.MenuController;
 import brickdestroy.utility.MyImage;
 
@@ -18,6 +19,7 @@ public class MainFrame {
     private MyImage frameIcon;
 
     private MenuController menu;
+    private InfoController info;
     private GameController game;
 
     /**
@@ -84,6 +86,23 @@ public class MainFrame {
      */
     public void removeGameController() {
         frame.remove(game);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    /**
+     * Add the {@code InfoController}.
+     */
+    public void addInfoController() {
+        info = new InfoController(this);
+        frame.add(info);
+    }
+
+    /**
+     * Remove the {@code InfoController}.
+     */
+    public void removeInfoController() {
+        frame.remove(info);
         frame.revalidate();
         frame.repaint();
     }
