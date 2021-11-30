@@ -35,7 +35,7 @@ public class InfoController extends AbstractController {
      */
     private void initDescriptionButtonsListeners() {
 
-        description.setBackAction(e -> frame.addController(new MenuController(frame)));
+        description.setBackAction(e -> new MenuController(frame).addToFrame());
 
         description.setSwitcherAction(e -> {
             addView(controls = new MenuInfoView("Controls", getContent("controls.txt"), "Description"));
@@ -49,7 +49,7 @@ public class InfoController extends AbstractController {
      */
     private void initControlsButtonsListener() {
 
-        controls.setBackAction(e -> frame.addController(new MenuController(frame)));
+        controls.setBackAction(e -> new MenuController(frame).addToFrame());
 
         controls.setSwitcherAction(e -> {
             addView(description = new MenuInfoView("Description", getContent("description.txt"), "Controls"));

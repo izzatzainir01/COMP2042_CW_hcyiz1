@@ -39,9 +39,8 @@ public class GameController extends AbstractController implements KeyListener {
     public GameController(MainFrame frame) {
         // Call the super constructor and define some extra properties
         super(frame);
-        this.setFocusable(true);
-        this.requestFocusInWindow(true);
-        this.addKeyListener(this);
+        panel.setFocusable(true);
+        panel.addKeyListener(this);
 
         // Define the Game and Debug console
         game = new Game();
@@ -95,8 +94,8 @@ public class GameController extends AbstractController implements KeyListener {
         // GameController
         pause.setExitMenuAction(e -> {
             gameTimer.stop();
-            this.removeKeyListener(this);
-            frame.addController(new MenuController(frame));
+            panel.removeKeyListener(this);
+            new MenuController(frame).addToFrame();
         });
 
         // ExitDesktop button calls the GameFrame to exit the game
@@ -110,8 +109,8 @@ public class GameController extends AbstractController implements KeyListener {
 
         roundComplete.setExitAction(e -> {
             gameTimer.stop();
-            this.removeKeyListener(this);
-            frame.addController(new MenuController(frame));
+            panel.removeKeyListener(this);
+            new MenuController(frame).addToFrame();
         });
 
         roundComplete.setNextLevelAction(e -> {

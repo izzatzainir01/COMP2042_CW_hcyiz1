@@ -7,11 +7,13 @@ import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
 
-public abstract class AbstractController extends JPanel {
+public abstract class AbstractController {
 
     protected MainFrame frame;
     protected int width = MainFrame.getWidth();
     protected int height = MainFrame.getHeight();
+
+    protected JPanel panel;
 
     /**
      * The {@code AbstractController} class is an abstract class that represents a
@@ -28,10 +30,22 @@ public abstract class AbstractController extends JPanel {
         // Define the frame
         this.frame = frame;
 
-        // Define the controller's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
-        this.setLayout(null);
+        // Define the panel
+        this.panel = new JPanel();
+
+        // Define the panel's properties
+        panel.setBounds(0, 0, width, height);
+        panel.setPreferredSize(new Dimension(width, height));
+        panel.setLayout(null);
+    }
+
+    /**
+     * Adds the controller to the frame specified in the constructor. This method
+     * automatically calls the {@code addController()} method in the
+     * {@code MainFrame}.
+     */
+    public void addToFrame() {
+        frame.addController(panel);
     }
 
     /**
@@ -42,9 +56,9 @@ public abstract class AbstractController extends JPanel {
      * @param view The new view to be added to this controller
      */
     protected void addView(JLabel view) {
-        add(view);
-        revalidate();
-        repaint();
+        panel.add(view);
+        panel.revalidate();
+        panel.repaint();
 
     }
 
@@ -56,9 +70,9 @@ public abstract class AbstractController extends JPanel {
      * @param view The new view to be removed from this controller
      */
     protected void removeView(JLabel view) {
-        remove(view);
-        revalidate();
-        repaint();
+        panel.remove(view);
+        panel.revalidate();
+        panel.repaint();
     }
 
 }

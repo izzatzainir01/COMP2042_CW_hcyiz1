@@ -30,8 +30,8 @@ public class MenuController extends AbstractController {
      * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
-        home.setStartAction(e -> frame.addController(new GameController(frame)));
-        home.setInfoAction(e -> frame.addController(new InfoController(frame)));
+        home.setStartAction(e -> new GameController(frame).addToFrame());
+        home.setInfoAction(e -> new InfoController(frame).addToFrame());
         home.setExitAction(e -> frame.exit());
     }
 
