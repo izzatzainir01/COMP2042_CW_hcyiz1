@@ -20,7 +20,7 @@ public class GameController extends AbstractController implements KeyListener {
 
     private GameEndView roundComplete;
     private GameEndView gameOver;
-    private GameEndView gameComplete;
+    // private GameEndView gameComplete;
 
     private DebugConsole debugConsole;
 
@@ -45,6 +45,11 @@ public class GameController extends AbstractController implements KeyListener {
         panel.setFocusable(true);
         panel.addKeyListener(this);
 
+        // Initialise
+        initialise();
+    }
+
+    private void initialise() {
         // Define the Game and Debug console
         game = new Game();
         debugConsole = new DebugConsole(game, this);
@@ -57,6 +62,14 @@ public class GameController extends AbstractController implements KeyListener {
             if (game.getBrickCount() == 0) {
                 addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
                 initRoundCompleteButtons();
+                removeView(gameView);
+                gameTimer.stop();
+            }
+
+            // When the player loses the game
+            if (game.getAttemptCount() == 0) {
+                addView(gameOver = new GameEndView("Game Over!", game.getTotalScore(), "Restart"));
+                initGameOverButtons();
                 removeView(gameView);
                 gameTimer.stop();
             }
@@ -95,11 +108,7 @@ public class GameController extends AbstractController implements KeyListener {
 
         // ExitMenu button calls the GameFrame to add the MenuController and remove the
         // GameController
-        pause.setExitMenuAction(e -> {
-            gameTimer.stop();
-            panel.removeKeyListener(this);
-            new MenuController(frame).addToFrame();
-        });
+        pause.setExitMenuAction(e -> exitGame());
 
         // ExitDesktop button calls the GameFrame to exit the game
         pause.setExitDesktopAction(e -> frame.exit());
@@ -110,11 +119,7 @@ public class GameController extends AbstractController implements KeyListener {
      */
     private void initRoundCompleteButtons() {
 
-        roundComplete.setExitAction(e -> {
-            gameTimer.stop();
-            panel.removeKeyListener(this);
-            new MenuController(frame).addToFrame();
-        });
+        roundComplete.setExitAction(e -> exitGame());
 
         roundComplete.setSecondaryAction(e -> {
             game.nextLevel();
@@ -123,6 +128,26 @@ public class GameController extends AbstractController implements KeyListener {
             gameTimer.start();
         });
 
+    }
+
+    /**
+     * Add {@code ActionListeners} to the GameOverView's buttons
+     */
+    private void initGameOverButtons() {
+        gameOver.setExitAction(e -> exitGame());
+        gameOver.setSecondaryAction(e -> {
+            initialise();
+            removeView(gameOver);
+        });
+    }
+
+    /**
+     * Exit the game.
+     */
+    private void exitGame() {
+        gameTimer.stop();
+        panel.removeKeyListener(this);
+        new MenuController(frame).addToFrame();
     }
 
     /**

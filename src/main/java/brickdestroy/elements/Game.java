@@ -18,7 +18,7 @@ public class Game {
 
     private Brick[] bricks;
     private Brick[][] levels;
-    private int brickCount = 6;
+    private int brickCount = 30;
 
     private Point2D initialPos;
     private int initialPosX;
@@ -27,11 +27,12 @@ public class Game {
     private Player player;
 
     private BallRubber ball;
-    private double ballSpeed = 7;
+    private double ballSpeed = 0;
 
     private int level = 0;
     private int attempts = 3;
     private int score = 0;
+    private int totalScore = 0;
     private boolean stopped = true;
     private boolean ballLost = false;
 
@@ -72,6 +73,7 @@ public class Game {
             message = String.format("Bricks: %d Balls %d", brickCount, attempts);
             if (ballLost) {
                 if (attempts == 0) {
+                    totalScore += score;
                     message = "Game over";
                 }
                 ballReset();
@@ -83,6 +85,7 @@ public class Game {
                     message = "ALL WALLS DESTROYED";
                     stopped = true;
                 }
+                totalScore += score;
             }
         }
     }
@@ -252,6 +255,10 @@ public class Game {
 
     public int getScore() {
         return score;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
     }
 
     // Methods used by the debug panel
