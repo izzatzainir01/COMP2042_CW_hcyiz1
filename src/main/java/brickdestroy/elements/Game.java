@@ -35,6 +35,7 @@ public class Game {
     private int totalScore = 0;
     private boolean stopped = true;
     private boolean ballLost = false;
+    private boolean completed = false;
 
     private String message = "";
 
@@ -74,7 +75,6 @@ public class Game {
             if (ballLost) {
                 if (attempts == 0) {
                     totalScore += score;
-                    message = "Game over";
                 }
                 ballReset();
                 stopped = true;
@@ -82,7 +82,7 @@ public class Game {
                 if (level < levels.length) {
                     stopped = true;
                 } else {
-                    message = "ALL WALLS DESTROYED";
+                    completed = true;
                     stopped = true;
                 }
                 totalScore += score;
@@ -259,6 +259,10 @@ public class Game {
 
     public int getTotalScore() {
         return totalScore;
+    }
+
+    public boolean isGameCompleted() {
+        return completed;
     }
 
     // Methods used by the debug panel

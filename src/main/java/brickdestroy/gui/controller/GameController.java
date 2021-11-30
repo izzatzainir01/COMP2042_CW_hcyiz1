@@ -20,7 +20,7 @@ public class GameController extends AbstractController implements KeyListener {
 
     private GameEndView roundComplete;
     private GameEndView gameOver;
-    // private GameEndView gameComplete;
+    private GameEndView gameComplete;
 
     private DebugConsole debugConsole;
 
@@ -58,16 +58,24 @@ public class GameController extends AbstractController implements KeyListener {
         gameTimer = new Timer(10, e -> {
             game.tick();
 
+            // When the player clears all rounds
+            if (game.isGameCompleted()) {
+                addView(gameComplete = new GameEndView("Game Completed!", game.getTotalScore(), "Restart"));
+                initGameCompletedButtons();
+                removeView(gameView);
+                gameTimer.stop();
+            }
+
             // When a round is successfully completedd
-            if (game.getBrickCount() == 0) {
+            else if (game.getBrickCount() == 0) {
                 addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
-                initRoundCompleteButtons();
+                initRoundCompletedButtons();
                 removeView(gameView);
                 gameTimer.stop();
             }
 
             // When the player loses the game
-            if (game.getAttemptCount() == 0) {
+            else if (game.getAttemptCount() == 0) {
                 addView(gameOver = new GameEndView("Game Over!", game.getTotalScore(), "Restart"));
                 initGameOverButtons();
                 removeView(gameView);
@@ -78,10 +86,8 @@ public class GameController extends AbstractController implements KeyListener {
             gameView.repaint();
         });
 
-        // Add the GameView
+        // Add the GameView and start the timer
         addView(gameView = new GameView(game));
-
-        // Start the game timer
         gameTimer.start();
     }
 
@@ -117,7 +123,7 @@ public class GameController extends AbstractController implements KeyListener {
     /**
      * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
      */
-    private void initRoundCompleteButtons() {
+    private void initRoundCompletedButtons() {
 
         roundComplete.setExitAction(e -> exitGame());
 
@@ -127,7 +133,16 @@ public class GameController extends AbstractController implements KeyListener {
             removeView(roundComplete);
             gameTimer.start();
         });
+    }
 
+    private void initGameCompletedButtons() {
+
+        gameComplete.setExitAction(e -> exitGame());
+
+        gameComplete.setSecondaryAction(e -> {
+            initialise();
+            removeView(gameComplete);
+        });
     }
 
     /**
