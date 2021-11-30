@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import brickdestroy.gui.controller.MenuController;
 import brickdestroy.utility.MyImage;
+import brickdestroy.utility.MyTimer;
 
 public class MainFrame {
 
@@ -51,6 +52,9 @@ public class MainFrame {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        // Initialise MyTimer
+        new MyTimer();
     }
 
     /**

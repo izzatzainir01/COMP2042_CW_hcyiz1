@@ -1,7 +1,5 @@
 package brickdestroy.gui.controller;
 
-import javax.swing.Timer;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -11,6 +9,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameView;
+import brickdestroy.utility.MyTimer;
 
 public class GameController extends AbstractController implements KeyListener {
 
@@ -23,8 +22,6 @@ public class GameController extends AbstractController implements KeyListener {
     private GameEndView gameComplete;
 
     private DebugConsole debugConsole;
-
-    private Timer gameTimer;
 
     private boolean isPaused = false;
 
@@ -54,8 +51,8 @@ public class GameController extends AbstractController implements KeyListener {
         game = new Game();
         debugConsole = new DebugConsole(game, this);
 
-        // Define the game timer
-        gameTimer = new Timer(10, e -> {
+        // Set the timer action
+        MyTimer.addTimerAction(e -> {
 
             gameView.revalidate();
             gameView.repaint();
@@ -66,7 +63,7 @@ public class GameController extends AbstractController implements KeyListener {
                 addView(gameComplete = new GameEndView("Game Completed!", game.getTotalScore(), "Restart"));
                 initGameCompletedButtons();
                 removeView(gameView);
-                gameTimer.stop();
+                MyTimer.stopTimer();
             }
 
             // When a round is successfully completedd
@@ -74,7 +71,7 @@ public class GameController extends AbstractController implements KeyListener {
                 addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
                 initRoundCompletedButtons();
                 removeView(gameView);
-                gameTimer.stop();
+                MyTimer.stopTimer();
             }
 
             // When the player loses the game
@@ -82,13 +79,13 @@ public class GameController extends AbstractController implements KeyListener {
                 addView(gameOver = new GameEndView("Game Over!", game.getTotalScore(), "Restart"));
                 initGameOverButtons();
                 removeView(gameView);
-                gameTimer.stop();
+                MyTimer.stopTimer();
             }
         });
 
         // Add the GameView and start the timer
         addView(gameView = new GameView(game));
-        gameTimer.start();
+        MyTimer.startTimer();
     }
 
     /**
@@ -98,6 +95,7 @@ public class GameController extends AbstractController implements KeyListener {
 
         // Continue button resumes the game
         pause.setContinueAction(e -> {
+            MyTimer.startTimer();
             isPaused = false;
             addView(gameView);
             removeView(pause);
@@ -105,6 +103,7 @@ public class GameController extends AbstractController implements KeyListener {
 
         // Restart button restarts the game
         pause.setRestartAction(e -> {
+            MyTimer.startTimer();
             game.levelReset();
             game.setGameStopped(true);
             isPaused = false;
@@ -128,13 +127,16 @@ public class GameController extends AbstractController implements KeyListener {
         roundComplete.setExitAction(e -> exitGame());
 
         roundComplete.setSecondaryAction(e -> {
+            MyTimer.startTimer();
             game.nextLevel();
             addView(gameView);
             removeView(roundComplete);
-            gameTimer.start();
         });
     }
 
+    /**
+     * Add {@code ActionListeners} to the GameCompletedView's buttons.
+     */
     private void initGameCompletedButtons() {
 
         gameComplete.setExitAction(e -> exitGame());
@@ -146,7 +148,7 @@ public class GameController extends AbstractController implements KeyListener {
     }
 
     /**
-     * Add {@code ActionListeners} to the GameOverView's buttons
+     * Add {@code ActionListeners} to the GameOverView's buttons.
      */
     private void initGameOverButtons() {
         gameOver.setExitAction(e -> exitGame());
@@ -160,7 +162,7 @@ public class GameController extends AbstractController implements KeyListener {
      * Exit the game.
      */
     private void exitGame() {
-        gameTimer.stop();
+        MyTimer.stopTimer();
         panel.removeKeyListener(this);
         new MenuController(frame).addToFrame();
     }
@@ -191,11 +193,13 @@ public class GameController extends AbstractController implements KeyListener {
         if (keyCode == KeyEvent.VK_ESCAPE) {
             isPaused = !isPaused;
             if (isPaused) {
+                MyTimer.stopTimer();
                 game.setGameStopped(true);
                 addView(pause = new GamePauseView());
                 initPauseButtonsListener();
                 removeView(gameView);
             } else {
+                MyTimer.startTimer();
                 addView(gameView);
                 removeView(pause);
             }
