@@ -1,10 +1,7 @@
 package brickdestroy.gui.controller;
 
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -15,11 +12,7 @@ import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameRoundCompleteView;
 import brickdestroy.gui.view.GameView;
 
-public class GameController extends JPanel implements KeyListener {
-
-    private MainFrame frame;
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
+public class GameController extends AbstractController implements KeyListener {
 
     private Game game;
     private GameView gameView;
@@ -44,29 +37,16 @@ public class GameController extends JPanel implements KeyListener {
      * @param frame - The {@code GameFrame}.
      */
     public GameController(MainFrame frame) {
-
-        // Define the frame
-        this.frame = frame;
+        // Call the super constructor and define some extra properties
+        super(frame);
+        panel.setFocusable(true);
+        panel.addKeyListener(this);
 
         // Define the Game and Debug console
         game = new Game();
         debugConsole = new DebugConsole(game, this);
 
-        // Define the round complete view
-        roundComplete = new GameRoundCompleteView(0);
-
-        // Initialise the Panel's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
-        this.setLayout(null);
-        this.setFocusable(true);
-        this.requestFocusInWindow(true);
-        this.addKeyListener(this);
-
-        // Add the GameView
-        addView(gameView = new GameView(game));
-
-        // Game timer
+        // Define the game timer
         gameTimer = new Timer(10, e -> {
             game.tick();
 
@@ -82,31 +62,11 @@ public class GameController extends JPanel implements KeyListener {
             gameView.repaint();
         });
 
+        // Add the GameView
+        addView(gameView = new GameView(game));
+
+        // Start the game timer
         gameTimer.start();
-    }
-
-    /**
-     * Add a {@code Component} to this controller and automatically call
-     * {@code revalidate()} and {@code repaint()}.
-     * 
-     * @param comp The component to be added
-     */
-    private void addView(Component comp) {
-        this.add(comp);
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Remove a {@code Component} from this controller and automatically call
-     * {@code revalidate()} and {@code repaint()}.
-     * 
-     * @param comp The component to be removed
-     */
-    private void removeView(Component comp) {
-        this.remove(comp);
-        revalidate();
-        repaint();
     }
 
     /**
@@ -134,8 +94,8 @@ public class GameController extends JPanel implements KeyListener {
         // GameController
         pause.setExitMenuAction(e -> {
             gameTimer.stop();
-            this.removeKeyListener(this);
-            frame.addController(new MenuController(frame));
+            panel.removeKeyListener(this);
+            new MenuController(frame).addToFrame();
         });
 
         // ExitDesktop button calls the GameFrame to exit the game
@@ -149,8 +109,8 @@ public class GameController extends JPanel implements KeyListener {
 
         roundComplete.setExitAction(e -> {
             gameTimer.stop();
-            this.removeKeyListener(this);
-            frame.addController(new MenuController(frame));
+            panel.removeKeyListener(this);
+            new MenuController(frame).addToFrame();
         });
 
         roundComplete.setNextLevelAction(e -> {

@@ -46,7 +46,7 @@ public class MainFrame {
         frame.setIconImage(frameIcon.getImage());
 
         // Add Menu Controller upon first launch
-        addController(new MenuController(this));
+        new MenuController(this).addToFrame();
         frame.pack();
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
@@ -69,7 +69,7 @@ public class MainFrame {
 
         // Set the controller to the new one
         this.controller = controller;
-        frame.add(this.controller);
+        frame.add(controller);
         frame.revalidate();
         frame.repaint();
 
