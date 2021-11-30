@@ -9,15 +9,18 @@ import brickdestroy.elements.Game;
 import brickdestroy.gui.DebugConsole;
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.view.GamePauseView;
-import brickdestroy.gui.view.GameRoundCompleteView;
+import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameView;
 
 public class GameController extends AbstractController implements KeyListener {
 
     private Game game;
     private GameView gameView;
-    private GameRoundCompleteView roundComplete;
     private GamePauseView pause;
+
+    private GameEndView roundComplete;
+    private GameEndView gameOver;
+    private GameEndView gameComplete;
 
     private DebugConsole debugConsole;
 
@@ -42,30 +45,49 @@ public class GameController extends AbstractController implements KeyListener {
         panel.setFocusable(true);
         panel.addKeyListener(this);
 
+        // Initialise
+        initialise();
+    }
+
+    private void initialise() {
         // Define the Game and Debug console
         game = new Game();
         debugConsole = new DebugConsole(game, this);
 
         // Define the game timer
         gameTimer = new Timer(10, e -> {
+
+            gameView.revalidate();
+            gameView.repaint();
             game.tick();
 
-            // When a round is successfully completedd
-            if (game.getBrickCount() == 0) {
-                addView(roundComplete = new GameRoundCompleteView(game.getScore()));
-                initRoundCompleteButtons();
+            // When the player clears all rounds
+            if (game.isGameCompleted()) {
+                addView(gameComplete = new GameEndView("Game Completed!", game.getTotalScore(), "Restart"));
+                initGameCompletedButtons();
                 removeView(gameView);
                 gameTimer.stop();
             }
 
-            gameView.revalidate();
-            gameView.repaint();
+            // When a round is successfully completedd
+            else if (game.getBrickCount() == 0) {
+                addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
+                initRoundCompletedButtons();
+                removeView(gameView);
+                gameTimer.stop();
+            }
+
+            // When the player loses the game
+            else if (game.getAttemptCount() == 0) {
+                addView(gameOver = new GameEndView("Game Over!", game.getTotalScore(), "Restart"));
+                initGameOverButtons();
+                removeView(gameView);
+                gameTimer.stop();
+            }
         });
 
-        // Add the GameView
+        // Add the GameView and start the timer
         addView(gameView = new GameView(game));
-
-        // Start the game timer
         gameTimer.start();
     }
 
@@ -92,11 +114,7 @@ public class GameController extends AbstractController implements KeyListener {
 
         // ExitMenu button calls the GameFrame to add the MenuController and remove the
         // GameController
-        pause.setExitMenuAction(e -> {
-            gameTimer.stop();
-            panel.removeKeyListener(this);
-            new MenuController(frame).addToFrame();
-        });
+        pause.setExitMenuAction(e -> exitGame());
 
         // ExitDesktop button calls the GameFrame to exit the game
         pause.setExitDesktopAction(e -> frame.exit());
@@ -105,21 +123,46 @@ public class GameController extends AbstractController implements KeyListener {
     /**
      * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
      */
-    private void initRoundCompleteButtons() {
+    private void initRoundCompletedButtons() {
 
-        roundComplete.setExitAction(e -> {
-            gameTimer.stop();
-            panel.removeKeyListener(this);
-            new MenuController(frame).addToFrame();
-        });
+        roundComplete.setExitAction(e -> exitGame());
 
-        roundComplete.setNextLevelAction(e -> {
+        roundComplete.setSecondaryAction(e -> {
             game.nextLevel();
             addView(gameView);
             removeView(roundComplete);
             gameTimer.start();
         });
+    }
 
+    private void initGameCompletedButtons() {
+
+        gameComplete.setExitAction(e -> exitGame());
+
+        gameComplete.setSecondaryAction(e -> {
+            initialise();
+            removeView(gameComplete);
+        });
+    }
+
+    /**
+     * Add {@code ActionListeners} to the GameOverView's buttons
+     */
+    private void initGameOverButtons() {
+        gameOver.setExitAction(e -> exitGame());
+        gameOver.setSecondaryAction(e -> {
+            initialise();
+            removeView(gameOver);
+        });
+    }
+
+    /**
+     * Exit the game.
+     */
+    private void exitGame() {
+        gameTimer.stop();
+        panel.removeKeyListener(this);
+        new MenuController(frame).addToFrame();
     }
 
     /**

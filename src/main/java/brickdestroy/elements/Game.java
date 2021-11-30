@@ -1,7 +1,5 @@
 package brickdestroy.elements;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -27,15 +25,15 @@ public class Game {
     private Player player;
 
     private BallRubber ball;
-    private double ballSpeed = 7;
+    private double ballSpeed = 0;
 
     private int level = 0;
     private int attempts = 3;
     private int score = 0;
+    private int totalScore = 0;
     private boolean stopped = true;
     private boolean ballLost = false;
-
-    private String message = "";
+    private boolean completed = false;
 
     public Game() {
 
@@ -60,8 +58,6 @@ public class Game {
 
         // Initialise the first level
         nextLevel();
-
-        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
 
     public void tick() {
@@ -69,20 +65,20 @@ public class Game {
             player.move();
             ball.move();
             checkImpacts();
-            message = String.format("Bricks: %d Balls %d", brickCount, attempts);
             if (ballLost) {
                 if (attempts == 0) {
-                    message = "Game over";
+                    totalScore += score;
                 }
-                ballReset();
                 stopped = true;
+                ballReset();
             } else if (brickCount == 0) {
                 if (level < levels.length) {
                     stopped = true;
                 } else {
-                    message = "ALL WALLS DESTROYED";
+                    completed = true;
                     stopped = true;
                 }
+                totalScore += score;
             }
         }
     }
@@ -229,7 +225,6 @@ public class Game {
         score = 0;
         ballReset();
         resetBallCount();
-        message = String.format("Bricks: %d Balls %d", brickCount, attempts);
     }
 
     public void ballReset() {
@@ -254,6 +249,14 @@ public class Game {
         return score;
     }
 
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public boolean isGameCompleted() {
+        return completed;
+    }
+
     // Methods used by the debug panel
     public void setBallSpeed(double speed) {
         double ratio = speed / ballSpeed;
@@ -274,24 +277,6 @@ public class Game {
             if (!b.isBroken()) {
                 b.render(g2d);
             }
-        }
-
-        // Set message font
-        g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.03)));
-
-        // Get font width and height
-        int fontWidth = g2d.getFontMetrics().stringWidth(message);
-        int fontHeight = g2d.getFontMetrics().getHeight();
-
-        // Draw the message
-        g2d.setColor(Color.BLUE);
-        g2d.drawString(message, frameW / 2 - fontWidth / 2, frameH / 2);
-
-        // Draw the SPACE to start message if the game is stopped
-        if (stopped) {
-            g2d.setFont(new Font("Impact", Font.PLAIN, (int) (frameW * 0.02)));
-            fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
-            g2d.drawString("Press SPACE to start", frameW / 2 - fontWidth / 2, frameH / 2 + fontHeight);
         }
 
         // Render the player and the ball

@@ -13,41 +13,47 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class GameRoundCompleteView extends JLabel {
+public class GameEndView extends JLabel {
 
     private int width = MainFrame.getWidth();
     private int height = MainFrame.getHeight();
 
     private MyImage background;
 
-    private MyButton nextLevel;
+    private MyButton secondary;
     private MyButton exit;
 
-    private final String roundComplete = "Round Completed!";
-    private final String yourScore = "Your Score:";
+    private String title = "";
     private String scoreString = "";
     private int score = 0;
 
     /**
-     * The {@code GameRoundCompleteView} class is the view for when the player
-     * successfully completes a round. It extends {@code JLabel} as I need to access
-     * the {@code paintComponent()} method.
+     * The {@code GameEndView} class is a View class that represents the View for
+     * when the game is stopped due to completing a round/game, or losing the game.
+     * <p>
+     * It is responsible for defining the common components that make up the
+     * different variations of this View and adding them to itself. It contains a
+     * 'Secondary' button that users can define its text and action from the
+     * controller.
      * 
-     * It is responsible for defining its components and drawing them.
-     * 
-     * @param score The score that is displayed
+     * @param title      The title of the view
+     * @param score      The score that is displayed on the view
+     * @param buttonText The text on the Secondary button
      */
-    public GameRoundCompleteView(int score) {
+    public GameEndView(String title, int score, String buttonText) {
+
+        // Define the title
+        this.title = title;
 
         // Define background image
         background = new MyImage("cement_wall.jpg");
 
         // Define buttons
-        nextLevel = new MyButton("Next", (int) (width * 0.2), (int) (height * 0.15));
+        secondary = new MyButton(buttonText, (int) (width * 0.2), (int) (height * 0.15));
         exit = new MyButton("Exit", (int) (width * 0.2), (int) (height * 0.15));
 
         // Set button locations
-        nextLevel.setLocation((int) (width * 0.35 - nextLevel.getWidth() / 2),
+        secondary.setLocation((int) (width * 0.35 - secondary.getWidth() / 2),
                 (int) (height * 0.7));
         exit.setLocation((int) (width * 0.65 - exit.getWidth() / 2), (int) (height * 0.7));
 
@@ -60,7 +66,7 @@ public class GameRoundCompleteView extends JLabel {
         this.setPreferredSize(new Dimension(width, height));
 
         // Add the buttons
-        this.add(nextLevel);
+        this.add(secondary);
         this.add(exit);
     }
 
@@ -82,13 +88,13 @@ public class GameRoundCompleteView extends JLabel {
 
         // Draw round completed message
         g2d.setFont(setFontSize(60));
-        stringW = g2d.getFontMetrics().stringWidth(roundComplete);
-        g2d.drawString(roundComplete, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.25));
+        stringW = g2d.getFontMetrics().stringWidth(title);
+        g2d.drawString(title, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.25));
 
         // Draw your score message
         g2d.setFont(setFontSize(30));
-        stringW = g2d.getFontMetrics().stringWidth(yourScore);
-        g2d.drawString(yourScore, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.4));
+        stringW = g2d.getFontMetrics().stringWidth("Your score:");
+        g2d.drawString("Your score:", (int) (width * 0.5) - (stringW / 2), (int) (height * 0.4));
 
         // Draw score
         g2d.setFont(setFontSize(80));
@@ -101,8 +107,8 @@ public class GameRoundCompleteView extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public void setNextLevelAction(ActionListener l) {
-        nextLevel.addActionListener(l);
+    public void setSecondaryAction(ActionListener l) {
+        secondary.addActionListener(l);
     }
 
     /**
