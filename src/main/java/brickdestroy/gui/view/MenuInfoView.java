@@ -54,7 +54,7 @@ public class MenuInfoView extends JLabel {
         description.setEditable(false);
         description.setWrapStyleWord(true);
         description.setLineWrap(true);
-        description.setFont(setFontSize(25));
+        description.setFont(setFontSize((int) (width * 0.033)));
         description.setText(content);
         description.setForeground(Color.BLACK);
 
@@ -90,10 +90,9 @@ public class MenuInfoView extends JLabel {
         // Draw background image
         g2d.drawImage(background.getImage(), 0, 0, width, height, null);
 
-        
         // Draw title text
         g2d.setColor(Color.BLACK);
-        g2d.setFont(setFontSize(40));
+        g2d.setFont(setFontSize((int) (width * 0.052)));
         g2d.drawString(title, (int) (width * 0.1), (int) (height * 0.15));
     }
 

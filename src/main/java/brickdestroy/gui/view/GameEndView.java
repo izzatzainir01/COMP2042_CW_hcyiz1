@@ -87,17 +87,17 @@ public class GameEndView extends JLabel {
         g2d.setPaint(Color.BLACK);
 
         // Draw round completed message
-        g2d.setFont(setFontSize(60));
+        g2d.setFont(setFontSize((int) (width * 0.078)));
         stringW = g2d.getFontMetrics().stringWidth(title);
         g2d.drawString(title, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.25));
 
         // Draw your score message
-        g2d.setFont(setFontSize(30));
+        g2d.setFont(setFontSize((int) (width * 0.052)));
         stringW = g2d.getFontMetrics().stringWidth("Your score:");
         g2d.drawString("Your score:", (int) (width * 0.5) - (stringW / 2), (int) (height * 0.4));
 
         // Draw score
-        g2d.setFont(setFontSize(80));
+        g2d.setFont(setFontSize((int) (width * 0.104)));
         stringW = g2d.getFontMetrics().stringWidth(scoreString);
         g2d.drawString(scoreString, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.55));
     }
