@@ -13,8 +13,6 @@ public abstract class AbstractController extends JPanel {
     protected int width = MainFrame.getWidth();
     protected int height = MainFrame.getHeight();
 
-    protected JLabel view;
-
     /**
      * The {@code AbstractController} class is an abstract class that represents a
      * Controller for this game. It provides a template that all Controllers in this
@@ -37,35 +35,30 @@ public abstract class AbstractController extends JPanel {
     }
 
     /**
-     * Add a {@code JLabel}, or a View, to this controller. This method adds the new
-     * view before removing the old one from the controller. It automatically calls
-     * the {@code revalidte()} and {@code repaint()} methods upon adding and
-     * removing a View.
+     * Add a {@code JLabel}, or a View, to this controller. This method
+     * automatically calls the {@code revalidate()} and {@code repaint()} methods
+     * upon adding a View.
      * 
      * @param view The new view to be added to this controller
      */
     protected void addView(JLabel view) {
+        add(view);
+        revalidate();
+        repaint();
 
-        // Set a temporary reference to the original view
-        JLabel temp = null;
-        if (this.view != null) {
-            temp = this.view;
-        }
+    }
 
-        // Set the view to the new one
-        this.view = view;
-        this.add(this.view);
-        this.revalidate();
-        this.repaint();
-
-        // Remove the old view
-        if (temp != null) {
-            this.remove(temp);
-            this.revalidate();
-            this.repaint();
-            temp = null;
-        }
-
+    /**
+     * Remove a {@code JLabel}, or a View, from this controller. This method
+     * automatically calls the {@code revalidate()} and {@code repaint()} methods
+     * upon removing a View.
+     * 
+     * @param view The new view to be removed from this controller
+     */
+    protected void removeView(JLabel view) {
+        remove(view);
+        revalidate();
+        repaint();
     }
 
 }
