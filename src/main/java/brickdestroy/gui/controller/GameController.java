@@ -9,15 +9,18 @@ import brickdestroy.elements.Game;
 import brickdestroy.gui.DebugConsole;
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.view.GamePauseView;
-import brickdestroy.gui.view.GameRoundCompleteView;
+import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameView;
 
 public class GameController extends AbstractController implements KeyListener {
 
     private Game game;
     private GameView gameView;
-    private GameRoundCompleteView roundComplete;
     private GamePauseView pause;
+
+    private GameEndView roundComplete;
+    private GameEndView gameOver;
+    private GameEndView gameComplete;
 
     private DebugConsole debugConsole;
 
@@ -52,7 +55,7 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When a round is successfully completedd
             if (game.getBrickCount() == 0) {
-                addView(roundComplete = new GameRoundCompleteView(game.getScore()));
+                addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
                 initRoundCompleteButtons();
                 removeView(gameView);
                 gameTimer.stop();
@@ -113,7 +116,7 @@ public class GameController extends AbstractController implements KeyListener {
             new MenuController(frame).addToFrame();
         });
 
-        roundComplete.setNextLevelAction(e -> {
+        roundComplete.setSecondaryAction(e -> {
             game.nextLevel();
             addView(gameView);
             removeView(roundComplete);

@@ -18,7 +18,7 @@ public class Game {
 
     private Brick[] bricks;
     private Brick[][] levels;
-    private int brickCount = 30;
+    private int brickCount = 6;
 
     private Point2D initialPos;
     private int initialPosX;
