@@ -1,5 +1,8 @@
 # VS Code project files
-.vscode
+.vscode/
+
+# Target folder (binary stuff)
+target/
 
 # Notes for self
 notes.txt

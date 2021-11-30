@@ -1,5 +1,0 @@
-SPACE - Start/stop the game
-ESC - Pause the game
-A - Move the paddle left
-D - Move the paddle right
-F1 - Open debug console
