@@ -1,6 +1,8 @@
 package brickdestroy.gui.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -14,6 +16,8 @@ public class GameView extends JLabel {
     private Game game;
     private int width = MainFrame.getWidth();
     private int height = MainFrame.getHeight();
+
+    private String counts = "";
 
     /**
      * The {@code GameView} class is the view for the game's elements. It extends
@@ -39,6 +43,26 @@ public class GameView extends JLabel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Set message font and colour
+        g2d.setFont(new Font("Impact", Font.PLAIN, (int) (width * 0.03)));
+        g2d.setColor(Color.BLUE);
+
+        // Get font width and height
+        int fontWidth = g2d.getFontMetrics().stringWidth(counts);
+        int fontHeight = g2d.getFontMetrics().getHeight();
+
+        // Draw the counts text
+        counts = String.format("Bricks: %d Balls: %d", game.getBrickCount(), game.getAttemptCount());
+        g2d.drawString(counts, width / 2 - fontWidth / 2, height / 2);
+
+        // Draw the SPACE to start message if the game is stopped
+        if (game.isGameStopped()) {
+            g2d.setFont(new Font("Impact", Font.PLAIN, (int) (width * 0.02)));
+            fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
+            g2d.drawString("Press SPACE to start", width / 2 - fontWidth / 2, height / 2 + fontHeight);
+        }
+
+        // Render the game's bricks, ball and player
         game.render(g2d);
     }
 }

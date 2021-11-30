@@ -56,6 +56,9 @@ public class GameController extends AbstractController implements KeyListener {
 
         // Define the game timer
         gameTimer = new Timer(10, e -> {
+
+            gameView.revalidate();
+            gameView.repaint();
             game.tick();
 
             // When the player clears all rounds
@@ -81,9 +84,6 @@ public class GameController extends AbstractController implements KeyListener {
                 removeView(gameView);
                 gameTimer.stop();
             }
-
-            gameView.revalidate();
-            gameView.repaint();
         });
 
         // Add the GameView and start the timer
