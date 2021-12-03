@@ -7,7 +7,6 @@ public class InfoModel {
 
     private InputStream file;
 
-    private String fileName;
     private String title;
     private String content;
     private String switcherText;
@@ -21,11 +20,11 @@ public class InfoModel {
      * @param fileName The name of the file that the data is stored in
      */
     public InfoModel(String fileName) {
-        // Define file name
-        this.fileName = fileName;
+        // Define file path
+        String filePath = String.format("data/%s", fileName);
 
         // Load the file
-        file = getClass().getClassLoader().getResourceAsStream(this.fileName);
+        file = getClass().getClassLoader().getResourceAsStream(filePath);
         content = getData();
     }
 
@@ -57,7 +56,7 @@ public class InfoModel {
     }
 
     /**
-     * Get the description content of the info.
+     * Get the content data of the info.
      * 
      * @return A {@code String} of the info's description content
      */
@@ -75,9 +74,7 @@ public class InfoModel {
     }
 
     /**
-     * Retrieve description data from the specified file.
-     * 
-     * @param fileName The name of the file where the data is stored in
+     * Retrieve content data from the specified file.
      */
     private String getData() {
         String content = "";
