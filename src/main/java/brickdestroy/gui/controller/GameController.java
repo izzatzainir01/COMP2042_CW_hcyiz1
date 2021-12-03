@@ -42,25 +42,30 @@ public class GameController extends AbstractController implements KeyListener {
         panel.setFocusable(true);
         panel.addKeyListener(this);
 
-        // Initialise
+        // Initialise the game
         initialise();
     }
 
     private void initialise() {
-        // Define the Game and Debug console
+        // Define the Game and its view
         game = new Game();
+        gameView = new GameView(game);
+
+        // Define the debug console
         debugConsole = new DebugConsole(game, this);
 
         // Set the timer action
         MyTimer.addTimerAction(e -> {
-
             gameView.revalidate();
             gameView.repaint();
             game.tick();
 
             // When the player clears all rounds
             if (game.isGameCompleted()) {
-                addView(gameComplete = new GameEndView("Game Completed!", game.getTotalScore(), "Restart"));
+                // Set the cumulative score to the view
+                gameComplete = new GameEndView("Game Completed!", "Restart");
+                gameComplete.setScore(game.getTotalScore());
+                addView(gameComplete);
                 initGameCompletedButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
@@ -68,7 +73,10 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When a round is successfully completedd
             else if (game.getBrickCount() == 0) {
-                addView(roundComplete = new GameEndView("Round Completed!", game.getScore(), "Next"));
+                // Set the score of the current round to the view
+                roundComplete = new GameEndView("Round Completed!", "Next");
+                roundComplete.setScore(game.getScore());
+                addView(roundComplete);
                 initRoundCompletedButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
@@ -76,7 +84,10 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When the player loses the game
             else if (game.getAttemptCount() == 0) {
-                addView(gameOver = new GameEndView("Game Over!", game.getTotalScore(), "Restart"));
+                // Set the cumulative score to the view
+                gameOver = new GameEndView("Game Over!", "Restart");
+                gameOver.setScore(game.getTotalScore());
+                addView(gameOver);
                 initGameOverButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
@@ -84,7 +95,7 @@ public class GameController extends AbstractController implements KeyListener {
         });
 
         // Add the GameView and start the timer
-        addView(gameView = new GameView(game));
+        addView(gameView);
         MyTimer.startTimer();
     }
 
@@ -164,7 +175,7 @@ public class GameController extends AbstractController implements KeyListener {
     private void exitGame() {
         MyTimer.stopTimer();
         panel.removeKeyListener(this);
-        new MenuController(frame).addToFrame();
+        frame.addMenuController();
     }
 
     /**

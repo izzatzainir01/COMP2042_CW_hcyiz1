@@ -40,7 +40,7 @@ public class GameEndView extends JLabel {
      * @param score      The score that is displayed on the view
      * @param buttonText The text on the Secondary button
      */
-    public GameEndView(String title, int score, String buttonText) {
+    public GameEndView(String title, String buttonText) {
 
         // Define the title
         this.title = title;
@@ -56,10 +56,6 @@ public class GameEndView extends JLabel {
         secondary.setLocation((int) (width * 0.35 - secondary.getWidth() / 2),
                 (int) (height * 0.7));
         exit.setLocation((int) (width * 0.65 - exit.getWidth() / 2), (int) (height * 0.7));
-
-        // Define the score
-        this.score = score;
-        scoreString = String.format("%d", this.score);
 
         // Initialise the label's properties
         this.setBounds(0, 0, width, height);
@@ -100,6 +96,18 @@ public class GameEndView extends JLabel {
         g2d.setFont(setFontSize((int) (width * 0.104)));
         stringW = g2d.getFontMetrics().stringWidth(scoreString);
         g2d.drawString(scoreString, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.55));
+    }
+
+    /**
+     * Set the score of this view.
+     * 
+     * @param score The new score
+     */
+    public void setScore(int score) {
+        this.score = score;
+        scoreString = String.format("%d", this.score);
+        revalidate();
+        repaint();
     }
 
     /**
