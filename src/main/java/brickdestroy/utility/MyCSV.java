@@ -2,10 +2,14 @@ package brickdestroy.utility;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class MyCSV {
 
-    private BufferedReader file;
+    private BufferedReader fileR;
     private String path = "";
     private int size = 0;
 
@@ -23,16 +27,15 @@ public class MyCSV {
         // Define file path
         this.path = String.format("data/%s", fileName);
 
-        // Load the file and get the size of the file
-        this.file = getFile();
+        // Load the file reader and get the size of the file
+        this.fileR = getFileReader();
         this.size = getSize();
     }
 
     /**
      * Get an array of all rows in the form of {@code Strings}.
-     * <p>
      * 
-     * @return An array of type {@code String}.
+     * @return An array of {@code Strings}
      */
     public String[] getAllRowsAsString() {
         // Initialise an array of Strings
@@ -49,7 +52,7 @@ public class MyCSV {
      * dimension of the array represents a row, while the second dimension
      * represents elements in that row.
      * 
-     * @return
+     * @return A 2D array of {@code Strings}
      */
     public String[][] getAllRows() {
         // Initialise a 2D array of Strings
@@ -73,15 +76,15 @@ public class MyCSV {
 
         try {
             for (int i = 0; (i < index + 1) && i < size; i++)
-                row = file.readLine();
+                row = fileR.readLine();
 
-            file.close();
+            fileR.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Re-initialise the file
-        file = getFile();
+        fileR = getFileReader();
         return row;
     }
 
@@ -95,23 +98,44 @@ public class MyCSV {
         return getRowAsString(index).split(",");
     }
 
-    private BufferedReader getFile() {
+    /**
+     * Append a row at the end of the file.
+     * 
+     * @param first  The first element of the row
+     * @param second The second element of the row
+     */
+    public void appendRow(String first, int second) {
+        // Format the row
+        String row = String.format("%s,%d\n", first, second);
+
+        try {
+            URI resource = getClass().getClassLoader().getResource(path).toURI();
+            Files.writeString(Paths.get(resource), row, StandardOpenOption.APPEND);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fileR = getFileReader();
+        size = getSize();
+    }
+
+    private BufferedReader getFileReader() {
         return new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(path)));
     }
 
     private int getSize() {
         int temp = 0;
         try {
-            while (!(file.readLine().equals("null"))) {
+            while (fileR.readLine() != null) {
                 temp++;
             }
-            file.close();
+            fileR.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Re-initialise the file
-        file = getFile();
+        fileR = getFileReader();
         return temp;
     }
 
