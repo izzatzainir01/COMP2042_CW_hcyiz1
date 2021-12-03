@@ -40,12 +40,13 @@ public abstract class AbstractController {
     }
 
     /**
-     * Adds the controller to the frame specified in the constructor. This method
-     * automatically calls the {@code addController()} method in the
-     * {@code MainFrame}.
+     * Get the {@code JPanel} of this controller. This is only meant for the {@code MainFrame}
+     * to use but I couldn't figure out a more 'secure' way of doing this lmao.
+     * 
+     * @return A {@code JPanel} of this controller
      */
-    public void addToFrame() {
-        frame.addController(panel);
+    public JPanel getPanel() {
+        return panel;
     }
 
     /**

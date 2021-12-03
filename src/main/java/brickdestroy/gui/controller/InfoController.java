@@ -1,16 +1,16 @@
 package brickdestroy.gui.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.model.InfoModel;
 import brickdestroy.gui.view.MenuInfoView;
 
 public class InfoController extends AbstractController {
 
     private MenuInfoView description;
+    private InfoModel descriptionInfo;
+
     private MenuInfoView controls;
+    private InfoModel controlsInfo;
 
     /**
      * The {@code InfoController} class is the controller for the menu's information
@@ -25,8 +25,20 @@ public class InfoController extends AbstractController {
         // Call the super constructor
         super(frame);
 
+        // Define the description model and view
+        descriptionInfo = new InfoModel("description.txt");
+        descriptionInfo.setTitle("Description");
+        descriptionInfo.setSwitcherText("Controls");
+        description = new MenuInfoView(descriptionInfo);
+
+        // Define the controls model and view
+        controlsInfo = new InfoModel("controls.txt");
+        controlsInfo.setTitle("Controls");
+        controlsInfo.setSwitcherText("Description");
+        controls = new MenuInfoView(controlsInfo);
+
         // Add the description view
-        addView(description = new MenuInfoView("Description", getContent("description.txt"), "Controls"));
+        addView(description);
         initDescriptionButtonsListeners();
     }
 
@@ -35,10 +47,10 @@ public class InfoController extends AbstractController {
      */
     private void initDescriptionButtonsListeners() {
 
-        description.setBackAction(e -> new MenuController(frame).addToFrame());
+        description.setBackAction(e -> frame.addMenuController());
 
         description.setSwitcherAction(e -> {
-            addView(controls = new MenuInfoView("Controls", getContent("controls.txt"), "Description"));
+            addView(controls);
             initControlsButtonsListener();
             removeView(description);
         });
@@ -49,39 +61,13 @@ public class InfoController extends AbstractController {
      */
     private void initControlsButtonsListener() {
 
-        controls.setBackAction(e -> new MenuController(frame).addToFrame());
+        controls.setBackAction(e -> frame.addMenuController());
 
         controls.setSwitcherAction(e -> {
-            addView(description = new MenuInfoView("Description", getContent("description.txt"), "Controls"));
+            addView(description);
             initDescriptionButtonsListeners();
             removeView(controls);
         });
-    }
-
-    /**
-     * Retrieve data from a text file.
-     * 
-     * @param fileName The file that the data will be retrieved from
-     * @return A {@code String} of the data within the file
-     */
-    private String getContent(String fileName) {
-        InputStream file;
-        String content = "";
-
-        try {
-            file = getClass().getClassLoader().getResourceAsStream(fileName);
-            int data;
-            while ((data = file.read()) != -1) {
-                content += (char) data;
-            }
-            file.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return content;
     }
 
 }

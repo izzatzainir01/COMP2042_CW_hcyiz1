@@ -21,8 +21,11 @@ public class MenuController extends AbstractController {
         // Call the super constructor
         super(frame);
 
+        // Define the home view
+        home = new MenuHomeView();
+
         // Add the home view upon first launch
-        addView(home = new MenuHomeView());
+        addView(home);
         initHomeButtonsListeners();
     }
 
@@ -30,8 +33,8 @@ public class MenuController extends AbstractController {
      * Add {@code ActionListeners} on the MenuHomeViews's buttons.
      */
     private void initHomeButtonsListeners() {
-        home.setStartAction(e -> new GameController(frame).addToFrame());
-        home.setInfoAction(e -> new InfoController(frame).addToFrame());
+        home.setStartAction(e -> frame.addGameController());
+        home.setInfoAction(e -> frame.addInfoController());
         home.setExitAction(e -> frame.exit());
     }
 
