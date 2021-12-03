@@ -9,15 +9,24 @@ public class InfoModel {
 
     private String fileName;
     private String title;
-    private String description;
+    private String content;
+    private String switcherText;
 
+    /**
+     * The {@code InfoModel} class is the Model for the Info section of the game.
+     * <p>
+     * It is responsible for retrieving data from the specified file and
+     * storing other information that are relevant to the Info section.
+     * 
+     * @param fileName The name of the file that the data is stored in
+     */
     public InfoModel(String fileName) {
         // Define file name
         this.fileName = fileName;
 
         // Load the file
         file = getClass().getClassLoader().getResourceAsStream(this.fileName);
-        description = getContent();
+        content = getData();
     }
 
     /**
@@ -27,6 +36,15 @@ public class InfoModel {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    /**
+     * Set the text of the switcher button.
+     * 
+     * @param text The text of the switcher button
+     */
+    public void setSwitcherText(String text) {
+        this.switcherText = text;
     }
 
     /**
@@ -43,8 +61,17 @@ public class InfoModel {
      * 
      * @return A {@code String} of the info's description content
      */
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Get the text of the switcher button.
+     * 
+     * @return A {@code String} of the switcher button's text
+     */
+    public String getSwitcherText() {
+        return switcherText;
     }
 
     /**
@@ -52,7 +79,7 @@ public class InfoModel {
      * 
      * @param fileName The name of the file where the data is stored in
      */
-    private String getContent() {
+    private String getData() {
         String content = "";
         int data;
         try {

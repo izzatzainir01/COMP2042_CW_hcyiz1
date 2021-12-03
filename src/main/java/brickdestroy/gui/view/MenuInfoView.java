@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.model.InfoModel;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
@@ -41,7 +42,7 @@ public class MenuInfoView extends JLabel {
      * @param contentFile  The file name that contains the data for the content
      * @param switcherText The text inside the switcher button
      */
-    public MenuInfoView(String title, String content, String switcherText) {
+    public MenuInfoView(InfoModel info) {
 
         // Define background image
         background = new MyImage("cement_wall.jpg");
@@ -55,15 +56,15 @@ public class MenuInfoView extends JLabel {
         description.setWrapStyleWord(true);
         description.setLineWrap(true);
         description.setFont(setFontSize((int) (width * 0.033)));
-        description.setText(content);
+        description.setText(info.getContent());
         description.setForeground(Color.BLACK);
 
         // Define title
-        this.title = title;
+        this.title = info.getTitle();
 
         // Define back and switcher buttons
         back = new MyButton("Back", (int) (width * 0.2), (int) (height * 0.15));
-        switcher = new MyButton(switcherText, (int) (width * 0.25), (int) (height * 0.15));
+        switcher = new MyButton(info.getSwitcherText(), (int) (width * 0.25), (int) (height * 0.15));
 
         // Set buttons locations
         back.setLocation((int) (width * 0.1), (int) (height * 0.75));
