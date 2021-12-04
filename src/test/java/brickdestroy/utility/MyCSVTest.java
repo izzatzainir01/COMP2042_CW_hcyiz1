@@ -7,9 +7,9 @@ import org.junit.Before;
 
 public class MyCSVTest {
 
-    MyCSV highscore;
+    private MyCSV highscore;
 
-    String[] def = {
+    private String[] def = {
             "John,10",
             "Doe,22",
             "Mary,9",
@@ -18,7 +18,7 @@ public class MyCSVTest {
             "Code,69"
     };
 
-    String[][] def2D = {
+    private String[][] def2D = {
             { "John", "10" },
             { "Doe", "22" },
             { "Mary", "9" },
