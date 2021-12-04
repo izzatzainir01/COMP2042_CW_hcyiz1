@@ -9,7 +9,6 @@ public class MyCSV {
 
     private String[] all;
 
-    private String path = "";
     private URI resource;
     private int size = 0;
 
@@ -25,7 +24,7 @@ public class MyCSV {
      */
     public MyCSV(String fileName) {
         // Define file path
-        this.path = String.format("data/%s", fileName);
+        String path = String.format("data/%s", fileName);
 
         // Define the resource file URI
         try {
@@ -35,7 +34,7 @@ public class MyCSV {
         }
 
         // Initialise the data
-        initialise();
+        all = getAllRowsAsString();
     }
 
     /**
@@ -46,7 +45,15 @@ public class MyCSV {
     public String[] getAllRowsAsString() {
         // Split the string by newlines
         try {
-            return Files.readString(Paths.get(resource)).split("\n");
+            String[] rows = Files.readString(Paths.get(resource)).split("\n");
+            this.size = rows.length;
+
+            // Get rid of carriage returns
+            for (int i = 0; i < size; i++) {
+                rows[i] = rows[i].replaceAll("\\r", "").replaceAll("\\n", "");
+            }
+
+            return rows;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +114,7 @@ public class MyCSV {
             e.printStackTrace();
         }
 
-        initialise();
+        all = getAllRowsAsString();
     }
 
     /**
@@ -116,12 +123,7 @@ public class MyCSV {
      * @return An {@code int} of the amount of rows
      */
     public int getSize() {
-        return all.length;
-    }
-
-    private void initialise() {
-        all = getAllRowsAsString();
-        size = getSize();
+        return size;
     }
 
 }
