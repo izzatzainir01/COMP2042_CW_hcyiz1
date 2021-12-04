@@ -1,7 +1,5 @@
 package brickdestroy.utility;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,8 +7,10 @@ import java.nio.file.StandardOpenOption;
 
 public class MyCSV {
 
-    private BufferedReader fileR;
+    private String[] all;
+
     private String path = "";
+    private URI resource;
     private int size = 0;
 
     /**
@@ -27,9 +27,15 @@ public class MyCSV {
         // Define file path
         this.path = String.format("data/%s", fileName);
 
-        // Load the file reader and get the size of the file
-        this.fileR = getFileReader();
-        this.size = getSize();
+        // Define the resource file URI
+        try {
+            this.resource = getClass().getClassLoader().getResource(path).toURI();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Initialise the data
+        initialise();
     }
 
     /**
@@ -38,13 +44,14 @@ public class MyCSV {
      * @return An array of {@code Strings}
      */
     public String[] getAllRowsAsString() {
-        // Initialise an array of Strings
-        String[] all = new String[size];
+        // Split the string by newlines
+        try {
+            return Files.readString(Paths.get(resource)).split("\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        for (int i = 0; i < size; i++)
-            all[i] = getRowAsString(i);
-
-        return all;
+        return null;
     }
 
     /**
@@ -56,36 +63,22 @@ public class MyCSV {
      */
     public String[][] getAllRows() {
         // Initialise a 2D array of Strings
-        String[][] all = new String[size][2];
+        String[][] array2D = new String[size][];
 
         for (int i = 0; i < size; i++)
-            all[i] = getRow(i);
+            array2D[i] = all[i].split(",");
 
-        return all;
+        return array2D;
     }
 
     /**
-     * Get the row in at the specified index in the form of a {@code String}.
+     * Get the row at the specified index in the form of a {@code String}.
      * 
      * @param index The row index
      * @return A {@code String} of the row
      */
     public String getRowAsString(int index) {
-        // Initialise a String that represents a row
-        String row = "";
-
-        try {
-            for (int i = 0; (i < index + 1) && i < size; i++)
-                row = fileR.readLine();
-
-            fileR.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Re-initialise the file
-        fileR = getFileReader();
-        return row;
+        return all[index];
     }
 
     /**
@@ -95,7 +88,7 @@ public class MyCSV {
      * @return An array of {@code Strings} of the elements in the row
      */
     public String[] getRow(int index) {
-        return getRowAsString(index).split(",");
+        return getAllRows()[index];
     }
 
     /**
@@ -109,34 +102,26 @@ public class MyCSV {
         String row = String.format("%s,%d\n", first, second);
 
         try {
-            URI resource = getClass().getClassLoader().getResource(path).toURI();
             Files.writeString(Paths.get(resource), row, StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        fileR = getFileReader();
+        initialise();
+    }
+
+    /**
+     * Get the amount of rows in the csv file.
+     * 
+     * @return An {@code int} of the amount of rows
+     */
+    public int getSize() {
+        return all.length;
+    }
+
+    private void initialise() {
+        all = getAllRowsAsString();
         size = getSize();
-    }
-
-    private BufferedReader getFileReader() {
-        return new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(path)));
-    }
-
-    private int getSize() {
-        int temp = 0;
-        try {
-            while (fileR.readLine() != null) {
-                temp++;
-            }
-            fileR.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Re-initialise the file
-        fileR = getFileReader();
-        return temp;
     }
 
 }
