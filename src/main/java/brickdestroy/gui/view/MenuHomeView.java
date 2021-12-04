@@ -21,6 +21,7 @@ public class MenuHomeView extends JLabel {
 
     private MyButton start;
     private MyButton info;
+    private MyButton scores;
     private MyButton exit;
 
     private int buttonW;
@@ -44,14 +45,17 @@ public class MenuHomeView extends JLabel {
         buttonW = (int) (width * 0.2);
         buttonH = (int) (height * 0.15);
 
-        // Defining start, info and exit buttons and their locations
+        // Defining start, info and exit buttons
         start = new MyButton("Start", buttonW, buttonH);
         info = new MyButton("Info", buttonW, buttonH);
+        scores = new MyButton("Scores", buttonW, buttonH);
         exit = new MyButton("Exit", buttonW, buttonH);
 
-        start.setLocation((int) (width * 0.2 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
-        info.setLocation((int) (width * 0.5 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
-        exit.setLocation((int) (width * 0.8 - buttonW / 2), (int) (height * 0.7 - buttonH / 2));
+        // Setting the buttons' locations
+        start.setLocation((int) (width * 0.3 - buttonW / 2), (int) (height * 0.59 - buttonH / 2));
+        info.setLocation((int) (width * 0.7 - buttonW / 2), (int) (height * 0.59 - buttonH / 2));
+        scores.setLocation((int) (width * 0.3 - buttonW / 2), (int) (height * 0.81 - buttonH / 2));
+        exit.setLocation((int) (width * 0.7 - buttonW / 2), (int) (height * 0.81 - buttonH / 2));
 
         // Initialise the Label's properties
         this.setBounds(0, 0, width, height);
@@ -60,6 +64,7 @@ public class MenuHomeView extends JLabel {
         // Adding the buttons
         this.add(start);
         this.add(info);
+        this.add(scores);
         this.add(exit);
     }
 
@@ -96,6 +101,15 @@ public class MenuHomeView extends JLabel {
      * @param l An {@code ActionListener}
      */
     public void setInfoAction(ActionListener l) {
+        info.addActionListener(l);
+    }
+
+    /**
+     * Set an {@code Action} for the Scores button.
+     * 
+     * @param l An {@code ActionListener}
+     */
+    public void setScoresAction(ActionListener l) {
         info.addActionListener(l);
     }
 
