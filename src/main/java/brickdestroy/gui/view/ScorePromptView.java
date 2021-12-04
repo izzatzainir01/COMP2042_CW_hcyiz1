@@ -102,7 +102,6 @@ public class ScorePromptView extends JLabel {
         // Also set the username
         play.addActionListener(e -> {
             username = field.getText();
-            System.out.println(username);
         });
     }
 

@@ -10,6 +10,7 @@ import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameView;
+import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
 public class GameController extends AbstractController implements KeyListener {
@@ -18,10 +19,12 @@ public class GameController extends AbstractController implements KeyListener {
     private GameView gameView;
     private GamePauseView pause;
 
+    private ScorePromptView prompt;
+    private ScoreModel scores;
+
     private GameEndView roundComplete;
     private GameEndView gameOver;
     private GameEndView gameComplete;
-    private ScoreModel highscore;
     private int score = 0;
 
     private DebugConsole debugConsole;
@@ -45,11 +48,12 @@ public class GameController extends AbstractController implements KeyListener {
         panel.setFocusable(true);
         panel.addKeyListener(this);
 
-        // Define the score model
-        highscore = new ScoreModel("username");
+        // Define the score prompt view
+        prompt = new ScorePromptView();
 
-        // Initialise the game
-        initialise();
+        // Add the prompt view upon first launching the game
+        addView(prompt);
+        initPromptButtons();
     }
 
     private void initialise() {
@@ -59,6 +63,8 @@ public class GameController extends AbstractController implements KeyListener {
 
         // Define the debug console
         debugConsole = new DebugConsole(game, this);
+
+        score = 0;
 
         // Set the timer action
         MyTimer.addTimerAction(e -> {
@@ -70,7 +76,7 @@ public class GameController extends AbstractController implements KeyListener {
             if (game.isGameCompleted()) {
                 // Set the cumulative score and add to database
                 score = game.getTotalScore();
-                highscore.addScore(score);
+                scores.addScore(score);
 
                 // Add the score to the view
                 gameComplete = new GameEndView("Game Completed!", "Restart");
@@ -85,9 +91,12 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When a round is successfully completedd
             else if (game.getBrickCount() == 0) {
-                // Set the score of the current round to the view
+                // Set the score of the current round
+                score = game.getScore();
+
+                // Add the score to the view
                 roundComplete = new GameEndView("Round Completed!", "Next");
-                roundComplete.setScore(game.getScore());
+                roundComplete.setScore(score);
 
                 // Add the Round Completed view
                 addView(roundComplete);
@@ -98,9 +107,13 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When the player loses the game
             else if (game.getAttemptCount() == 0) {
-                // Set the cumulative score to the view
+                // Set the cumulative score and add to the database.
+                score = game.getTotalScore();
+                scores.addScore(score);
+
+                // Add the score to the view
                 gameOver = new GameEndView("Game Over!", "Restart");
-                gameOver.setScore(game.getTotalScore());
+                gameOver.setScore(score);
 
                 // Add the Game Over view
                 addView(gameOver);
@@ -116,6 +129,18 @@ public class GameController extends AbstractController implements KeyListener {
     }
 
     /**
+     * Add {@code ActionListeners} on the Score Prompt's buttons.
+     */
+    private void initPromptButtons() {
+        prompt.setPlayAction(e -> {
+            scores = new ScoreModel(prompt.getUsername());
+            initialise();
+            removeView(prompt);
+        });
+        prompt.setExitAction(e -> exitGame());
+    }
+
+    /**
      * Add {@code ActionListeners} on the GamePauseView's buttons.
      */
     private void initPauseButtonsListener() {
@@ -128,12 +153,13 @@ public class GameController extends AbstractController implements KeyListener {
             removeView(pause);
         });
 
-        // Restart button restarts the game
+        // Restart button restarts the current round
         pause.setRestartAction(e -> {
             MyTimer.startTimer();
             game.levelReset();
             game.setGameStopped(true);
             isPaused = false;
+            score = 0;
             addView(gameView);
             removeView(pause);
         });
