@@ -110,7 +110,7 @@ public class MenuHomeView extends JLabel {
      * @param l An {@code ActionListener}
      */
     public void setScoresAction(ActionListener l) {
-        info.addActionListener(l);
+        scores.addActionListener(l);
     }
 
     /**
