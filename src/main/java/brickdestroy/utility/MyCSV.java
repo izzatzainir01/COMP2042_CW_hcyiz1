@@ -105,6 +105,11 @@ public class MyCSV {
      * @param second The second element of the row
      */
     public void appendRow(String first, int second) {
+        // Replace commas and spaces with underscore
+        first = first.replace(",", "_"); // Replace commas with an underscore
+        first = first.replaceAll("\\s+", "_"); // Replace multiple spaces with an underscore
+        first = first.replaceAll("_{2,}", "_"); // Replace multiple underscores with an underscore
+
         // Format the row
         String row = String.format("%s,%d\n", first, second);
 
