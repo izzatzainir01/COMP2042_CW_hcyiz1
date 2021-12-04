@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import brickdestroy.elements.Game;
 import brickdestroy.gui.DebugConsole;
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameView;
@@ -20,6 +21,8 @@ public class GameController extends AbstractController implements KeyListener {
     private GameEndView roundComplete;
     private GameEndView gameOver;
     private GameEndView gameComplete;
+    private ScoreModel highscore;
+    private int score = 0;
 
     private DebugConsole debugConsole;
 
@@ -42,6 +45,9 @@ public class GameController extends AbstractController implements KeyListener {
         panel.setFocusable(true);
         panel.addKeyListener(this);
 
+        // Define the score model
+        highscore = new ScoreModel("username");
+
         // Initialise the game
         initialise();
     }
@@ -62,9 +68,15 @@ public class GameController extends AbstractController implements KeyListener {
 
             // When the player clears all rounds
             if (game.isGameCompleted()) {
-                // Set the cumulative score to the view
+                // Set the cumulative score and add to database
+                score = game.getTotalScore();
+                highscore.addScore(score);
+
+                // Add the score to the view
                 gameComplete = new GameEndView("Game Completed!", "Restart");
-                gameComplete.setScore(game.getTotalScore());
+                gameComplete.setScore(score);
+
+                // Add the Game Complete view
                 addView(gameComplete);
                 initGameCompletedButtons();
                 removeView(gameView);
@@ -76,6 +88,8 @@ public class GameController extends AbstractController implements KeyListener {
                 // Set the score of the current round to the view
                 roundComplete = new GameEndView("Round Completed!", "Next");
                 roundComplete.setScore(game.getScore());
+
+                // Add the Round Completed view
                 addView(roundComplete);
                 initRoundCompletedButtons();
                 removeView(gameView);
@@ -87,6 +101,8 @@ public class GameController extends AbstractController implements KeyListener {
                 // Set the cumulative score to the view
                 gameOver = new GameEndView("Game Over!", "Restart");
                 gameOver.setScore(game.getTotalScore());
+
+                // Add the Game Over view
                 addView(gameOver);
                 initGameOverButtons();
                 removeView(gameView);
@@ -122,8 +138,7 @@ public class GameController extends AbstractController implements KeyListener {
             removeView(pause);
         });
 
-        // ExitMenu button calls the GameFrame to add the MenuController and remove the
-        // GameController
+        // ExitMenu button exits the game to the Menu
         pause.setExitMenuAction(e -> exitGame());
 
         // ExitDesktop button calls the GameFrame to exit the game
