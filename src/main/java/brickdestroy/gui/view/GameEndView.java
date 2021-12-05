@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
 
 public class GameEndView extends AbstractView1 {
 
@@ -60,26 +59,6 @@ public class GameEndView extends AbstractView1 {
         g2d.setFont(setFontSize((int) (width * 0.104)));
         stringW = g2d.getFontMetrics().stringWidth(scoreString);
         g2d.drawString(scoreString, (int) (width * 0.5) - (stringW / 2), (int) (height * 0.55));
-    }
-
-    /**
-     * Set an {@code Action} for the first button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    @Override
-    public void setButton1Action(ActionListener l) {
-        button1.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Exit button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    @Override
-    public void setButton2Action(ActionListener l) {
-        button2.addActionListener(l);
     }
 
     /**

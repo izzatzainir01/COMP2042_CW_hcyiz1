@@ -76,7 +76,9 @@ public abstract class AbstractView1 extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public abstract void setButton1Action(ActionListener l);
+    public void setButton1Action(ActionListener l) {
+        button1.addActionListener(l);
+    }
 
     /**
      * Set an action for the second button of the view, which is the button on the
@@ -84,6 +86,8 @@ public abstract class AbstractView1 extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public abstract void setButton2Action(ActionListener l);
+    public void setButton2Action(ActionListener l) {
+        button2.addActionListener(l);
+    }
 
 }
