@@ -26,7 +26,6 @@ public class ScoreModel {
             for (int i = 0; i < highscore.getSize(); i++) {
                 name = highscore.getRow(i)[0];
                 if (name.equals("Guest_" + guestNum)) {
-                    System.out.println(name);
                     guestNum++;
                 }
             }
