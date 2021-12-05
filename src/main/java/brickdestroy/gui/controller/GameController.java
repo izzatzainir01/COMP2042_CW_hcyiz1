@@ -132,12 +132,12 @@ public class GameController extends AbstractController implements KeyListener {
      * Add {@code ActionListeners} on the Score Prompt's buttons.
      */
     private void initPromptButtons() {
-        prompt.setPlayAction(e -> {
+        prompt.setButton1Action(e -> {
             scores = new ScoreModel(prompt.getUsername());
             initialise();
             removeView(prompt);
         });
-        prompt.setExitAction(e -> exitGame());
+        prompt.setButton2Action(e -> exitGame());
     }
 
     /**
@@ -175,39 +175,37 @@ public class GameController extends AbstractController implements KeyListener {
      * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
      */
     private void initRoundCompletedButtons() {
-
-        roundComplete.setExitAction(e -> exitGame());
-
-        roundComplete.setSecondaryAction(e -> {
+        roundComplete.setButton1Action(e -> {
             MyTimer.startTimer();
             game.nextLevel();
             addView(gameView);
             removeView(roundComplete);
         });
+        roundComplete.setButton2Action(e -> exitGame());
+
     }
 
     /**
      * Add {@code ActionListeners} to the GameCompletedView's buttons.
      */
     private void initGameCompletedButtons() {
-
-        gameComplete.setExitAction(e -> exitGame());
-
-        gameComplete.setSecondaryAction(e -> {
+        gameComplete.setButton1Action(e -> {
             initialise();
             removeView(gameComplete);
         });
+        gameComplete.setButton2Action(e -> exitGame());
+
     }
 
     /**
      * Add {@code ActionListeners} to the GameOverView's buttons.
      */
     private void initGameOverButtons() {
-        gameOver.setExitAction(e -> exitGame());
-        gameOver.setSecondaryAction(e -> {
+        gameOver.setButton1Action(e -> {
             initialise();
             removeView(gameOver);
         });
+        gameOver.setButton2Action(e -> exitGame());
     }
 
     /**

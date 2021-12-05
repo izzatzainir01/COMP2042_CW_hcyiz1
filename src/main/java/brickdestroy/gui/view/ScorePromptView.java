@@ -1,43 +1,24 @@
 package brickdestroy.gui.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import brickdestroy.gui.MainFrame;
-import brickdestroy.utility.MyButton;
-import brickdestroy.utility.MyImage;
+public class ScorePromptView extends AbstractView1 {
 
-public class ScorePromptView extends JLabel {
-
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
-
-    private MyImage background;
-    private String prompt = "Enter username:";
+    private final String prompt = "Enter username:";
 
     private JTextField field;
     private int fieldW;
     private int fieldH;
 
-    private MyButton play;
-    private MyButton exit;
-
-    private String username = "";
-
     public ScorePromptView() {
-
-        // Define background image
-        background = new MyImage("cement_wall.jpg");
-
-        // Define prompt
-        prompt = "Enter username:";
+        // Call the super constructor
+        super("Play", "Exit");
 
         // Define the field's width and height
         fieldW = (int) (width * 0.45);
@@ -50,38 +31,17 @@ public class ScorePromptView extends JLabel {
         field.setFont(new Font("Impact", Font.PLAIN, 25));
         field.setForeground(Color.BLACK);
 
-        // Define button size
-        int buttonW = (int) (width * 0.2);
-        int buttonH = (int) (height * 0.15);
-
-        // Define buttons
-        play = new MyButton("Play", buttonW, buttonH);
-        exit = new MyButton("Exit", buttonW, buttonH);
-
-        // Set buttons' locations
-        play.setLocation((int) (width * 0.35 - buttonW / 2), (int) (height * 0.7));
-        exit.setLocation((int) (width * 0.65 - buttonW / 2), (int) (height * 0.7));
-
-        // Initialise the view's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
-
-        // Add the components
+        // Add the text field
         this.add(field);
-        this.add(play);
-        this.add(exit);
     }
 
     /**
-     * Paint the background image and the prompt string.
+     * Draw the prompt string.
      */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
-
-        // Draw background image
-        g2d.drawImage(background.getImage(), 0, 0, width, height, null);
 
         // Draw prompt string
         g2d.setPaint(Color.BLACK);
@@ -96,13 +56,9 @@ public class ScorePromptView extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public void setPlayAction(ActionListener l) {
-        play.addActionListener(l);
-
-        // Also set the username
-        play.addActionListener(e -> {
-            username = field.getText();
-        });
+    @Override
+    public void setButton1Action(ActionListener l) {
+        button1.addActionListener(l);
     }
 
     /**
@@ -110,8 +66,9 @@ public class ScorePromptView extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public void setExitAction(ActionListener l) {
-        exit.addActionListener(l);
+    @Override
+    public void setButton2Action(ActionListener l) {
+        button2.addActionListener(l);
     }
 
     /**
@@ -120,6 +77,6 @@ public class ScorePromptView extends JLabel {
      * @return A {@code String} of the username
      */
     public String getUsername() {
-        return username;
+        return field.getText();
     }
 }

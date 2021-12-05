@@ -13,8 +13,8 @@ import brickdestroy.utility.MyImage;
 
 public abstract class AbstractView1 extends JLabel {
 
-    private final int width = MainFrame.getWidth();
-    private final int height = MainFrame.getHeight();
+    protected final int width = MainFrame.getWidth();
+    protected final int height = MainFrame.getHeight();
 
     private MyImage background;
 
