@@ -30,7 +30,6 @@ public class GameController extends AbstractController implements KeyListener, W
     private GameRoundWinView roundComplete;
     private GameLoseView gameOver;
     private GameWinView gameComplete;
-    private int score = 0;
 
     private DebugConsole debugConsole;
 
@@ -68,8 +67,6 @@ public class GameController extends AbstractController implements KeyListener, W
         // Define the debug console
         debugConsole = new DebugConsole(game, this);
 
-        score = 0;
-
         // Set the timer action
         MyTimer.addTimerAction(e -> {
             gameView.revalidate();
@@ -78,13 +75,9 @@ public class GameController extends AbstractController implements KeyListener, W
 
             // When the player clears all rounds
             if (game.isGameCompleted()) {
-                // Set the cumulative score and add to database
-                score = game.getTotalScore();
-                scores.addScore(score);
-
-                // Add the score to the view
+                // Add the total score to the view
                 gameComplete = new GameWinView();
-                gameComplete.setScore(score);
+                gameComplete.setScore(game.getTotalScore());
 
                 // Add the Game Complete view
                 addView(gameComplete);
@@ -92,14 +85,11 @@ public class GameController extends AbstractController implements KeyListener, W
                 MyTimer.stopTimer();
             }
 
-            // When a round is successfully completedd
+            // When a round is successfully completed
             else if (game.getBrickCount() == 0) {
-                // Set the score of the current round
-                score = game.getTotalScore();
-
-                // Add the score to the view
+                // Add the total score to the view
                 roundComplete = new GameRoundWinView();
-                roundComplete.setScore(score);
+                roundComplete.setScore(game.getTotalScore());
 
                 // Add the Round Completed view
                 addView(roundComplete);
@@ -109,13 +99,9 @@ public class GameController extends AbstractController implements KeyListener, W
 
             // When the player loses the game
             else if (game.getAttemptCount() == 0) {
-                // Set the cumulative score and add to the database.
-                score = game.getTotalScore();
-                scores.addScore(score);
-
-                // Add the score to the view
+                // Add the total score to the view
                 gameOver = new GameLoseView();
-                gameOver.setScore(score);
+                gameOver.setScore(game.getTotalScore());
 
                 // Add the Game Over view
                 addView(gameOver);
@@ -144,7 +130,8 @@ public class GameController extends AbstractController implements KeyListener, W
         switch (e.getActionCommand()) {
             // ScorePromptsView buttons
             case ScorePromptView.PLAY:
-                scores = new ScoreModel(prompt.getUsername());
+                scores = new ScoreModel();
+                scores.setUsername(prompt.getUsername());
                 initialise();
                 removeView(prompt);
                 break;
@@ -166,7 +153,6 @@ public class GameController extends AbstractController implements KeyListener, W
                 game.levelReset();
                 game.setGameStopped(true);
                 isPaused = false;
-                score = 0;
                 addView(gameView);
                 removeView(pause);
                 break;
@@ -188,6 +174,7 @@ public class GameController extends AbstractController implements KeyListener, W
                 break;
 
             case GameRoundWinView.EXIT:
+                scores.addScore(game.getTotalScore());
                 exitGame();
                 break;
 
@@ -198,6 +185,7 @@ public class GameController extends AbstractController implements KeyListener, W
                 break;
 
             case GameWinView.EXIT:
+                scores.addScore(game.getTotalScore());
                 exitGame();
                 break;
 

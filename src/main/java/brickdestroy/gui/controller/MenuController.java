@@ -3,6 +3,7 @@ package brickdestroy.gui.controller;
 import java.awt.event.ActionEvent;
 
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.MenuHomeView;
 import brickdestroy.gui.view.ScoreListView;
 
@@ -43,7 +44,7 @@ public class MenuController extends AbstractController {
                 break;
 
             case MenuHomeView.SCORES:
-                addView(scores = new ScoreListView());
+                addView(scores = new ScoreListView(new ScoreModel()));
                 removeView(home);
                 break;
 
