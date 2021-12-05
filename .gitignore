@@ -4,5 +4,8 @@
 # Target folder (binary stuff)
 target/
 
+# Local file for testing
+highscore.csv
+
 # Notes for self
 notes.txt
