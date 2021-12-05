@@ -1,27 +1,11 @@
 package brickdestroy.gui.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-
-import brickdestroy.gui.MainFrame;
-import brickdestroy.utility.MyButton;
-import brickdestroy.utility.MyImage;
-
-public class GameEndView extends JLabel {
-
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
-
-    private MyImage background;
-
-    private MyButton secondary;
-    private MyButton exit;
+public class GameEndView extends AbstractView1 {
 
     private String title = "";
     private String scoreString = "";
@@ -41,33 +25,15 @@ public class GameEndView extends JLabel {
      * @param buttonText The text on the Secondary button
      */
     public GameEndView(String title, String buttonText) {
+        // Call the super constructor
+        super(buttonText, "Exit");
 
         // Define the title
         this.title = title;
-
-        // Define background image
-        background = new MyImage("cement_wall.jpg");
-
-        // Define buttons
-        secondary = new MyButton(buttonText, (int) (width * 0.2), (int) (height * 0.15));
-        exit = new MyButton("Exit", (int) (width * 0.2), (int) (height * 0.15));
-
-        // Set button locations
-        secondary.setLocation((int) (width * 0.35 - secondary.getWidth() / 2),
-                (int) (height * 0.7));
-        exit.setLocation((int) (width * 0.65 - exit.getWidth() / 2), (int) (height * 0.7));
-
-        // Initialise the label's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
-
-        // Add the buttons
-        this.add(secondary);
-        this.add(exit);
     }
 
     /**
-     * Paint the background image and texts.
+     * Draw the background image and texts.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -75,9 +41,6 @@ public class GameEndView extends JLabel {
         Graphics2D g2d = (Graphics2D) g.create();
 
         int stringW;
-
-        // Draw background image
-        g2d.drawImage(background.getImage(), 0, 0, width, height, null);
 
         // Define text colour
         g2d.setPaint(Color.BLACK);
@@ -108,24 +71,6 @@ public class GameEndView extends JLabel {
         scoreString = String.format("%d", this.score);
         revalidate();
         repaint();
-    }
-
-    /**
-     * Set an {@code Action} for the Next Level button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setSecondaryAction(ActionListener l) {
-        secondary.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Exit button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setExitAction(ActionListener l) {
-        exit.addActionListener(l);
     }
 
     /**
