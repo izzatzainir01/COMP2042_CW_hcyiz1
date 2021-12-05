@@ -1,34 +1,46 @@
 package brickdestroy.utility;
 
-import java.net.URI;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class MyCSV {
 
-    private String[] all;
+    private String fileName;
 
-    private URI resource;
+    private String[] all;
     private int size = 0;
 
     /**
-     * The {@code MyCSV} class is a class I made to handle data in .csv files. I
+     * The {@code MyCSV} class is a tool I made to handle data in .csv files. I
      * decided to write my own CSV API instead of using an external library because
      * it's a fun challenge. Also cause why not lmao.
      * <p>
      * It is responsible for reading and writing data to and from the specified .csv
-     * file.
+     * file. If the file does not exist, it creates a new file with the same name
+     * and copies an existing resource into it in the project's root directory. In
+     * the case of running the game from a .jar file, it creates the file in the
+     * same directory as the .jar file.
      * 
      * @param fileName The name of the .csv file
      */
     public MyCSV(String fileName) {
-        // Define file path
-        String path = String.format("data/%s", fileName);
 
-        // Define the resource file URI
+        // Define file name
+        this.fileName = fileName;
+
+        // Define file and check if it exists
+        File file = new File(fileName);
         try {
-            this.resource = getClass().getClassLoader().getResource(path).toURI();
+            // Copy content from resource if it doesn't exist
+            if (!file.exists()) {
+                file.createNewFile();
+                writeContents(file);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +57,7 @@ public class MyCSV {
     public String[] getAllRowsAsString() {
         // Split the string by newlines
         try {
-            String[] rows = Files.readString(Paths.get(resource)).split("\n");
+            String[] rows = Files.readString(Paths.get(fileName)).split("\n");
             this.size = rows.length;
 
             // Get rid of carriage returns
@@ -112,7 +124,7 @@ public class MyCSV {
         String row = String.format("%s,%d\n", first, second);
 
         try {
-            Files.writeString(Paths.get(resource), row, StandardOpenOption.APPEND);
+            Files.writeString(Paths.get(fileName), row, StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,6 +163,36 @@ public class MyCSV {
         text = text.replaceAll("_{2,}", "_"); // Replace multiple underscores with an underscore
 
         return text;
+    }
+
+    private void writeContents(File file) {
+        BufferedWriter writer;
+        String content = "";
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            content = getData();
+            writer.write(content);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getData() {
+        InputStream input;
+        String content = "";
+        int data;
+        try {
+            // Copy data from resources
+            input = getClass().getClassLoader().getResourceAsStream("data/" + fileName);
+            while ((data = input.read()) != -1) {
+                content += (char) data;
+            }
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 
 }
