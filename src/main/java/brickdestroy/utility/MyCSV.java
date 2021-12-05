@@ -106,9 +106,7 @@ public class MyCSV {
      */
     public void appendRow(String first, int second) {
         // Replace commas and spaces with underscore
-        first = first.replace(",", "_"); // Replace commas with an underscore
-        first = first.replaceAll("\\s+", "_"); // Replace multiple spaces with an underscore
-        first = first.replaceAll("_{2,}", "_"); // Replace multiple underscores with an underscore
+        first = parseString(first);
 
         // Format the row
         String row = String.format("%s,%d\n", first, second);
@@ -123,12 +121,36 @@ public class MyCSV {
     }
 
     /**
+     * Append a row at the end of the file.
+     * 
+     * @param row The row of information
+     */
+    public void appendRow(String row) {
+        // Parse the row first
+        String first = row.split(",")[0];
+        String second = row.split(",")[1];
+
+        first = parseString(first);
+        second = parseString(second).replace("_", "");
+
+        appendRow(first, Integer.parseInt(second));
+    }
+
+    /**
      * Get the amount of rows in the csv file.
      * 
      * @return An {@code int} of the amount of rows
      */
     public int getSize() {
         return size;
+    }
+
+    private String parseString(String text) {
+        text = text.replace(",", "_"); // Replace commas with an underscore
+        text = text.replaceAll("\\s+", "_"); // Replace multiple spaces with an underscore
+        text = text.replaceAll("_{2,}", "_"); // Replace multiple underscores with an underscore
+
+        return text;
     }
 
 }
