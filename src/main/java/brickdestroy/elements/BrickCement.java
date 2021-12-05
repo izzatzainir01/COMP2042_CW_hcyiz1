@@ -66,16 +66,16 @@ public class BrickCement extends Brick {
         if (!isBroken()) {
             // Crack direction = up
             if (dir.equalsIgnoreCase("up"))
-                crack.makeCrack(this, point, crack.getUp());
+                crack.makeCrack(this, point, Crack.UP);
             // Crack direction = down
             if (dir.equalsIgnoreCase("down"))
-                crack.makeCrack(this, point, crack.getDown());
+                crack.makeCrack(this, point, Crack.DOWN);
             // Crack direction = left
             if (dir.equalsIgnoreCase("left"))
-                crack.makeCrack(this, point, crack.getLeft());
+                crack.makeCrack(this, point, Crack.LEFT);
             // Crack direction = right
             if (dir.equalsIgnoreCase("right"))
-                crack.makeCrack(this, point, crack.getRight());
+                crack.makeCrack(this, point, Crack.RIGHT);
 
             updateBrick();
             return false;
