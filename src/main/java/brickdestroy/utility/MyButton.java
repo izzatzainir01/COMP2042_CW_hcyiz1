@@ -41,12 +41,12 @@ public class MyButton extends JButton implements MouseListener {
         buttonBG.resize(width, height);
 
         // Define button border width relative to the frame's width and initial colour
-        this.borderW = (int) (MainFrame.getWidth() * (0.007));
+        this.borderW = (int) (MainFrame.WIDTH * (0.007));
         this.borderC = Color.darkGray;
         this.border = BorderFactory.createLineBorder(borderC, borderW);
 
         // Define font size relative to the frame's width
-        this.fontSize = (int) (MainFrame.getWidth() * 0.049);
+        this.fontSize = (int) (MainFrame.WIDTH * 0.049);
         this.font = new Font("Impact", Font.PLAIN, fontSize);
 
         // Initialise the button

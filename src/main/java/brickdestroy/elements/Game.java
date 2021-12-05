@@ -11,8 +11,8 @@ import brickdestroy.gui.MainFrame;
 
 public class Game {
 
-    private int frameW = MainFrame.getWidth();
-    private int frameH = MainFrame.getHeight();
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private Brick[] bricks;
     private Brick[][] levels;
@@ -38,21 +38,21 @@ public class Game {
     public Game() {
 
         // Creating the levels
-        Rectangle frameBounds = new Rectangle(frameW, frameH);
+        Rectangle frameBounds = new Rectangle(width, height);
         this.levels = new Levels().makeLevels(frameBounds, brickCount, 3, 6 / 2);
 
         // Defining the Player and Ball's initial position
-        this.initialPosX = frameW / 2;
-        this.initialPosY = (int) (frameH * 0.95);
+        this.initialPosX = width / 2;
+        this.initialPosY = (int) (height * 0.95);
         this.initialPos = new Point(initialPosX, initialPosY);
 
         // Defining the player and initialising its speed
-        this.player = new Player(initialPos, (int) (frameW * 1.0 / 4.0), (int) (frameH * 1.0 / 45.0));
-        player.setSpeed((int) (MainFrame.getWidth() * 0.0065));
+        this.player = new Player(initialPos, (int) (width * 1.0 / 4.0), (int) (height * 1.0 / 45.0));
+        player.setSpeed((int) (width * 0.0065));
 
         // Defining the Ball and setting its properties
-        this.ball = new BallRubber(initialPos, (int) (frameW * 1.0 / 60.0));
-        this.ballSpeed = MainFrame.getWidth() * 0.0091;
+        this.ball = new BallRubber(initialPos, (int) (width * 1.0 / 60.0));
+        this.ballSpeed = width * 0.0091;
         setInitialPos();
         randomBallAngle();
 
@@ -90,7 +90,7 @@ public class Game {
             ball.reverseX();
         if (checkBallBorderImpact() == 1) // Border vertical
             ball.reverseY();
-        if (ball.getDown().getY() >= frameH) { // Ball hits bottom border
+        if (ball.getDown().getY() >= height) { // Ball hits bottom border
             attempts--;
             ballLost = true;
         }
@@ -107,7 +107,7 @@ public class Game {
     // Check for the Ball's impact with the frame's borders
     private int checkBallBorderImpact() {
         // Check for horizontal collision
-        if (ball.getLeft().getX() + ball.getSpeedX() <= 0 || ball.getRight().getX() + ball.getSpeedX() >= frameW) {
+        if (ball.getLeft().getX() + ball.getSpeedX() <= 0 || ball.getRight().getX() + ball.getSpeedX() >= width) {
             return -1;
         }
         // Check for top vertical collision

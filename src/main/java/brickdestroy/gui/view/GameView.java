@@ -14,8 +14,8 @@ import brickdestroy.gui.MainFrame;
 public class GameView extends JLabel {
 
     private Game game;
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private String counts = "";
 

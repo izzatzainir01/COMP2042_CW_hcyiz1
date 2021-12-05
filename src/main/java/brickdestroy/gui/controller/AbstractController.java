@@ -10,8 +10,8 @@ import brickdestroy.gui.MainFrame;
 public abstract class AbstractController {
 
     protected MainFrame frame;
-    protected int width = MainFrame.getWidth();
-    protected int height = MainFrame.getHeight();
+    protected int width = MainFrame.WIDTH;
+    protected int height = MainFrame.HEIGHT;
 
     protected JPanel panel;
 

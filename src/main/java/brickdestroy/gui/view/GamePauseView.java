@@ -13,8 +13,8 @@ import brickdestroy.utility.MyImage;
 
 public class GamePauseView extends JLabel {
 
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private MyImage background;
 
