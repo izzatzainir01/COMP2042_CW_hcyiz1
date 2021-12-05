@@ -11,7 +11,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public abstract class AbstractView1 extends JLabel {
+public abstract class MyAbstractView extends JLabel {
 
     protected final int width = MainFrame.WIDTH;
     protected final int height = MainFrame.HEIGHT;
@@ -33,7 +33,7 @@ public abstract class AbstractView1 extends JLabel {
      * @param button1Text The text of the first button
      * @param button2Text The text of the second button
      */
-    protected AbstractView1(String button1Text, String button2Text) {
+    protected MyAbstractView(String button1Text, String button2Text, String button1Command, String button2Command) {
         // Define background image
         background = new MyImage("cement_wall.jpg");
 
@@ -45,9 +45,11 @@ public abstract class AbstractView1 extends JLabel {
         button1 = new MyButton(button1Text, buttonW, buttonH);
         button2 = new MyButton(button2Text, buttonW, buttonH);
 
-        // Set the buttons' locations
+        // Set the buttons' locations and actions commands
         button1.setLocation((int) (width * 0.35 - buttonW / 2), (int) (height * 0.7));
         button2.setLocation((int) (width * 0.65 - buttonW / 2), (int) (height * 0.7));
+        button1.setActionCommand(button1Command);
+        button2.setActionCommand(button2Command);
 
         // Initialise the view's properties
         this.setBounds(0, 0, width, height);
@@ -71,22 +73,12 @@ public abstract class AbstractView1 extends JLabel {
     }
 
     /**
-     * Set an action for the first button of the view, which is the button on the
-     * left.
+     * Set an {@code ActionListener} for the buttons in this view.
      * 
      * @param l An {@code ActionListener}
      */
-    public void setButton1Action(ActionListener l) {
+    public void setActionListener(ActionListener l) {
         button1.addActionListener(l);
-    }
-
-    /**
-     * Set an action for the second button of the view, which is the button on the
-     * right.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setButton2Action(ActionListener l) {
         button2.addActionListener(l);
     }
 

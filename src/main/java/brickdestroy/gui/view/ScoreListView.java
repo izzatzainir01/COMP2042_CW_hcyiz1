@@ -13,7 +13,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import brickdestroy.utility.MyCSV;
 
-public class ScoreListView extends AbstractView1 {
+public class ScoreListView extends MyAbstractView {
+
+    public static final String BACK = "BACK";
 
     private final String title = "High Scores";
 
@@ -33,7 +35,7 @@ public class ScoreListView extends AbstractView1 {
      */
     public ScoreListView() {
         // Call the super constructor
-        super("Back", "null");
+        super("Back", "null", BACK, null);
 
         // Define csv file
         csv = new MyCSV("highscore.csv");

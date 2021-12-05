@@ -1,5 +1,6 @@
 package brickdestroy.gui.controller;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -10,8 +11,10 @@ import brickdestroy.gui.DebugConsole;
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.GamePauseView;
-import brickdestroy.gui.view.GameEndView;
+import brickdestroy.gui.view.GameRoundWinView;
+import brickdestroy.gui.view.GameLoseView;
 import brickdestroy.gui.view.GameView;
+import brickdestroy.gui.view.GameWinView;
 import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
@@ -24,9 +27,9 @@ public class GameController extends AbstractController implements KeyListener, W
     private ScorePromptView prompt;
     private ScoreModel scores;
 
-    private GameEndView roundComplete;
-    private GameEndView gameOver;
-    private GameEndView gameComplete;
+    private GameRoundWinView roundComplete;
+    private GameLoseView gameOver;
+    private GameWinView gameComplete;
     private int score = 0;
 
     private DebugConsole debugConsole;
@@ -55,7 +58,6 @@ public class GameController extends AbstractController implements KeyListener, W
 
         // Add the prompt view upon first launching the game
         addView(prompt);
-        initPromptButtons();
     }
 
     private void initialise() {
@@ -81,12 +83,11 @@ public class GameController extends AbstractController implements KeyListener, W
                 scores.addScore(score);
 
                 // Add the score to the view
-                gameComplete = new GameEndView("Game Completed!", "Restart");
+                gameComplete = new GameWinView();
                 gameComplete.setScore(score);
 
                 // Add the Game Complete view
                 addView(gameComplete);
-                initGameCompletedButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
             }
@@ -97,12 +98,11 @@ public class GameController extends AbstractController implements KeyListener, W
                 score = game.getTotalScore();
 
                 // Add the score to the view
-                roundComplete = new GameEndView("Round Completed!", "Next");
+                roundComplete = new GameRoundWinView();
                 roundComplete.setScore(score);
 
                 // Add the Round Completed view
                 addView(roundComplete);
-                initRoundCompletedButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
             }
@@ -114,12 +114,11 @@ public class GameController extends AbstractController implements KeyListener, W
                 scores.addScore(score);
 
                 // Add the score to the view
-                gameOver = new GameEndView("Game Over!", "Restart");
+                gameOver = new GameLoseView();
                 gameOver.setScore(score);
 
                 // Add the Game Over view
                 addView(gameOver);
-                initGameOverButtons();
                 removeView(gameView);
                 MyTimer.stopTimer();
             }
@@ -131,92 +130,90 @@ public class GameController extends AbstractController implements KeyListener, W
     }
 
     /**
-     * Add {@code ActionListeners} on the Score Prompt's buttons.
-     */
-    private void initPromptButtons() {
-        prompt.setButton1Action(e -> {
-            scores = new ScoreModel(prompt.getUsername());
-            initialise();
-            removeView(prompt);
-        });
-        prompt.setButton2Action(e -> exitGame());
-    }
-
-    /**
-     * Add {@code ActionListeners} on the GamePauseView's buttons.
-     */
-    private void initPauseButtonsListener() {
-
-        // Continue button resumes the game
-        pause.setContinueAction(e -> {
-            MyTimer.startTimer();
-            isPaused = false;
-            addView(gameView);
-            removeView(pause);
-        });
-
-        // Restart button restarts the current round
-        pause.setRestartAction(e -> {
-            MyTimer.startTimer();
-            game.levelReset();
-            game.setGameStopped(true);
-            isPaused = false;
-            score = 0;
-            addView(gameView);
-            removeView(pause);
-        });
-
-        // ExitMenu button exits the game to the Menu
-        pause.setExitMenuAction(e -> exitGame());
-
-        // ExitDesktop button calls the GameFrame to exit the game
-        pause.setExitDesktopAction(e -> frame.exit());
-    }
-
-    /**
-     * Add {@code ActionListeners} to the GameRoundCompletedView's buttons
-     */
-    private void initRoundCompletedButtons() {
-        roundComplete.setButton1Action(e -> {
-            MyTimer.startTimer();
-            game.nextLevel();
-            addView(gameView);
-            removeView(roundComplete);
-        });
-        roundComplete.setButton2Action(e -> exitGame());
-
-    }
-
-    /**
-     * Add {@code ActionListeners} to the GameCompletedView's buttons.
-     */
-    private void initGameCompletedButtons() {
-        gameComplete.setButton1Action(e -> {
-            initialise();
-            removeView(gameComplete);
-        });
-        gameComplete.setButton2Action(e -> exitGame());
-
-    }
-
-    /**
-     * Add {@code ActionListeners} to the GameOverView's buttons.
-     */
-    private void initGameOverButtons() {
-        gameOver.setButton1Action(e -> {
-            initialise();
-            removeView(gameOver);
-        });
-        gameOver.setButton2Action(e -> exitGame());
-    }
-
-    /**
      * Exit the game.
      */
     private void exitGame() {
         MyTimer.stopTimer();
         panel.removeKeyListener(this);
         frame.addMenuController();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        switch (e.getActionCommand()) {
+            // ScorePromptsView buttons
+            case ScorePromptView.PLAY:
+                scores = new ScoreModel(prompt.getUsername());
+                initialise();
+                removeView(prompt);
+                break;
+
+            case ScorePromptView.EXIT:
+                exitGame();
+                break;
+
+            // GamePauseView's buttons
+            case GamePauseView.CONTINUE:
+                MyTimer.startTimer();
+                isPaused = false;
+                addView(gameView);
+                removeView(pause);
+                break;
+
+            case GamePauseView.RESTART:
+                MyTimer.startTimer();
+                game.levelReset();
+                game.setGameStopped(true);
+                isPaused = false;
+                score = 0;
+                addView(gameView);
+                removeView(pause);
+                break;
+
+            case GamePauseView.MENU:
+                exitGame();
+                break;
+
+            case GamePauseView.DESKTOP:
+                frame.exit();
+                break;
+
+            // GameRoundWinView's buttons
+            case GameRoundWinView.NEXT:
+                MyTimer.startTimer();
+                game.nextLevel();
+                addView(gameView);
+                removeView(roundComplete);
+                break;
+
+            case GameRoundWinView.EXIT:
+                exitGame();
+                break;
+
+            // GameWinView's buttons
+            case GameWinView.RESTART:
+                initialise();
+                removeView(gameComplete);
+                break;
+
+            case GameWinView.EXIT:
+                exitGame();
+                break;
+
+            case GameLoseView.RESTART:
+                initialise();
+                removeView(gameOver);
+                break;
+
+            case GameLoseView.EXIT:
+                exitGame();
+                break;
+
+            default:
+                break;
+        }
+
     }
 
     /**
@@ -248,7 +245,6 @@ public class GameController extends AbstractController implements KeyListener, W
                 MyTimer.stopTimer();
                 game.setGameStopped(true);
                 addView(pause = new GamePauseView());
-                initPauseButtonsListener();
                 removeView(gameView);
             } else {
                 MyTimer.startTimer();
@@ -282,14 +278,8 @@ public class GameController extends AbstractController implements KeyListener, W
      */
     @Override
     public void windowLostFocus(WindowEvent e) {
-        isPaused = !isPaused;
-        if (isPaused) {
-            MyTimer.stopTimer();
+        if (game != null)
             game.setGameStopped(true);
-            addView(pause = new GamePauseView());
-            initPauseButtonsListener();
-            removeView(gameView);
-        }
     }
 
     // Unused

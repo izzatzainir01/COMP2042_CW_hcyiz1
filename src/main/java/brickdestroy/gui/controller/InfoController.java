@@ -1,15 +1,19 @@
 package brickdestroy.gui.controller;
 
+import java.awt.event.ActionEvent;
+
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.InfoModel;
-import brickdestroy.gui.view.MenuInfoView;
+import brickdestroy.gui.view.AbstractInfoView;
+import brickdestroy.gui.view.InfoControlsView;
+import brickdestroy.gui.view.InfoDescriptionView;
 
 public class InfoController extends AbstractController {
 
-    private MenuInfoView description;
+    private AbstractInfoView description;
     private InfoModel descriptionInfo;
 
-    private MenuInfoView controls;
+    private AbstractInfoView controls;
     private InfoModel controlsInfo;
 
     /**
@@ -29,45 +33,44 @@ public class InfoController extends AbstractController {
         descriptionInfo = new InfoModel("description.txt");
         descriptionInfo.setTitle("Description");
         descriptionInfo.setSwitcherText("Controls");
-        description = new MenuInfoView(descriptionInfo);
+        description = new InfoDescriptionView(descriptionInfo);
 
         // Define the controls model and view
         controlsInfo = new InfoModel("controls.txt");
         controlsInfo.setTitle("Controls");
         controlsInfo.setSwitcherText("Description");
-        controls = new MenuInfoView(controlsInfo);
+        controls = new InfoControlsView(controlsInfo);
 
         // Add the description view
         addView(description);
-        initDescriptionButtonsListeners();
     }
 
-    /**
-     * Add {@code ActionListeners} on the InfoDescriptionView's buttons.
-     */
-    private void initDescriptionButtonsListeners() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-        description.setBackAction(e -> frame.addMenuController());
+        switch (e.getActionCommand()) {
 
-        description.setSwitcherAction(e -> {
-            addView(controls);
-            initControlsButtonsListener();
-            removeView(description);
-        });
-    }
+            // Back button
+            case AbstractInfoView.BACK:
+                frame.addMenuController();
+                break;
 
-    /**
-     * Add {@code ActionListeners} on the InfoControlsView's buttons.
-     */
-    private void initControlsButtonsListener() {
+            // InfoDescriptionView secondary button
+            case InfoDescriptionView.CONTROLS:
+                addView(controls);
+                removeView(description);
+                break;
 
-        controls.setBackAction(e -> frame.addMenuController());
+            // InfoConstrolsView secondary button
+            case InfoControlsView.DESCRIPTION:
+                addView(description);
+                removeView(controls);
+                break;
 
-        controls.setSwitcherAction(e -> {
-            addView(description);
-            initDescriptionButtonsListeners();
-            removeView(controls);
-        });
+            default:
+                break;
+        }
+
     }
 
 }

@@ -1,17 +1,19 @@
 package brickdestroy.gui.view;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
-
-import javax.swing.JLabel;
 
 import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class MenuHomeView extends JLabel {
+public class MenuHomeView extends MyAbstractView {
+
+    public static final String START = "MENU_START";
+    public static final String INFO = "MENU_INFO";
+    public static final String SCORES = "MENU_SCORES";
+    public static final String EXIT = "MENU_EXIT";
 
     private int width = MainFrame.WIDTH;
     private int height = MainFrame.HEIGHT;
@@ -36,6 +38,9 @@ public class MenuHomeView extends JLabel {
      * home menu.
      */
     public MenuHomeView() {
+        super(null, null, null, null);
+        button1.setVisible(false);
+        button2.setVisible(false);
 
         // Defining background and title images
         menuBG = new MyImage("menu_bg.jpg");
@@ -57,9 +62,11 @@ public class MenuHomeView extends JLabel {
         scores.setLocation((int) (width * 0.3 - buttonW / 2), (int) (height * 0.81 - buttonH / 2));
         exit.setLocation((int) (width * 0.7 - buttonW / 2), (int) (height * 0.81 - buttonH / 2));
 
-        // Initialise the Label's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
+        // Set the buttons' action commands
+        start.setActionCommand(START);
+        info.setActionCommand(INFO);
+        scores.setActionCommand(SCORES);
+        exit.setActionCommand(EXIT);
 
         // Adding the buttons
         this.add(start);
@@ -87,38 +94,16 @@ public class MenuHomeView extends JLabel {
     }
 
     /**
-     * Set an {@code Action} for the Start button.
+     * Set an {@code ActionListener} for this view.
      * 
      * @param l An {@code ActionListener}
      */
-    public void setStartAction(ActionListener l) {
+    @Override
+    public void setActionListener(ActionListener l) {
+        super.setActionListener(l);
         start.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Info button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setInfoAction(ActionListener l) {
         info.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Scores button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setScoresAction(ActionListener l) {
         scores.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Exit button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setExitAction(ActionListener l) {
         exit.addActionListener(l);
     }
 
