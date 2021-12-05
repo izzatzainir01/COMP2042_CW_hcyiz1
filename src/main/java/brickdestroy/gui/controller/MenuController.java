@@ -2,10 +2,12 @@ package brickdestroy.gui.controller;
 
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.view.MenuHomeView;
+import brickdestroy.gui.view.ScoreListView;
 
 public class MenuController extends AbstractController {
 
     private MenuHomeView home;
+    private ScoreListView scores;
 
     /**
      * The {@code MenuController} class is the Controller for the game's Main Menu,
@@ -21,11 +23,8 @@ public class MenuController extends AbstractController {
         // Call the super constructor
         super(frame);
 
-        // Define the home view
-        home = new MenuHomeView();
-
         // Add the home view upon first launch
-        addView(home);
+        addView(home = new MenuHomeView());
         initHomeButtonsListeners();
     }
 
@@ -34,8 +33,24 @@ public class MenuController extends AbstractController {
      */
     private void initHomeButtonsListeners() {
         home.setStartAction(e -> frame.addGameController());
+        home.setScoresAction(e -> {
+            addView(scores = new ScoreListView());
+            initScoresButtons();
+            removeView(home);
+        });
         home.setInfoAction(e -> frame.addInfoController());
         home.setExitAction(e -> frame.exit());
+    }
+
+    /**
+     * Add {@code ActionListeners} to the ScoreListViews' buttons.
+     */
+    private void initScoresButtons() {
+        scores.setButton1Action(e -> {
+            addView(home = new MenuHomeView());
+            initHomeButtonsListeners();
+            removeView(scores);
+        });
     }
 
 }
