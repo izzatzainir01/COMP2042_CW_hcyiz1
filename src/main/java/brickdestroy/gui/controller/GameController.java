@@ -92,7 +92,7 @@ public class GameController extends AbstractController implements KeyListener {
             // When a round is successfully completedd
             else if (game.getBrickCount() == 0) {
                 // Set the score of the current round
-                score = game.getScore();
+                score = game.getTotalScore();
 
                 // Add the score to the view
                 roundComplete = new GameEndView("Round Completed!", "Next");
