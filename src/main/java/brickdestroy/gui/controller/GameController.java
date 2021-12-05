@@ -2,6 +2,8 @@ package brickdestroy.gui.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import brickdestroy.elements.Game;
 import brickdestroy.gui.DebugConsole;
@@ -13,7 +15,7 @@ import brickdestroy.gui.view.GameView;
 import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
-public class GameController extends AbstractController implements KeyListener {
+public class GameController extends AbstractController implements KeyListener, WindowFocusListener {
 
     private Game game;
     private GameView gameView;
@@ -275,9 +277,27 @@ public class GameController extends AbstractController implements KeyListener {
             game.movePlayerRight(false);
     }
 
+    /**
+     * Pause the game upon lost focus
+     */
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+        isPaused = !isPaused;
+        if (isPaused) {
+            MyTimer.stopTimer();
+            game.setGameStopped(true);
+            addView(pause = new GamePauseView());
+            initPauseButtonsListener();
+            removeView(gameView);
+        }
+    }
+
     // Unused
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+    }
+
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }
-
 }

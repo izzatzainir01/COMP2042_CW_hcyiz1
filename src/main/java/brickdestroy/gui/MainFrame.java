@@ -78,6 +78,7 @@ public class MainFrame {
      */
     public void addGameController() {
         game = new GameController(this);
+        frame.addWindowFocusListener(game);
         addController(game.getPanel());
     }
 
