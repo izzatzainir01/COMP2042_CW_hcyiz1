@@ -195,6 +195,7 @@ public class GameController extends AbstractController implements KeyListener, W
                 break;
 
             case GameLoseView.EXIT:
+                scores.addScore(game.getTotalScore());
                 exitGame();
                 break;
 
