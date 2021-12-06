@@ -5,7 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class GameEndView extends AbstractView1 {
+public abstract class AbstractGameEndView extends MyAbstractView {
+
+    public static final String EXIT = "END_VIEW";
 
     private String title = "";
     private String scoreString = "";
@@ -22,11 +24,11 @@ public class GameEndView extends AbstractView1 {
      * 
      * @param title      The title of the view
      * @param score      The score that is displayed on the view
-     * @param buttonText The text on the Secondary button
+     * @param button1Text The text on the Secondary button
      */
-    public GameEndView(String title, String buttonText) {
+    public AbstractGameEndView(String title, String button1Text, String button1Command) {
         // Call the super constructor
-        super(buttonText, "Exit");
+        super(button1Text, "Exit", button1Command, EXIT);
 
         // Define the title
         this.title = title;
@@ -52,8 +54,8 @@ public class GameEndView extends AbstractView1 {
 
         // Draw your score message
         g2d.setFont(setFontSize((int) (width * 0.052)));
-        stringW = g2d.getFontMetrics().stringWidth("Your score:");
-        g2d.drawString("Your score:", (int) (width * 0.5) - (stringW / 2), (int) (height * 0.4));
+        stringW = g2d.getFontMetrics().stringWidth("Score:");
+        g2d.drawString("Score:", (int) (width * 0.5) - (stringW / 2), (int) (height * 0.4));
 
         // Draw score
         g2d.setFont(setFontSize((int) (width * 0.104)));

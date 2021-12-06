@@ -51,6 +51,9 @@ public class MyCSV {
 
     /**
      * Get an array of all rows in the form of {@code Strings}.
+     * <p>
+     * All carriage return and newline characters are removed from the rows
+     * automatically.
      * 
      * @return An array of {@code Strings}
      */
@@ -77,6 +80,9 @@ public class MyCSV {
      * Get a 2D array of all rows in the form of {@code Strings}. The first
      * dimension of the array represents a row, while the second dimension
      * represents elements in that row.
+     * <p>
+     * All carriage return and newline characters are removed from the rows
+     * automatically.
      * 
      * @return A 2D array of {@code Strings}
      */
@@ -92,6 +98,9 @@ public class MyCSV {
 
     /**
      * Get the row at the specified index in the form of a {@code String}.
+     * <p>
+     * Any carriage return and newline characters are removed from the row
+     * automatically.
      * 
      * @param index The row index
      * @return A {@code String} of the row
@@ -102,12 +111,15 @@ public class MyCSV {
 
     /**
      * Get an array of the elements in the row at the specified index.
+     * <p>
+     * Any carriage return and newline characters are removed from the row
+     * automatically.
      * 
      * @param index The row index
      * @return An array of {@code Strings} of the elements in the row
      */
     public String[] getRow(int index) {
-        return getAllRows()[index];
+        return getRowAsString(index).split(",");
     }
 
     /**
@@ -116,13 +128,11 @@ public class MyCSV {
      * @param first  The first element of the row
      * @param second The second element of the row
      */
-    public void appendRow(String first, int second) {
-        // Replace commas and spaces with underscore
-        first = parseString(first);
-
-        // Format the row
-        String row = String.format("%s,%d\n", first, second);
-
+    public void appendRow(String row) {
+        // Remove any space characters
+        row = row.replace(" ", "");
+        if (!row.contains("\n"))
+            row += "\n";
         try {
             Files.writeString(Paths.get(fileName), row, StandardOpenOption.APPEND);
         } catch (Exception e) {
@@ -133,36 +143,12 @@ public class MyCSV {
     }
 
     /**
-     * Append a row at the end of the file.
-     * 
-     * @param row The row of information
-     */
-    public void appendRow(String row) {
-        // Parse the row first
-        String first = row.split(",")[0];
-        String second = row.split(",")[1];
-
-        first = parseString(first);
-        second = parseString(second).replace("_", "");
-
-        appendRow(first, Integer.parseInt(second));
-    }
-
-    /**
      * Get the amount of rows in the csv file.
      * 
      * @return An {@code int} of the amount of rows
      */
     public int getSize() {
         return size;
-    }
-
-    private String parseString(String text) {
-        text = text.replace(",", "_"); // Replace commas with an underscore
-        text = text.replaceAll("\\s+", "_"); // Replace multiple spaces with an underscore
-        text = text.replaceAll("_{2,}", "_"); // Replace multiple underscores with an underscore
-
-        return text;
     }
 
     private void writeContents(File file) {

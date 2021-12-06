@@ -1,8 +1,5 @@
 package brickdestroy.gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,8 +11,8 @@ import brickdestroy.utility.MyTimer;
 
 public class MainFrame {
 
-    private static int WIDTH;
-    private static int HEIGHT;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 540;
 
     private JFrame frame;
     private MyImage frameIcon;
@@ -35,11 +32,6 @@ public class MainFrame {
      * the user, I do not consider it a Controller.
      */
     public MainFrame() {
-
-        // Define frame size based on the screen
-        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        WIDTH = (int) (screen.getWidth() * 0.5);
-        HEIGHT = (int) (screen.getHeight() * 0.6);
 
         // Define frame's icon
         frameIcon = new MyImage("monke.png");
@@ -86,6 +78,7 @@ public class MainFrame {
      */
     public void addGameController() {
         game = new GameController(this);
+        frame.addWindowFocusListener(game);
         addController(game.getPanel());
     }
 
@@ -96,24 +89,6 @@ public class MainFrame {
         System.out.println("Exiting game...");
         System.out.println("Goodbye, " + System.getProperty("user.name") + "!");
         System.exit(0);
-    }
-
-    /**
-     * Get the frame's width.
-     * 
-     * @return An {@code int} of the frame's width
-     */
-    public static int getWidth() {
-        return WIDTH;
-    }
-
-    /**
-     * Get the frame's height.
-     * 
-     * @return An {@code int} of the frame's height
-     */
-    public static int getHeight() {
-        return HEIGHT;
     }
 
     /**

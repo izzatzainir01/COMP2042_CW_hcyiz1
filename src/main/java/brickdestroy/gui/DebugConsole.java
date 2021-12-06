@@ -62,8 +62,8 @@ public class DebugConsole extends JDialog {
     private void initialisePanel() {
 
         // Define button size
-        buttonW = (int) (MainFrame.getWidth() * 0.26);
-        buttonH = (int) (MainFrame.getHeight() * 0.096);
+        buttonW = (int) (MainFrame.WIDTH * 0.26);
+        buttonH = (int) (MainFrame.HEIGHT * 0.096);
 
         // Create the Skip Level button
         skipLevel = makeButton("Skip Level", e -> {

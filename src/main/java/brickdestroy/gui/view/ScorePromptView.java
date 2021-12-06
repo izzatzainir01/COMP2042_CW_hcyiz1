@@ -7,7 +7,10 @@ import java.awt.Graphics2D;
 
 import javax.swing.JTextField;
 
-public class ScorePromptView extends AbstractView1 {
+public class ScorePromptView extends MyAbstractView {
+
+    public static final String PLAY = "PROMPT_PLAY";
+    public static final String EXIT = "PROMPT_EXIT";
 
     private final String prompt = "Enter username:";
 
@@ -17,7 +20,7 @@ public class ScorePromptView extends AbstractView1 {
 
     public ScorePromptView() {
         // Call the super constructor
-        super("Play", "Exit");
+        super("Play", "Exit", PLAY, EXIT);
 
         // Define the field's width and height
         fieldW = (int) (width * 0.45);

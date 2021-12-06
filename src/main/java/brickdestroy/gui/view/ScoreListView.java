@@ -11,9 +11,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import brickdestroy.utility.MyCSV;
+import brickdestroy.gui.model.ScoreModel;
 
-public class ScoreListView extends AbstractView1 {
+public class ScoreListView extends MyAbstractView {
+
+    public static final String BACK = "BACK";
 
     private final String title = "High Scores";
 
@@ -21,7 +23,6 @@ public class ScoreListView extends AbstractView1 {
     private JScrollPane scrollPane;
 
     private final String[] columns = { "ID", "Username", "Score" };
-    private MyCSV csv;
 
     /**
      * The {@code ScoreListView} class is the View for the High Scores List that can
@@ -31,38 +32,16 @@ public class ScoreListView extends AbstractView1 {
      * a {@code JTable} and {@code JScrollPane} to display the list of high scores,
      * which is sorted in descending order by scores.
      */
-    public ScoreListView() {
+    public ScoreListView(ScoreModel model) {
         // Call the super constructor
-        super("Back", "null");
-
-        // Define csv file
-        csv = new MyCSV("highscore.csv");
-
-        // Get data and sort it
-        String[][] all = csv.getAllRows();
-        sort2DArray(all);
-
-        // Determine size
-        int size = (csv.getSize() < 20) ? csv.getSize() : 20;
-
-        // Define the data, this adds a number count to the dataset as well
-        String[][] data = new String[size][3];
-        for (int i = 0; i < csv.getSize(); i++) {
-            // Only display the first 20 entries
-            if (csv.getSize() > 20 && i == 20)
-                break;
-
-            data[i][0] = Integer.toString(i + 1) + ".";
-            data[i][1] = all[i][0];
-            data[i][2] = all[i][1];
-        }
+        super("Back", "null", BACK, null);
 
         // Define table size
         int tableW = (int) (width * 0.8);
         int tableH = (int) (height * 0.55);
 
         // Define the table and its properties
-        table = new JTable(data, columns);
+        table = new JTable(model.getSortedData(), columns);
         // Size and locations
         table.setSize(tableW, tableH);
         table.setPreferredScrollableViewportSize(new Dimension(tableW, tableH));
@@ -122,23 +101,6 @@ public class ScoreListView extends AbstractView1 {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Impact", Font.PLAIN, 50));
         g2d.drawString(title, (int) (width * 0.1), (int) (height * 0.15));
-    }
-
-    private void sort2DArray(String[][] arr) {
-        // Bubble sort
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                // Check the second element of the array: the score
-                int num1 = Integer.parseInt(arr[j][1]);
-                int num2 = Integer.parseInt(arr[j + 1][1]);
-                // Descending order
-                if (num1 < num2) {
-                    String[] temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
     }
 
 }

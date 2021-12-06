@@ -1,3 +1,3 @@
-The objective of the game is to destroy all bricks with a ball. You have 3 attempts until you lose the game. After which, it will reset. If you win, then good job lmao.
+The objective of the game is to destroy all bricks with a ball. You have 3 attempts until you lose the game.
 
-Scores are counted by the amount of impacts that happen between the ball and a brick. The score will be displayed after every round.
+Scores are counted by the amount of impacts that happen between the ball and a brick. Your total score will be displayed after every round.

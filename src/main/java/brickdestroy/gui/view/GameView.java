@@ -14,8 +14,8 @@ import brickdestroy.gui.MainFrame;
 public class GameView extends JLabel {
 
     private Game game;
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private String counts = "";
 
@@ -43,6 +43,9 @@ public class GameView extends JLabel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
 
+        // Render the game's bricks, ball and player
+        game.render(g2d);
+
         // Set message font and colour
         g2d.setFont(new Font("Impact", Font.PLAIN, (int) (width * 0.03)));
         g2d.setColor(Color.BLUE);
@@ -61,8 +64,5 @@ public class GameView extends JLabel {
             fontWidth = g2d.getFontMetrics().stringWidth("Press SPACE to start");
             g2d.drawString("Press SPACE to start", width / 2 - fontWidth / 2, height / 2 + fontHeight);
         }
-
-        // Render the game's bricks, ball and player
-        game.render(g2d);
     }
 }

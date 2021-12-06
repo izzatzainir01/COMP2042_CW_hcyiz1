@@ -91,7 +91,7 @@ public class Player {
             moveLeft = false;
         }
         // Check when Player hits the right side of the frame
-        if (playerFace.getX() + width >= MainFrame.getWidth()) {
+        if (playerFace.getX() + width >= MainFrame.WIDTH) {
             moveRight = false;
         }
 

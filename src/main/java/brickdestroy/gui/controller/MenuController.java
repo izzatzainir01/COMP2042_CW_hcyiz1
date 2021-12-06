@@ -1,6 +1,9 @@
 package brickdestroy.gui.controller;
 
+import java.awt.event.ActionEvent;
+
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.MenuHomeView;
 import brickdestroy.gui.view.ScoreListView;
 
@@ -25,32 +28,40 @@ public class MenuController extends AbstractController {
 
         // Add the home view upon first launch
         addView(home = new MenuHomeView());
-        initHomeButtonsListeners();
     }
 
-    /**
-     * Add {@code ActionListeners} on the MenuHomeViews's buttons.
-     */
-    private void initHomeButtonsListeners() {
-        home.setStartAction(e -> frame.addGameController());
-        home.setScoresAction(e -> {
-            addView(scores = new ScoreListView());
-            initScoresButtons();
-            removeView(home);
-        });
-        home.setInfoAction(e -> frame.addInfoController());
-        home.setExitAction(e -> frame.exit());
-    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
 
-    /**
-     * Add {@code ActionListeners} to the ScoreListViews' buttons.
-     */
-    private void initScoresButtons() {
-        scores.setButton1Action(e -> {
-            addView(home = new MenuHomeView());
-            initHomeButtonsListeners();
-            removeView(scores);
-        });
+        switch (e.getActionCommand()) {
+            // HomeMenuView's buttons
+            case MenuHomeView.START:
+                frame.addGameController();
+                break;
+
+            case MenuHomeView.INFO:
+                frame.addInfoController();
+                break;
+
+            case MenuHomeView.SCORES:
+                addView(scores = new ScoreListView(new ScoreModel()));
+                removeView(home);
+                break;
+
+            case MenuHomeView.EXIT:
+                frame.exit();
+                break;
+
+            // ScoreListView's buttons
+            case ScoreListView.BACK:
+                addView(home = new MenuHomeView());
+                removeView(scores);
+                break;
+
+            default:
+                break;
+        }
+
     }
 
 }

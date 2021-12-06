@@ -8,13 +8,13 @@ import java.util.Random;
 
 public class Crack {
 
+    public static final int LEFT = 10;
+    public static final int RIGHT = 20;
+    public static final int UP = 30;
+    public static final int DOWN = 40;
+
     private final int CRACK_SECTIONS = 3;
     private final double JUMP_PROBABILITY = 0.7;
-
-    private final int LEFT = 10;
-    private final int RIGHT = 20;
-    private final int UP = 30;
-    private final int DOWN = 40;
 
     private static final int VERTICAL = 100;
     private static final int HORIZONTAL = 200;
@@ -58,33 +58,33 @@ public class Crack {
         Point end = new Point();
 
         switch (direction) {
-        case LEFT:
-            start.setLocation(bounds.x + bounds.width, bounds.y);
-            end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
-            Point tmp = makeRandomPoint(start, end, VERTICAL);
-            makeCrack(impact, tmp);
+            case LEFT:
+                start.setLocation(bounds.x + bounds.width, bounds.y);
+                end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
+                Point tmp = makeRandomPoint(start, end, VERTICAL);
+                makeCrack(impact, tmp);
 
-            break;
-        case RIGHT:
-            start.setLocation(bounds.getLocation());
-            end.setLocation(bounds.x, bounds.y + bounds.height);
-            tmp = makeRandomPoint(start, end, VERTICAL);
-            makeCrack(impact, tmp);
+                break;
+            case RIGHT:
+                start.setLocation(bounds.getLocation());
+                end.setLocation(bounds.x, bounds.y + bounds.height);
+                tmp = makeRandomPoint(start, end, VERTICAL);
+                makeCrack(impact, tmp);
 
-            break;
-        case UP:
-            start.setLocation(bounds.x, bounds.y + bounds.height);
-            end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
-            tmp = makeRandomPoint(start, end, HORIZONTAL);
-            makeCrack(impact, tmp);
-            break;
-        case DOWN:
-            start.setLocation(bounds.getLocation());
-            end.setLocation(bounds.x + bounds.width, bounds.y);
-            tmp = makeRandomPoint(start, end, HORIZONTAL);
-            makeCrack(impact, tmp);
+                break;
+            case UP:
+                start.setLocation(bounds.x, bounds.y + bounds.height);
+                end.setLocation(bounds.x + bounds.width, bounds.y + bounds.height);
+                tmp = makeRandomPoint(start, end, HORIZONTAL);
+                makeCrack(impact, tmp);
+                break;
+            case DOWN:
+                start.setLocation(bounds.getLocation());
+                end.setLocation(bounds.x + bounds.width, bounds.y);
+                tmp = makeRandomPoint(start, end, HORIZONTAL);
+                makeCrack(impact, tmp);
 
-            break;
+                break;
         }
     }
 
@@ -137,32 +137,16 @@ public class Crack {
         int pos;
 
         switch (direction) {
-        case HORIZONTAL:
-            pos = rand.nextInt(to.x - from.x) + from.x;
-            out.setLocation(pos, to.y);
-            break;
-        case VERTICAL:
-            pos = rand.nextInt(to.y - from.y) + from.y;
-            out.setLocation(to.x, pos);
-            break;
+            case HORIZONTAL:
+                pos = rand.nextInt(to.x - from.x) + from.x;
+                out.setLocation(pos, to.y);
+                break;
+            case VERTICAL:
+                pos = rand.nextInt(to.y - from.y) + from.y;
+                out.setLocation(to.x, pos);
+                break;
         }
         return out;
-    }
-
-    public int getUp() {
-        return UP;
-    }
-
-    public int getDown() {
-        return DOWN;
-    }
-
-    public int getLeft() {
-        return LEFT;
-    }
-
-    public int getRight() {
-        return RIGHT;
     }
 
 }

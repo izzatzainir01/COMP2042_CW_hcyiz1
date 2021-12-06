@@ -2,15 +2,15 @@ package brickdestroy.elements;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Rectangle;
+
+import brickdestroy.gui.MainFrame;
 
 public class Levels {
 
-    private static final int LEVELS_COUNT = 4;
+    private static final int frameW = MainFrame.WIDTH;
 
-    private final int CLAY = 1;
-    private final int STEEL = 2;
-    private final int CEMENT = 3;
+    private static final int LEVELS_COUNT = 4;
+    private static final int sizeRatio = 3;
 
     /**
      * The {@code Levels} class creates levels for the Game. I separated these
@@ -20,17 +20,23 @@ public class Levels {
     public Levels() {
     }
 
-    public Brick[][] makeLevels(Rectangle frameBounds, int brickCount, int lineCount, double brickDimensionRatio) {
+    public static Brick[][] makeLevels(int brickCount, int lineCount) {
+        // Minimum amount of bricks is six
+        if (brickCount < 6)
+            brickCount = 6;
+
         Brick[][] tmp = new Brick[LEVELS_COUNT][];
-        tmp[0] = makeSingleTypeLevel(frameBounds, brickCount, lineCount, brickDimensionRatio, CLAY);
-        tmp[1] = makeChessboardLevel(frameBounds, brickCount, lineCount, brickDimensionRatio, CLAY, CEMENT);
-        tmp[2] = makeChessboardLevel(frameBounds, brickCount, lineCount, brickDimensionRatio, CLAY, STEEL);
-        tmp[3] = makeChessboardLevel(frameBounds, brickCount, lineCount, brickDimensionRatio, STEEL, CEMENT);
+        tmp[0] = makeSingleTypeLevel(brickCount, lineCount, BrickFactory.CLAY);
+        tmp[1] = makeChessboardLevel(brickCount, lineCount, BrickFactory.CLAY,
+                BrickFactory.CEMENT);
+        tmp[2] = makeChessboardLevel(brickCount, lineCount, BrickFactory.CLAY, BrickFactory.STEEL);
+        tmp[3] = makeChessboardLevel(brickCount, lineCount, BrickFactory.STEEL,
+                BrickFactory.CEMENT);
+
         return tmp;
     }
 
-    private Brick[] makeSingleTypeLevel(Rectangle frameBounds, int brickCount, int lineCount,
-            double brickDimensionRatio, int type) {
+    private static Brick[] makeSingleTypeLevel(int brickCount, int lineCount, int type) {
         /*
          * If brickCount is not divisible by line count,brickCount is adjusted to the
          * biggest multiple of lineCount smaller then brickCount
@@ -39,8 +45,8 @@ public class Levels {
 
         int brickOnLine = brickCount / lineCount;
 
-        double brickLen = frameBounds.getWidth() / brickOnLine;
-        double brickHgt = brickLen / brickDimensionRatio;
+        double brickLen = frameW / brickOnLine;
+        double brickHgt = brickLen / sizeRatio;
 
         brickCount += lineCount / 2;
 
@@ -58,7 +64,7 @@ public class Levels {
             x = (line % 2 == 0) ? x : (x - (brickLen / 2));
             double y = (line) * brickHgt;
             p.setLocation(x, y);
-            tmp[i] = makeBrick(p, brickSize, type);
+            tmp[i] = BrickFactory.makeBrick(p, brickSize, type);
         }
 
         for (double y = brickHgt; i < tmp.length; i++, y += 2 * brickHgt) {
@@ -70,8 +76,7 @@ public class Levels {
 
     }
 
-    private Brick[] makeChessboardLevel(Rectangle frameBounds, int brickCount, int lineCount,
-            double brickDimensionRatio, int typeA, int typeB) {
+    private static Brick[] makeChessboardLevel(int brickCount, int lineCount, int typeA, int typeB) {
         /*
          * if brickCount is not divisible by line count,brickCount is adjusted to the
          * biggest multiple of lineCount smaller then brickCount
@@ -83,8 +88,8 @@ public class Levels {
         int centerLeft = brickOnLine / 2 - 1;
         int centerRight = brickOnLine / 2 + 1;
 
-        double brickLen = frameBounds.getWidth() / brickOnLine;
-        double brickHgt = brickLen / brickDimensionRatio;
+        double brickLen = frameW / brickOnLine;
+        double brickHgt = brickLen / sizeRatio;
 
         brickCount += lineCount / 2;
 
@@ -105,33 +110,15 @@ public class Levels {
             p.setLocation(x, y);
 
             boolean b = ((line % 2 == 0 && i % 2 == 0) || (line % 2 != 0 && posX > centerLeft && posX <= centerRight));
-            tmp[i] = b ? makeBrick(p, brickSize, typeA) : makeBrick(p, brickSize, typeB);
+            tmp[i] = b ? BrickFactory.makeBrick(p, brickSize, typeA) : BrickFactory.makeBrick(p, brickSize, typeB);
         }
 
         for (double y = brickHgt; i < tmp.length; i++, y += 2 * brickHgt) {
             double x = (brickOnLine * brickLen) - (brickLen / 2);
             p.setLocation(x, y);
-            tmp[i] = makeBrick(p, brickSize, typeA);
+            tmp[i] = BrickFactory.makeBrick(p, brickSize, typeA);
         }
         return tmp;
-    }
-
-    private Brick makeBrick(Point point, Dimension size, int type) {
-        Brick out;
-        switch (type) {
-        case CLAY:
-            out = new BrickClay(point, size.width, size.height);
-            break;
-        case STEEL:
-            out = new BrickSteel(point, size.width, size.height);
-            break;
-        case CEMENT:
-            out = new BrickCement(point, size.width, size.height);
-            break;
-        default:
-            throw new IllegalArgumentException(String.format("Unknown Type:%d\n", type));
-        }
-        return out;
     }
 
 }

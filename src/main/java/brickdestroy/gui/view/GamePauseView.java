@@ -5,16 +5,19 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-
 import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class GamePauseView extends JLabel {
+public class GamePauseView extends MyAbstractView {
 
-    private int width = MainFrame.getWidth();
-    private int height = MainFrame.getHeight();
+    public static final String CONTINUE = "PAUSE_CONTINUE";
+    public static final String RESTART = "PAUSE_RESTART";
+    public static final String MENU = "PAUSE_MENU";
+    public static final String DESKTOP = "PAUSE_DESKTOP";
+
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private MyImage background;
 
@@ -36,6 +39,9 @@ public class GamePauseView extends JLabel {
      * and adding them.
      */
     public GamePauseView() {
+        super(null, null, null, null);
+        button1.setVisible(false);
+        button2.setVisible(false);
 
         // Define the background
         background = new MyImage("cement_wall.jpg");
@@ -57,6 +63,12 @@ public class GamePauseView extends JLabel {
         continueButton.setLocation((int) (width / 2 - buttonW1 / 2), (int) (restart.getY() - buttonH * 1.1));
         exitMenu.setLocation((int) (restart.getX()), (int) (restart.getY() + buttonH * 1.1));
         exitDesktop.setLocation((int) (restart.getX() + buttonW1 - buttonW2), (int) (restart.getY() + buttonH * 1.1));
+
+        // Set the buttons' action commands
+        continueButton.setActionCommand(CONTINUE);
+        restart.setActionCommand(RESTART);
+        exitMenu.setActionCommand(MENU);
+        exitDesktop.setActionCommand(DESKTOP);
 
         // Initialise the Label's properties
         this.setBounds(0, 0, width, height);
@@ -85,34 +97,12 @@ public class GamePauseView extends JLabel {
      * 
      * @param l An {@code ActionListener}
      */
-    public void setContinueAction(ActionListener l) {
+    @Override
+    public void setActionListener(ActionListener l) {
+        super.setActionListener(l);
         continueButton.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Restart button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setRestartAction(ActionListener l) {
         restart.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Exit Menu button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setExitMenuAction(ActionListener l) {
         exitMenu.addActionListener(l);
-    }
-
-    /**
-     * Set an {@code Action} for the Exit Desktop button.
-     * 
-     * @param l An {@code ActionListener}
-     */
-    public void setExitDesktopAction(ActionListener l) {
         exitDesktop.addActionListener(l);
     }
 }

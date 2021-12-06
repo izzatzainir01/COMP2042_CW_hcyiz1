@@ -5,14 +5,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 import brickdestroy.gui.MainFrame;
 
 public class Game {
 
-    private int frameW = MainFrame.getWidth();
-    private int frameH = MainFrame.getHeight();
+    private int width = MainFrame.WIDTH;
+    private int height = MainFrame.HEIGHT;
 
     private Brick[] bricks;
     private Brick[][] levels;
@@ -25,12 +24,11 @@ public class Game {
     private Player player;
 
     private BallRubber ball;
-    private double ballSpeed = 0;
+    private double ballSpeed = 9;
 
     private int level = 0;
     private int attempts = 3;
     private int score = 0;
-    private int totalScore = 0;
     private boolean stopped = true;
     private boolean ballLost = false;
     private boolean completed = false;
@@ -38,23 +36,22 @@ public class Game {
     public Game() {
 
         // Creating the levels
-        Rectangle frameBounds = new Rectangle(frameW, frameH);
-        this.levels = new Levels().makeLevels(frameBounds, brickCount, 3, 6 / 2);
+        this.levels = Levels.makeLevels(brickCount, 4);
 
         // Defining the Player and Ball's initial position
-        this.initialPosX = frameW / 2;
-        this.initialPosY = (int) (frameH * 0.95);
+        this.initialPosX = width / 2;
+        this.initialPosY = (int) (height * 0.95);
         this.initialPos = new Point(initialPosX, initialPosY);
 
         // Defining the player and initialising its speed
-        this.player = new Player(initialPos, (int) (frameW * 1.0 / 4.0), (int) (frameH * 1.0 / 45.0));
-        player.setSpeed((int) (MainFrame.getWidth() * 0.0065));
+        this.player = new Player(initialPos, (int) (width * 1.0 / 4.0), (int) (height * 1.0 / 45.0));
+        player.setSpeed(6);
 
         // Defining the Ball and setting its properties
-        this.ball = new BallRubber(initialPos, (int) (frameW * 1.0 / 60.0));
-        this.ballSpeed = MainFrame.getWidth() * 0.0091;
+        this.ball = new BallRubber(initialPos, (int) (width * 1.0 / 60.0));
+        ball.setSpeed(ballSpeed);
+        ball.randomBallAngle(true);
         setInitialPos();
-        randomBallAngle();
 
         // Initialise the first level
         nextLevel();
@@ -66,9 +63,6 @@ public class Game {
             ball.move();
             checkImpacts();
             if (ballLost) {
-                if (attempts == 0) {
-                    totalScore += score;
-                }
                 stopped = true;
                 ballReset();
             } else if (brickCount == 0) {
@@ -78,7 +72,6 @@ public class Game {
                     completed = true;
                     stopped = true;
                 }
-                totalScore += score;
             }
         }
     }
@@ -90,7 +83,7 @@ public class Game {
             ball.reverseX();
         if (checkBallBorderImpact() == 1) // Border vertical
             ball.reverseY();
-        if (ball.getDown().getY() >= frameH) { // Ball hits bottom border
+        if (ball.getDown().getY() >= height) { // Ball hits bottom border
             attempts--;
             ballLost = true;
         }
@@ -99,7 +92,7 @@ public class Game {
             ball.reverseY();
 
         // Check bricks' impacts
-        if (checkBrickImpact()) // Ball hits any brick
+        if (checkBrickImpact()) // Ball hits any brick and is destroyed
             brickCount--;
 
     }
@@ -107,7 +100,7 @@ public class Game {
     // Check for the Ball's impact with the frame's borders
     private int checkBallBorderImpact() {
         // Check for horizontal collision
-        if (ball.getLeft().getX() + ball.getSpeedX() <= 0 || ball.getRight().getX() + ball.getSpeedX() >= frameW) {
+        if (ball.getLeft().getX() + ball.getSpeedX() <= 0 || ball.getRight().getX() + ball.getSpeedX() >= width) {
             return -1;
         }
         // Check for top vertical collision
@@ -130,40 +123,43 @@ public class Game {
     private boolean checkBrickImpact() {
         Rectangle2D ballBounds = ball.getBounds();
         Rectangle2D brickBounds;
-        String brickName;
         boolean state = false;
 
         // Check every brick
         for (Brick b : bricks) {
             if (!b.isBroken()) {
-                brickName = b.getClass().getSimpleName();
                 brickBounds = b.getBounds();
+                // Ball angle is randomised after every impact
                 if (ballBounds.intersects(brickBounds)) {
 
                     // Vertical impact
                     if (brickBounds.contains(ball.getDown())) {
                         ball.reverseY();
+                        ball.randomBallAngle(true);
                         state = b.setImpact(ball.getDown(), "up");
                     } else if (brickBounds.contains(ball.getUp())) {
                         ball.reverseY();
+                        ball.randomBallAngle(false);
                         state = b.setImpact(ball.getUp(), "down");
                     }
                     // Horizontal
                     else if (brickBounds.contains(ball.getLeft())) {
                         ball.reverseX();
+                        ball.randomBallAngle((ball.getSpeedY() < 0));
                         state = b.setImpact(ball.getLeft(), "left");
                     } else if (brickBounds.contains(ball.getRight())) {
                         ball.reverseX();
+                        ball.randomBallAngle((ball.getSpeedY() < 0));
                         state = b.setImpact(ball.getRight(), "right");
                     }
 
                     // Determining score based on brick type
-                    if (brickName.equals("BrickClay")) {
+                    if (b instanceof BrickClay) {
                         score += 10;
-                    } else if (brickName.equals("BrickCement")) {
+                    } else if (b instanceof BrickCement) {
+                        score += 15;
+                    } else if (b instanceof BrickSteel) {
                         score += 20;
-                    } else if (brickName.equals("BrickSteel")) {
-                        score += 30;
                     }
 
                     return state;
@@ -177,20 +173,6 @@ public class Game {
     private void setInitialPos() {
         player.setLocation(initialPos);
         ball.setLocation(initialPosX, initialPosY - ball.getBounds().getWidth());
-    }
-
-    // Use the right-angle triangle formula to determine the Ball's launch angle
-    private void randomBallAngle() {
-        Random rand = new Random();
-        double tempX, tempY;
-
-        tempX = ballSpeed * rand.nextDouble(0.2, 0.6); // X speed = random ratio of ballSpeed
-        tempY = Math.sqrt((ballSpeed * ballSpeed) - (tempX * tempX));// y = sqrt(z^2 - x^2)
-
-        tempX *= rand.nextBoolean() ? 1 : -1; // randomly determine left or right
-        tempY *= -1; // Ball starts off going up
-
-        ball.setSpeed(tempX, tempY);
     }
 
     public void movePlayerLeft(boolean b) {
@@ -214,7 +196,6 @@ public class Game {
             bricks = levels[level++];
             this.brickCount = bricks.length;
             ballReset();
-            score = 0;
         }
     }
 
@@ -222,14 +203,13 @@ public class Game {
         for (Brick b : bricks)
             b.repair();
         brickCount = bricks.length;
-        score = 0;
         ballReset();
         resetBallCount();
     }
 
     public void ballReset() {
         setInitialPos();
-        randomBallAngle();
+        ball.randomBallAngle(true);
         ballLost = false;
     }
 
@@ -245,12 +225,8 @@ public class Game {
         return attempts;
     }
 
-    public int getScore() {
-        return score;
-    }
-
     public int getTotalScore() {
-        return totalScore;
+        return score;
     }
 
     public boolean isGameCompleted() {
@@ -259,9 +235,7 @@ public class Game {
 
     // Methods used by the debug panel
     public void setBallSpeed(double speed) {
-        double ratio = speed / ballSpeed;
-
-        ball.setSpeed(ball.getSpeedX() * ratio, ball.getSpeedY() * ratio);
+        ball.setSpeed(speed);
         this.ballSpeed = speed;
     }
 

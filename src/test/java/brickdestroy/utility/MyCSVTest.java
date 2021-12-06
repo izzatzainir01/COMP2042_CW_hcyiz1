@@ -98,8 +98,14 @@ public class MyCSVTest {
     }
 
     @Test
-    public void shouldAppendRow() {
-        highscore.appendRow("Izzat", 99);
+    public void shouldAppendRowNoSpace() {
+        highscore.appendRow("Izzat,99");
+        Assert.assertEquals("Izzat,99", highscore.getRowAsString(highscore.getSize() - 1));
+    }
+
+    @Test
+    public void shouldAppendRowWithSpace() {
+        highscore.appendRow("Izzat  , 99 ");
         Assert.assertEquals("Izzat,99", highscore.getRowAsString(highscore.getSize() - 1));
     }
 }

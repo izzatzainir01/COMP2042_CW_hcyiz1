@@ -1,17 +1,19 @@
 package brickdestroy.gui.controller;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
+import brickdestroy.gui.view.MyAbstractView;
 
-public abstract class AbstractController {
+public abstract class AbstractController implements ActionListener {
 
     protected MainFrame frame;
-    protected int width = MainFrame.getWidth();
-    protected int height = MainFrame.getHeight();
+    protected int width = MainFrame.WIDTH;
+    protected int height = MainFrame.HEIGHT;
 
     protected JPanel panel;
 
@@ -40,7 +42,8 @@ public abstract class AbstractController {
     }
 
     /**
-     * Get the {@code JPanel} of this controller. This is only meant for the {@code MainFrame}
+     * Get the {@code JPanel} of this controller. This is only meant for the
+     * {@code MainFrame}
      * to use but I couldn't figure out a more 'secure' way of doing this lmao.
      * 
      * @return A {@code JPanel} of this controller
@@ -50,9 +53,8 @@ public abstract class AbstractController {
     }
 
     /**
-     * Add a {@code JLabel}, or a View, to this controller. This method
-     * automatically calls the {@code revalidate()} and {@code repaint()} methods
-     * upon adding a View.
+     * Add a {@code JLabel} to this controller. This method automatically calls the
+     * {@code revalidate()} and {@code repaint()} methods upon adding a View.
      * 
      * @param view The new view to be added to this controller
      */
@@ -60,7 +62,21 @@ public abstract class AbstractController {
         panel.add(view);
         panel.revalidate();
         panel.repaint();
+    }
 
+    /**
+     * Add a {@code MyAbstractView} to this controller. This method automatically
+     * calls the {@code revalidate()} and {@code repaint()} methods upon adding a
+     * View. It also automatically adds this controller as an {@code ActionListener}
+     * to the given View.
+     * 
+     * @param view The new view to be added to this controller
+     */
+    protected void addView(MyAbstractView view) {
+        panel.add(view);
+        panel.revalidate();
+        panel.repaint();
+        view.setActionListener(this);
     }
 
     /**
