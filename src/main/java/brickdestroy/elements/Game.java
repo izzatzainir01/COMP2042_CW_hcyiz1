@@ -8,6 +8,20 @@ import java.awt.geom.Rectangle2D;
 
 import brickdestroy.gui.MainFrame;
 
+/**
+ * A class that represents the actual gameplay of the game. Formerly called
+ * {@code Wall}, the {@code Game} class is where the main logic and decision
+ * making of the game happens. It is responsible for creating instances of the
+ * game elements and making decisions based on how they interact with each
+ * other.
+ * <p>
+ * The {@code Game} class communicates with the {@code GameController} and the
+ * {@code GameView} in order to get user input during the gameplay to control
+ * the {@link Player} and display the elements to the user.
+ * 
+ * @see brickdestroy.gui.controller.GameController GameController
+ * @see brickdestroy.gui.view.GameView GameView
+ */
 public class Game {
 
     private int width = MainFrame.WIDTH;
@@ -33,6 +47,23 @@ public class Game {
     private boolean ballLost = false;
     private boolean completed = false;
 
+    /**
+     * A class that represents the actual gameplay of the game. Formerly called
+     * {@code Wall}, the {@code Game} class is where the main logic and decision
+     * making of the game happens. It is responsible for creating instances of the
+     * game elements and making decisions based on how they interact with each
+     * other.
+     * <p>
+     * The {@code Game} class communicates with the
+     * {@code GameController} and the
+     * {@code GameView} in order to get user input
+     * during the gameplay to control the {@link Player} and display the elements to
+     * the
+     * user.
+     * 
+     * @see brickdestroy.gui.controller.GameController GameController
+     * @see brickdestroy.gui.view.GameView GameView
+     */
     public Game() {
 
         // Creating the levels
@@ -57,6 +88,17 @@ public class Game {
         nextLevel();
     }
 
+    /**
+     * Ticks the game. Every tick, this {@code Game} does the following:
+     * <ul>
+     * <li>Check if the game is stopped</li>
+     * <li>Move the player and the ball</li>
+     * <li>Check for all collisions in the game</li>
+     * <li>Check if the ball is lost</li>
+     * <li>Check if all bricks are destroyed</li>
+     * <li>Check if all levels are completed</li>
+     * </ul>
+     */
     public void tick() {
         if (!stopped) {
             player.move();
@@ -74,6 +116,143 @@ public class Game {
                 }
             }
         }
+    }
+
+    /**
+     * Moves the {@code Player} to the left.
+     * 
+     * @param b An indication of whether the {@code Player} should move left
+     */
+    public void movePlayerLeft(boolean b) {
+        player.moveLeft(b);
+    }
+
+    /**
+     * Moves the {@code Player} to the right.
+     * 
+     * @param b An indication of whether the {@code Player} should move right
+     */
+    public void movePlayerRight(boolean b) {
+        player.moveRight(b);
+    }
+
+    /**
+     * Indicates whether this {@code Game} is currently stopped or not.
+     * 
+     * @return An indication of whether this {@code Game} is stopped or not
+     */
+    public boolean isGameStopped() {
+        return stopped;
+    }
+
+    /**
+     * Sets the state of this {@code Game} to stopped or otherwise.
+     * 
+     * @param b An indiciation of whether the {@code Game} should be stopped or not
+     */
+    public void setGameStopped(boolean b) {
+        stopped = b;
+    }
+
+    /**
+     * Sets this {@code Game} to the next level only if there is a next level. This
+     * method automatically resets the {@code Ball's} position.
+     */
+    public void nextLevel() {
+        if (level < levels.length) {
+            bricks = levels[level++];
+            this.brickCount = bricks.length;
+            ballReset();
+        }
+    }
+
+    /**
+     * Resets the number of attempts that the user has.
+     */
+    public void resetBallCount() { // change name to resetAttempts
+        attempts = 3;
+    }
+
+    /**
+     * Gets the current number of bricks left unbroken.
+     * 
+     * @return An {@code int} of the current number of bricks
+     */
+    public int getBrickCount() {
+        return brickCount;
+    }
+
+    /**
+     * Gets the number of attempts that the user has.
+     * 
+     * @return An {@code int} of the number of user attempts
+     */
+    public int getAttemptCount() {
+        return attempts;
+    }
+
+    /**
+     * Gets the current total score.
+     * 
+     * @return An {@code int} of the current total score
+     */
+    public int getTotalScore() {
+        return score;
+    }
+
+    /**
+     * Gets the {@code Game's} completed status.
+     * 
+     * @return An indication of whether this {@code Game} is completed or not
+     */
+    public boolean isGameCompleted() {
+        return completed;
+    }
+
+    /**
+     * Sets the speed of the {@code Ball}.
+     * 
+     * @param speed The new speed of the {@code Ball}
+     */
+    public void setBallSpeed(double speed) {
+        ball.setSpeed(speed);
+        this.ballSpeed = speed;
+    }
+
+    /**
+     * Gets the speed of the {@code Ball}.
+     * 
+     * @return A {@code double} of the {@code Ball's} speed.
+     */
+    public double getBallSpeed() {
+        return ballSpeed;
+    }
+
+    /**
+     * Renders this {@code Game's} elemeents.
+     * <p>
+     * While this method doesn't draw the elements by itself, it is intended to
+     * be used inside a {@link JComponent} within the {@code paint} method in order
+     * for the elements to be drawn onto the GUI. This method simply calls the
+     * elements' {@code render} methods to ensure that other classes have limited
+     * access to the elements of this {@code Game}. Thus, minimising the need for
+     * getters.
+     * 
+     * @param g
+     */
+    public void render(Graphics2D g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        // Render the bricks
+        for (Brick b : bricks) {
+            if (!b.isBroken()) {
+                b.render(g2d);
+            }
+        }
+
+        // Render the player and the ball
+        player.render(g2d);
+        ball.render(g2d);
     }
 
     // Check for all impacts and decide what to do upon any of the impacts
@@ -175,87 +354,14 @@ public class Game {
         ball.setLocation(initialPosX, initialPosY - ball.getBounds2D().getWidth());
     }
 
-    public void movePlayerLeft(boolean b) {
-        player.moveLeft(b);
-    }
-
-    public void movePlayerRight(boolean b) {
-        player.moveRight(b);
-    }
-
-    public boolean isGameStopped() {
-        return stopped;
-    }
-
-    public void setGameStopped(boolean b) {
-        stopped = b;
-    }
-
-    public void nextLevel() {
-        if (level < levels.length) {
-            bricks = levels[level++];
-            this.brickCount = bricks.length;
-            ballReset();
-        }
-    }
-
-    public void levelReset() {
-        for (Brick b : bricks)
-            b.repair();
-        brickCount = bricks.length;
-        ballReset();
-        resetBallCount();
-    }
-
-    public void ballReset() {
+    /**
+     * Resets the {@code Ball's} state. This method resets the {@code Ball's}
+     * position, sets a random angle and set its {@code lost} status to false.
+     */
+    private void ballReset() {
         setInitialPos();
         ball.randomBallAngle(true);
         ballLost = false;
-    }
-
-    public void resetBallCount() { // change name to resetAttempts
-        attempts = 3;
-    }
-
-    public int getBrickCount() {
-        return brickCount;
-    }
-
-    public int getAttemptCount() {
-        return attempts;
-    }
-
-    public int getTotalScore() {
-        return score;
-    }
-
-    public boolean isGameCompleted() {
-        return completed;
-    }
-
-    // Methods used by the debug panel
-    public void setBallSpeed(double speed) {
-        ball.setSpeed(speed);
-        this.ballSpeed = speed;
-    }
-
-    public double getBallSpeed() {
-        return ballSpeed;
-    }
-
-    public void render(Graphics2D g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-
-        // Render the bricks
-        for (Brick b : bricks) {
-            if (!b.isBroken()) {
-                b.render(g2d);
-            }
-        }
-
-        // Render the player and the ball
-        player.render(g2d);
-        ball.render(g2d);
     }
 
 }
