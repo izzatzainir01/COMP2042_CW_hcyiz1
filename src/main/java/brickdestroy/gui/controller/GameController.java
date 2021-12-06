@@ -12,6 +12,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameRoundWinView;
+import brickdestroy.gui.view.AbstractGameEndView;
 import brickdestroy.gui.view.GameLoseView;
 import brickdestroy.gui.view.GameView;
 import brickdestroy.gui.view.GameWinView;
@@ -171,20 +172,10 @@ public class GameController extends AbstractController implements KeyListener, W
                 removeView(roundComplete);
                 break;
 
-            case GameRoundWinView.EXIT:
-                scores.addScore(game.getTotalScore());
-                exitGame();
-                break;
-
             // GameWinView's buttons
             case GameWinView.RESTART:
                 initialise();
                 removeView(gameComplete);
-                break;
-
-            case GameWinView.EXIT:
-                scores.addScore(game.getTotalScore());
-                exitGame();
                 break;
 
             case GameLoseView.RESTART:
@@ -192,7 +183,8 @@ public class GameController extends AbstractController implements KeyListener, W
                 removeView(gameOver);
                 break;
 
-            case GameLoseView.EXIT:
+            // For all GameEndView's exit button
+            case AbstractGameEndView.EXIT:
                 scores.addScore(game.getTotalScore());
                 exitGame();
                 break;

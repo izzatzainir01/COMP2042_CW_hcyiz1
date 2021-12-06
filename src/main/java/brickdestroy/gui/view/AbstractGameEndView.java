@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 
 public abstract class AbstractGameEndView extends MyAbstractView {
 
+    public static final String EXIT = "END_VIEW";
+
     private String title = "";
     private String scoreString = "";
     private int score = 0;
@@ -24,9 +26,9 @@ public abstract class AbstractGameEndView extends MyAbstractView {
      * @param score      The score that is displayed on the view
      * @param button1Text The text on the Secondary button
      */
-    public AbstractGameEndView(String title, String button1Text, String button1Command, String button2Command) {
+    public AbstractGameEndView(String title, String button1Text, String button1Command) {
         // Call the super constructor
-        super(button1Text, "Exit", button1Command, button2Command);
+        super(button1Text, "Exit", button1Command, EXIT);
 
         // Define the title
         this.title = title;
