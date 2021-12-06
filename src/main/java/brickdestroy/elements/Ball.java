@@ -169,6 +169,9 @@ abstract public class Ball {
      * @param y - The new speed in the Y axis.
      */
     public void setSpeed(double speed) {
+        double ratio = speed / this.speed;
+        speedX *= ratio;
+        speedY *= ratio;
         this.speed = speed;
     }
 
