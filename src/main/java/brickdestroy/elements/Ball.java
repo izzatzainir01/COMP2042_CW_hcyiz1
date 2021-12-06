@@ -59,11 +59,11 @@ abstract public class Ball {
      * done to ease the process of finding impacts during collision checking in the
      * game.
      * 
-     * @param center The center position.
-     * @param width  The horizontal diameter.
-     * @param height The vertical diameter.
-     * @param border The border colour.
-     * @param inner  The interior colour.
+     * @param center The center position
+     * @param width  The horizontal diameter
+     * @param height The vertical diameter
+     * @param border The border colour
+     * @param inner  The interior colour
      */
     protected Ball(Point2D center, int width, int height, Color border, Color inner) {
 
@@ -99,10 +99,10 @@ abstract public class Ball {
      * of various shapes, including of a triangle (for example) if they wish to do
      * so.
      * 
-     * @param center The center position.
-     * @param width  The horizontal diameter.
-     * @param height The vertical diameter.
-     * @return The {@code Shape} of the {@code Ball}.
+     * @param center The center position
+     * @param width  The horizontal diameter
+     * @param height The vertical diameter
+     * @return The {@code Shape} of the {@code Ball}
      */
     protected abstract Shape makeBall(Point2D center, int width, int height);
 
@@ -125,8 +125,8 @@ abstract public class Ball {
      * Sets a new center location of this {@code Ball}. This method also
      * automatically sets the 4 impact points of this {@code Ball}.
      * 
-     * @param x The new center X coordinate.
-     * @param y The new center Y coordinate.
+     * @param x The new center X coordinate
+     * @param y The new center Y coordinate
      */
     public void setLocation(double x, double y) {
         // Set center location
@@ -148,7 +148,7 @@ abstract public class Ball {
     /**
      * Gets the bounds of this {@code Ball}.
      * 
-     * @return A {@code Rectangle2D} of the {@code Ball's} bounds.
+     * @return A {@code Rectangle2D} of the {@code Ball's} bounds
      */
     public Rectangle2D getBounds2D() {
         return ballFace.getBounds2D();
@@ -157,7 +157,7 @@ abstract public class Ball {
     /**
      * Gets the up-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of this {@code Ball's} up-most point.
+     * @return A {@code Point2D} of this {@code Ball's} up-most point
      */
     public Point2D getUp() {
         return up;
@@ -166,7 +166,7 @@ abstract public class Ball {
     /**
      * Gets the down-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of this {@code Ball's} bottom-most point.
+     * @return A {@code Point2D} of this {@code Ball's} bottom-most point
      */
     public Point2D getDown() {
         return down;
@@ -175,7 +175,7 @@ abstract public class Ball {
     /**
      * Gets the left-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of this {@code Ball's} left-most point.
+     * @return A {@code Point2D} of this {@code Ball's} left-most point
      */
     public Point2D getLeft() {
         return left;
@@ -184,7 +184,7 @@ abstract public class Ball {
     /**
      * Gets the right-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of this {@code Ball's} right-most point.
+     * @return A {@code Point2D} of this {@code Ball's} right-most point
      */
     public Point2D getRight() {
         return right;
@@ -193,8 +193,8 @@ abstract public class Ball {
     /**
      * Sets the new speed of this {@code Ball} in the X and Y axis.
      * 
-     * @param x The new speed in the X axis.
-     * @param y The new speed in the Y axis.
+     * @param x The new speed in the X axis
+     * @param y The new speed in the Y axis
      */
     public void setSpeed(double speed) {
         double ratio = speed / this.speed;
@@ -206,7 +206,7 @@ abstract public class Ball {
     /**
      * Gets the current speed of this {@code Ball} in the X axis.
      * 
-     * @return A {@code double} of the current X speed.
+     * @return A {@code double} of the current X speed
      */
     public double getSpeedX() {
         return speedX;
@@ -215,7 +215,7 @@ abstract public class Ball {
     /**
      * Gets the current speed of this {@code Ball} in the Y axis.
      * 
-     * @return A {@code double} of the current Y speed.
+     * @return A {@code double} of the current Y speed
      */
     public double getSpeedY() {
         return speedY;
@@ -265,8 +265,7 @@ abstract public class Ball {
      * class to ensure that other classes have limited access to the fields
      * required to draw the {@code Ball}. Thus, minimising the need for getters.
      * 
-     * @param g A {@code Graphics2D} object, passed in from the {@code paint}
-     *          method in a {@code JComponent}
+     * @param g A {@code Graphics2D} object
      */
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
