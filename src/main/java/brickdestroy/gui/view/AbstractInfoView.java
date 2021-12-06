@@ -14,8 +14,8 @@ public abstract class AbstractInfoView extends MyAbstractView {
 
     public static final String BACK = "INFO_BACK";
 
-    private int width = MainFrame.WIDTH;
-    private int height = MainFrame.HEIGHT;
+    protected int width = MainFrame.WIDTH;
+    protected int height = MainFrame.HEIGHT;
 
     private String title = "";
     private JTextArea content;
