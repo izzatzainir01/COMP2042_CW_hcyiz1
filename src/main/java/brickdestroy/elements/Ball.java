@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.util.Random;
 
 abstract public class Ball {
 
@@ -25,6 +26,7 @@ abstract public class Ball {
     private Color border;
     private Color inner;
 
+    private double speed = 0;
     private double speedX = 0;
     private double speedY = 0;
 
@@ -33,7 +35,8 @@ abstract public class Ball {
      * types of Balls to be created. It is reponsible for defining its shape and
      * location. The colour of the Ball is left to its children to define.
      * <p>
-     * It is not responsible for defining its behaviour in the game within itself. It does,
+     * It is not responsible for defining its behaviour in the game within itself.
+     * It does,
      * however, provide methods that allow the Game class to define its behaviour
      * in the game.
      * 
@@ -115,21 +118,6 @@ abstract public class Ball {
     }
 
     /**
-     * Set all 4 of the Ball's points.
-     * 
-     * @param center - The new center position.
-     */
-    private void setPoints(Point2D center) {
-        int tempX = (int) center.getX();
-        int tempY = (int) center.getY();
-
-        up.setLocation(tempX, tempY - (height / 2));
-        down.setLocation(tempX, tempY + (height / 2));
-        left.setLocation(tempX - (width / 2), tempY);
-        right.setLocation(tempX + (width / 2), tempY);
-    }
-
-    /**
      * Get the bounds of the Ball.
      * 
      * @return A {@code Rectangle2D} of the Ball's bounds.
@@ -180,9 +168,8 @@ abstract public class Ball {
      * @param x - The new speed in the X axis.
      * @param y - The new speed in the Y axis.
      */
-    public void setSpeed(double x, double y) {
-        speedX = x;
-        speedY = y;
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     /**
@@ -201,6 +188,23 @@ abstract public class Ball {
      */
     public double getSpeedY() {
         return speedY;
+    }
+
+    /**
+     * Randomise the ball's angle of travel.
+     * 
+     * @param up True for up, false for down.
+     */
+    public void randomBallAngle(boolean up) {
+        Random rand = new Random();
+
+        speedX = speed * rand.nextDouble(0.2, 0.8); // X speed = random ratio of speed
+        speedY = Math.sqrt((speed * speed) - (speedX * speedX));// y = sqrt(z^2 - x^2)
+
+        speedX *= rand.nextBoolean() ? 1 : -1; // randomly determine left or right
+
+        if (up)
+            speedY *= -1;
     }
 
     /**
@@ -232,5 +236,20 @@ abstract public class Ball {
         // Set the border colour
         g2d.setColor(border);
         g2d.draw(ballFace);
+    }
+
+    /**
+     * Set all 4 of the Ball's points.
+     * 
+     * @param center - The new center position.
+     */
+    private void setPoints(Point2D center) {
+        int tempX = (int) center.getX();
+        int tempY = (int) center.getY();
+
+        up.setLocation(tempX, tempY - (height / 2));
+        down.setLocation(tempX, tempY + (height / 2));
+        left.setLocation(tempX - (width / 2), tempY);
+        right.setLocation(tempX + (width / 2), tempY);
     }
 }
