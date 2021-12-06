@@ -21,10 +21,9 @@ public class BallRubber extends Ball {
     /**
      * A child class of {@link Ball} that represents a 'normal' ball. It is a
      * circular ball with a constant diameter all around. Basically, it's a normal
-     * ball.
+     * ball with a dark gray border and a yellow inner colour.
      * <p>
-     * It is responsible for defining its colours and {@code Shape}, which is a
-     * circle, as all balls should be.
+     * It is responsible for defining its colours.
      * 
      * @param center The center location
      * @param width  The width/diameter
