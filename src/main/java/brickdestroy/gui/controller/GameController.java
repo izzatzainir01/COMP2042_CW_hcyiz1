@@ -150,10 +150,8 @@ public class GameController extends AbstractController implements KeyListener, W
 
             case GamePauseView.RESTART:
                 MyTimer.startTimer();
-                game.levelReset();
-                game.setGameStopped(true);
                 isPaused = false;
-                addView(gameView);
+                initialise();
                 removeView(pause);
                 break;
 

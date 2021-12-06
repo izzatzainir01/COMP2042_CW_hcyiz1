@@ -45,7 +45,7 @@ public class Game {
 
         // Defining the player and initialising its speed
         this.player = new Player(initialPos, (int) (width * 1.0 / 4.0), (int) (height * 1.0 / 45.0));
-        player.setSpeed(8);
+        player.setSpeed(6);
 
         // Defining the Ball and setting its properties
         this.ball = new BallRubber(initialPos, (int) (width * 1.0 / 60.0));
