@@ -8,6 +8,20 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 import java.util.Random;
 
+/**
+ * An abstract class that represents a ball in the game. It provides a template
+ * that child classes can extend to easily create different types of balls. It
+ * is responsible for storing data that allows the {@link Game} to make
+ * decisions during gameplay.
+ * <p>
+ * The location of the {@code Ball} is defined by its center, as opposed to the
+ * top-left corner of its {@link Shape}. This is mainly for the sake of ease of
+ * visualisation.
+ * <p>
+ * The {@code Ball} also uses a 4-point system that represents the up-most,
+ * bottom-most, left-most and right-most points of the Ball. This is done to
+ * ease the process of finding impacts during collision checking in the game.
+ */
 abstract public class Ball {
 
     private Shape ballFace;
@@ -31,22 +45,27 @@ abstract public class Ball {
     private double speedY = 0;
 
     /**
-     * The {@code Ball} abstract class provides a template that allows different
-     * types of Balls to be created. It is reponsible for defining its shape and
-     * location. The colour of the Ball is left to its children to define.
+     * An abstract class that represents a ball in the game. It provides a template
+     * that child classes can extend to easily create different types of balls. It
+     * is responsible for storing data that allows the {@link Game} to make
+     * decisions during gameplay.
      * <p>
-     * It is not responsible for defining its behaviour in the game within itself.
-     * It does,
-     * however, provide methods that allow the Game class to define its behaviour
-     * in the game.
+     * The location of the {@code Ball} is defined by its center, as opposed to the
+     * top-left corner of its {@link Shape}. This is mainly for the sake of ease of
+     * visualisation.
+     * <p>
+     * The {@code Ball} also uses a 4-point system that represents the up-most,
+     * bottom-most, left-most and right-most points of the {@code Ball}. This is
+     * done to ease the process of finding impacts during collision checking in the
+     * game.
      * 
-     * @param center - The center position.
-     * @param width  - The horizontal diameter.
-     * @param height - The vertical diameter.
-     * @param border - The border colour.
-     * @param inner  - The interior colour.
+     * @param center The center position.
+     * @param width  The horizontal diameter.
+     * @param height The vertical diameter.
+     * @param border The border colour.
+     * @param inner  The interior colour.
      */
-    public Ball(Point2D center, int width, int height, Color border, Color inner) {
+    protected Ball(Point2D center, int width, int height, Color border, Color inner) {
 
         // Define size
         this.width = width;
@@ -55,13 +74,15 @@ abstract public class Ball {
         // Define location
         this.centerX = center.getX();
         this.centerY = center.getY();
-        this.center = (Point2D) center.clone();
+        this.center = (Point2D) center.clone(); // Copy the point
 
         // Define points
         up = new Point2D.Double();
         down = new Point2D.Double();
         left = new Point2D.Double();
         right = new Point2D.Double();
+
+        // Set the points' locations
         setPoints(this.center);
 
         // Define the Ball's colours
@@ -73,17 +94,23 @@ abstract public class Ball {
     }
 
     /**
-     * An abstract method for creating the Ball's Shape.
+     * Creates the {@code Shape} of this {@code Ball}. As the return value is of a
+     * {@code Shape} object, child classes are technically allowed to create balls
+     * of various shapes, including of a triangle (for example) if they wish to do
+     * so.
      * 
-     * @param center - The center position.
-     * @param width  - The horizontal diameter.
-     * @param height - The vertical diameter.
-     * @return The {@code Shape} of the ball.
+     * @param center The center position.
+     * @param width  The horizontal diameter.
+     * @param height The vertical diameter.
+     * @return The {@code Shape} of the {@code Ball}.
      */
     protected abstract Shape makeBall(Point2D center, int width, int height);
 
     /**
-     * Increment the Ball's location by {@code speedX} and {@code speedY}.
+     * Increments this {@code Ball's} location by {@code speedX} and {@code speedY}.
+     * This method calls the {@code setLocation} method to move the {@code Ball}.
+     * 
+     * @see #setLocation
      */
     public void move() {
         // Change location by adding with speed
@@ -95,10 +122,11 @@ abstract public class Ball {
     }
 
     /**
-     * Set a new center location.
+     * Sets a new center location of this {@code Ball}. This method also
+     * automatically sets the 4 impact points of this {@code Ball}.
      * 
-     * @param x - The new center X coordinate.
-     * @param y - The new center Y coordinate.
+     * @param x The new center X coordinate.
+     * @param y The new center Y coordinate.
      */
     public void setLocation(double x, double y) {
         // Set center location
@@ -118,55 +146,55 @@ abstract public class Ball {
     }
 
     /**
-     * Get the bounds of the Ball.
+     * Gets the bounds of this {@code Ball}.
      * 
-     * @return A {@code Rectangle2D} of the Ball's bounds.
+     * @return A {@code Rectangle2D} of the {@code Ball's} bounds.
      */
-    public Rectangle2D getBounds() {
+    public Rectangle2D getBounds2D() {
         return ballFace.getBounds2D();
     }
 
     /**
-     * Get the up-most point of the Ball.
+     * Gets the up-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of the Ball's up-most point.
+     * @return A {@code Point2D} of this {@code Ball's} up-most point.
      */
     public Point2D getUp() {
         return up;
     }
 
     /**
-     * Get the down-most point of the Ball.
+     * Gets the down-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of the Ball's bottom-most point.
+     * @return A {@code Point2D} of this {@code Ball's} bottom-most point.
      */
     public Point2D getDown() {
         return down;
     }
 
     /**
-     * Get the left-most point of the Ball.
+     * Gets the left-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of the Ball's left-most point.
+     * @return A {@code Point2D} of this {@code Ball's} left-most point.
      */
     public Point2D getLeft() {
         return left;
     }
 
     /**
-     * Get the right-most point of the Ball.
+     * Gets the right-most point of this {@code Ball}.
      * 
-     * @return A {@code Point2D} of the Ball's right-most point.
+     * @return A {@code Point2D} of this {@code Ball's} right-most point.
      */
     public Point2D getRight() {
         return right;
     }
 
     /**
-     * Set the new speed in the X and Y axis.
+     * Sets the new speed of this {@code Ball} in the X and Y axis.
      * 
-     * @param x - The new speed in the X axis.
-     * @param y - The new speed in the Y axis.
+     * @param x The new speed in the X axis.
+     * @param y The new speed in the Y axis.
      */
     public void setSpeed(double speed) {
         double ratio = speed / this.speed;
@@ -176,27 +204,31 @@ abstract public class Ball {
     }
 
     /**
-     * Get the current speed of the Ball in the X axis.
+     * Gets the current speed of this {@code Ball} in the X axis.
      * 
-     * @return A {@code double} of the current speed in the X axis.
+     * @return A {@code double} of the current X speed.
      */
     public double getSpeedX() {
         return speedX;
     }
 
     /**
-     * Get the current speed in the Y axis.
+     * Gets the current speed of this {@code Ball} in the Y axis.
      * 
-     * @return A {@code double} of the current speed in the Y axis.
+     * @return A {@code double} of the current Y speed.
      */
     public double getSpeedY() {
         return speedY;
     }
 
     /**
-     * Randomise the ball's angle of travel.
+     * Randomises this {@code Ball's} angle of travel using the hypothenuse formula
+     * to keep the speed consistent in all directions.
+     * <p>
+     * This method takes in a {@code boolean} that determines whether to change the
+     * Y direction of this {@code Ball} or not.
      * 
-     * @param up True for up, false for down.
+     * @param up A {@code boolean}
      */
     public void randomBallAngle(boolean up) {
         Random rand = new Random();
@@ -211,23 +243,30 @@ abstract public class Ball {
     }
 
     /**
-     * Reverse the X direction.
+     * Reverses the X direction of this {@code Ball}.
      */
     public void reverseX() {
         speedX *= -1;
     }
 
     /**
-     * Reverses the Y direction.
+     * Reverses the Y direction of this {@code Ball}.
      */
     public void reverseY() {
         speedY *= -1;
     }
 
     /**
-     * Render the Ball's inner and border colours.
+     * Renders this {@code Ball's} inner and border colours.
+     * <p>
+     * While this method doesn't draw the {@code Ball} by itself, it is intended to
+     * be used inside a {@link JComponent} within the {@code paint} method in order
+     * to be drawn onto the GUI. This method is defined within the {@code Ball}
+     * class to ensure that other classes have limited access to the fields
+     * required to draw the {@code Ball}. Thus, minimising the need for getters.
      * 
-     * @param g - A {@code Graphics2D} object.
+     * @param g A {@code Graphics2D} object, passed in from the {@code paint}
+     *          method in a {@code JComponent}
      */
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -242,7 +281,7 @@ abstract public class Ball {
     }
 
     /**
-     * Set all 4 of the Ball's points.
+     * Set all 4 of the {@code Ball's} points.
      * 
      * @param center - The new center position.
      */

@@ -113,7 +113,7 @@ public class Game {
     // Check for the Ball's impact with the Player
     private boolean checkPlayerImpact() {
         Rectangle playerBounds = player.getBounds();
-        if (playerBounds.intersects(ball.getBounds()) && playerBounds.contains(ball.getDown())) {
+        if (playerBounds.intersects(ball.getBounds2D()) && playerBounds.contains(ball.getDown())) {
             return true;
         }
         return false;
@@ -121,7 +121,7 @@ public class Game {
 
     // Check for the Ball's impact with the Bricks
     private boolean checkBrickImpact() {
-        Rectangle2D ballBounds = ball.getBounds();
+        Rectangle2D ballBounds = ball.getBounds2D();
         Rectangle2D brickBounds;
         boolean state = false;
 
@@ -172,7 +172,7 @@ public class Game {
     // Set the initial position of the Player and the Ball
     private void setInitialPos() {
         player.setLocation(initialPos);
-        ball.setLocation(initialPosX, initialPosY - ball.getBounds().getWidth());
+        ball.setLocation(initialPosX, initialPosY - ball.getBounds2D().getWidth());
     }
 
     public void movePlayerLeft(boolean b) {
