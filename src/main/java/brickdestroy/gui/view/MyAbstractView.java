@@ -82,4 +82,9 @@ public abstract class MyAbstractView extends JLabel {
         button2.addActionListener(l);
     }
 
+    public void removeActionListener(ActionListener l) {
+        button1.addActionListener(l);
+        button2.addActionListener(l);
+    }
+
 }
