@@ -20,9 +20,10 @@ import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
 /**
- * A child class of {@link AbstractController} that handles the gameplay. It is
- * responsible for handling user inputs to control the {@code Game} and
- * switching between the different Views relating to the gameplay.
+ * A child class of {@link AbstractController} that handles the Game section of
+ * the game. It is responsible for handling user inputs to control the
+ * {@code Game} and switching between the different Views relating to the
+ * gameplay.
  * <p>
  * In addition to {@code ActionListener}, the {@code GameController} implements
  * {@code KeyListener} and {@code WindowFocusListener} to listen for the user's
@@ -61,9 +62,10 @@ public class GameController extends AbstractController implements KeyListener, W
     private boolean isPaused = false;
 
     /**
-     * A child class of {@link AbstractController} that handles the gameplay. It is
-     * responsible for handling user inputs to control the {@code Game} and
-     * switching between the different Views relating to the gameplay.
+     * A child class of {@link AbstractController} that handles the Game section of
+     * the game. It is responsible for handling user inputs to control the
+     * {@code Game} and switching between the different Views relating to the
+     * gameplay.
      * <p>
      * In addition to {@code ActionListener}, the {@code GameController} implements
      * {@code KeyListener} and {@code WindowFocusListener} to listen for the user's
