@@ -7,20 +7,32 @@ import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.MenuHomeView;
 import brickdestroy.gui.view.ScoreListView;
 
+/**
+ * A child class of {@link AbstractController} that handles the Main Menu
+ * section of the game. It is responsible for switching between the different
+ * sections of the game, namely the Game section, the Info section and the High
+ * Scores section.
+ * 
+ * @see ScoreListView
+ * @see InfoController
+ * @see GameController
+ */
 public class MenuController extends AbstractController {
 
     private MenuHomeView home;
     private ScoreListView scores;
 
     /**
-     * The {@code MenuController} class is the Controller for the game's Main Menu,
-     * which includes the {@code MenuHome} view. It is responsible for getting the
-     * user input to switch to the {@code InfoController}.
-     * <p>
-     * The {@code GameFrame} parameter is necessary in order for the MenuController
-     * to call the GameFrame to change Controllers.
+     * A child class of {@link AbstractController} that handles the Main Menu
+     * section of the game. It is responsible for switching between the different
+     * sections of the game, namely the Game section, the Info section and the High
+     * Scores section.
      * 
-     * @param frame - The {@code MainFrame}.
+     * @param frame The {@code MainFrame}
+     * 
+     * @see ScoreListView
+     * @see InfoController
+     * @see GameController
      */
     public MenuController(MainFrame frame) {
         // Call the super constructor
@@ -30,6 +42,12 @@ public class MenuController extends AbstractController {
         addView(home = new MenuHomeView());
     }
 
+    /**
+     * Defines the {@code MenuHomeViews'} and {@code ScoreListViews'} buttons'
+     * actions.
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
