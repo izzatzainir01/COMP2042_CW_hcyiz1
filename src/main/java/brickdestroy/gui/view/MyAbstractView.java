@@ -11,6 +11,24 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
+/**
+ * An abstract class that represents the Views in the game, many of which follow
+ * a similar template. This class predefines that template to avoid rewriting
+ * the same code when creating new Views. It is responsible for predefining the
+ * background image and predefining the First and Second buttons of the View.
+ * <p>
+ * By default, the {@code MyAbstractView} has two {@code JButtons}, the First
+ * button and the Second button. It relies on its child classes to define the
+ * texts that display on the buttons and its action commands. That being said,
+ * the child classes are not limited to the buttons that are predefined in this
+ * class. The child classes may modify them as they please and even add more
+ * buttons according to their needs.
+ * <p>
+ * Just to clarify, the {@code MyAbstractView} class <b>does not</b> predefine
+ * any content. This is left to the child classes to define by themselves.
+ * 
+ * @see JLabel
+ */
 public abstract class MyAbstractView extends JLabel {
 
     protected final int width = MainFrame.WIDTH;
@@ -22,16 +40,25 @@ public abstract class MyAbstractView extends JLabel {
     protected MyButton button2;
 
     /**
-     * The {@code AbstractView1} is an abstract class that represents some of the
-     * Views in the game, many of which follow a similar template. This class
-     * predefines that template in order to avoid rewriting the same code when
-     * creating new Views.
+     * An abstract class that represents the Views in the game, many of which follow
+     * a similar template. This class predefines that template to avoid rewriting
+     * the same code when creating new Views. It is responsible for predefining the
+     * background image and predefining the First and Second buttons of the View.
      * <p>
-     * It is responsible for predefining the background image and the first and
-     * second button of the View.
+     * By default, the {@code MyAbstractView} has two {@code JButtons}, the First
+     * button and the Second button. It relies on its child classes to define the
+     * texts that display on the buttons and its action commands. That being said,
+     * the child classes are not limited to the buttons that are predefined in this
+     * class. The child classes may modify them as they please and even add more
+     * buttons according to their needs.
+     * <p>
+     * Just to clarify, the {@code MyAbstractView} class <b>does not</b> predefine
+     * any content. This is left to the child classes to define by themselves.
      * 
      * @param button1Text The text of the first button
      * @param button2Text The text of the second button
+     * 
+     * @see JLabel
      */
     protected MyAbstractView(String button1Text, String button2Text, String button1Command, String button2Command) {
         // Define background image
@@ -61,7 +88,7 @@ public abstract class MyAbstractView extends JLabel {
     }
 
     /**
-     * Draw the background image of the view
+     * Draws the background image of the view.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -73,7 +100,7 @@ public abstract class MyAbstractView extends JLabel {
     }
 
     /**
-     * Set an {@code ActionListener} for the buttons in this view.
+     * Adds an {@code ActionListener} to all the buttons in this View.
      * 
      * @param l An {@code ActionListener}
      */
@@ -82,6 +109,11 @@ public abstract class MyAbstractView extends JLabel {
         button2.addActionListener(l);
     }
 
+    /**
+     * Removes an {@code ActionListener} from all the buttons in this View.
+     * 
+     * @param l An {@code ActionListener}
+     */
     public void removeActionListener(ActionListener l) {
         button1.addActionListener(l);
         button2.addActionListener(l);
