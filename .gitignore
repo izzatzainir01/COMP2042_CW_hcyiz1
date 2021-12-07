@@ -6,6 +6,7 @@ target/
 
 # Local file for testing
 highscore.csv
+test_dummy.csv
 
 # Notes for self
 notes.txt
