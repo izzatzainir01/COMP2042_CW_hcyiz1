@@ -34,8 +34,9 @@ public abstract class AbstractInfoView extends MyAbstractView {
      * @param contentFile  The file name that contains the data for the content
      * @param switcherText The text inside the switcher button
      */
-    protected AbstractInfoView(InfoModel info, String button1Command, String button2Command) {
-        super("Back", info.getSwitcherText(), BACK, button2Command);
+    protected AbstractInfoView(InfoModel info, String button1Command, String button2Command, String title,
+            String button2Text) {
+        super("Back", button2Text, BACK, button2Command);
 
         // Define description text area and set its properties
         content = new JTextArea();
@@ -50,7 +51,7 @@ public abstract class AbstractInfoView extends MyAbstractView {
         content.setForeground(Color.BLACK);
 
         // Define title
-        this.title = info.getTitle();
+        this.title = title;
 
         // Set buttons locations
         button1.setLocation((int) (width * 0.1), (int) (height * 0.75));

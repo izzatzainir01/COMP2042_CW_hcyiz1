@@ -48,13 +48,9 @@ public class InfoController extends AbstractController {
 
         // Define the description info model
         descriptionInfo = new InfoModel("description.txt");
-        descriptionInfo.setTitle("Description");
-        descriptionInfo.setSwitcherText("Controls");
 
         // Define the controls info model
         controlsInfo = new InfoModel("controls.txt");
-        controlsInfo.setTitle("Controls");
-        controlsInfo.setSwitcherText("Description");
 
         // Add the description view
         addView(description = new InfoDescriptionView(descriptionInfo));

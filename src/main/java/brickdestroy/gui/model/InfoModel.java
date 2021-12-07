@@ -5,9 +5,9 @@ import java.io.InputStream;
 
 /**
  * A Model class that handles information in the Info section of the game. It
- * is responsible for fetching information from the specified resource and
- * storing them along with other information that will be displayed by the
- * {@code InfoViews}.
+ * is responsible for fetching information from the specified resource file.
+ * 
+ * @param fileName The name of the resource file
  * 
  * @see brickdestroy.gui.view.InfoControlsView InfoControlsView
  * @see brickdestroy.gui.view.InfoDescriptionView InfoDescriptionView
@@ -15,16 +15,11 @@ import java.io.InputStream;
 public class InfoModel {
 
     private InputStream file;
-
-    private String title;
     private String content;
-    private String switcherText;
 
     /**
      * A Model class that handles information in the Info section of the game. It
-     * is responsible for fetching information from the specified resource and
-     * storing them along with other information that will be displayed by the
-     * {@code InfoViews}.
+     * is responsible for fetching information from the specified resource file.
      * 
      * @param fileName The name of the resource file
      * 
@@ -47,42 +42,6 @@ public class InfoModel {
      */
     public String getContent() {
         return content;
-    }
-
-    /**
-     * Sets the title of the info.
-     * 
-     * @param title The title of the info
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Gets the title of the info.
-     * 
-     * @return A {@code String} of the info's title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the text of the switcher button.
-     * 
-     * @param text The text of the switcher button
-     */
-    public void setSwitcherText(String text) {
-        this.switcherText = text;
-    }
-
-    /**
-     * Gets the text of the switcher button.
-     * 
-     * @return A {@code String} of the switcher button's text
-     */
-    public String getSwitcherText() {
-        return switcherText;
     }
 
     /**
