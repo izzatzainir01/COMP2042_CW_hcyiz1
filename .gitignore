@@ -4,6 +4,9 @@
 # Target folder (binary stuff)
 target/
 
+# Documentation folder, for submission, not for public repo
+docs/
+
 # Local file for testing
 highscore.csv
 test_dummy.csv
