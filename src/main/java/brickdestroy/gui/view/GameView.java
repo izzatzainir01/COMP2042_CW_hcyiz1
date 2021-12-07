@@ -11,6 +11,20 @@ import javax.swing.JLabel;
 import brickdestroy.elements.Game;
 import brickdestroy.gui.MainFrame;
 
+/**
+ * A View class that provides a visual representation of the {@link Game}.
+ * It is the only View class that does not extend {@code AbstractAllView} as
+ * there is no background image nor buttons in it. It draws all the game
+ * elements as well as some other information about the game onto itself.
+ * <p>
+ * The {@code GameView} class is responsible for drawing the Bricks, Player,
+ * Ball, brick count, attempt count and started/stopped status of the
+ * {@code Game}.
+ * 
+ * @see brickdestroy.elements.Brick Brick
+ * @see brickdestroy.elements.Player Player
+ * @see brickdestroy.elements.Ball Ball
+ */
 public class GameView extends JLabel {
 
     private Game game;
@@ -20,13 +34,20 @@ public class GameView extends JLabel {
     private String counts = "";
 
     /**
-     * The {@code GameView} class is the view for the game's elements. It extends
-     * {@code JLabel} as I need to access the {@code paintComponent()} method.
+     * A View class that provides a visual representation of the {@link Game}.
+     * It is the only View class that does not extend {@code AbstractAllView} as
+     * there is no background image nor buttons in it. It draws all the game
+     * elements as well as some other information about the game onto itself.
      * <p>
-     * It is responsible for defining its size and painting the elements of the
+     * The {@code GameView} class is responsible for drawing the Bricks, Player,
+     * Ball, brick count, attempt count and started/stopped status of the
      * {@code Game}.
      * 
-     * @param game
+     * @param game The {@code Game}
+     * 
+     * @see brickdestroy.elements.Brick Brick
+     * @see brickdestroy.elements.Player Player
+     * @see brickdestroy.elements.Ball Ball
      */
     public GameView(Game game) {
         this.game = game;
@@ -36,7 +57,7 @@ public class GameView extends JLabel {
     }
 
     /**
-     * Paint the game's elements simply by calling the {@code render()} method.
+     * Draws the game's elements, brick count and attempt count.
      */
     @Override
     public void paintComponent(Graphics g) {

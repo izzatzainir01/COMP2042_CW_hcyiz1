@@ -1,14 +1,20 @@
 package brickdestroy.gui.view;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 
 import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
-import brickdestroy.utility.MyImage;
 
+/**
+ * A child class of {@link AbstractAllView} that represents the Pause screen
+ * during the gameplay. Although this class inherits from
+ * {@code AbstractAllView}, it doesn't actually use any of its parent's buttons.
+ * It uses its own buttons with distinct action commands and text from that of
+ * the parent's.
+ * <p>
+ * The {@code GamePauseView} is responsible for defining its buttons and adding
+ * them to itself.
+ */
 public class GamePauseView extends AbstractAllView {
 
     public static final String CONTINUE = "PAUSE_CONTINUE";
@@ -18,8 +24,6 @@ public class GamePauseView extends AbstractAllView {
 
     private int width = MainFrame.WIDTH;
     private int height = MainFrame.HEIGHT;
-
-    private MyImage background;
 
     private MyButton continueButton;
     private MyButton restart;
@@ -31,20 +35,19 @@ public class GamePauseView extends AbstractAllView {
     private int buttonH;
 
     /**
-     * The {@code GamePause} class is the view for the pause screen during the
-     * gameplay. It extends {@code JLabel} as I needed to access the
-     * {@code paintComponent()} method to draw the images.
+     * A child class of {@link AbstractAllView} that represents the Pause screen
+     * during the gameplay. Although this class inherits from
+     * {@code AbstractAllView}, it doesn't actually use any of its parent's buttons.
+     * It uses its own buttons with distinct action commands and text from that of
+     * the parent's.
      * <p>
-     * It is responsible for defining the components that make up the pause screen
-     * and adding them.
+     * The {@code GamePauseView} is responsible for defining its buttons and adding
+     * them to itself.
      */
     public GamePauseView() {
         super(null, null, null, null);
         button1.setVisible(false);
         button2.setVisible(false);
-
-        // Define the background
-        background = new MyImage("cement_wall.jpg");
 
         // Define button sizes
         buttonW1 = (int) (width * 0.5);
@@ -70,10 +73,6 @@ public class GamePauseView extends AbstractAllView {
         exitMenu.setActionCommand(MENU);
         exitDesktop.setActionCommand(DESKTOP);
 
-        // Initialise the Label's properties
-        this.setBounds(0, 0, width, height);
-        this.setPreferredSize(new Dimension(width, height));
-
         // Adding the buttons
         this.add(continueButton);
         this.add(restart);
@@ -82,24 +81,10 @@ public class GamePauseView extends AbstractAllView {
     }
 
     /**
-     * Paint the Pause View's background image.
-     */
-    @Override
-    public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g.create();
-
-        // Draw the background image
-        g2d.drawImage(background.getImage(), 0, 0, null);
-    }
-
-    /**
-     * Set an {@code Action} for the Continue button.
-     * 
-     * @param l An {@code ActionListener}
+     * {@inheritDoc}
      */
     @Override
     public void setActionListener(ActionListener l) {
-        super.setActionListener(l);
         continueButton.addActionListener(l);
         restart.addActionListener(l);
         exitMenu.addActionListener(l);
