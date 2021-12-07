@@ -19,6 +19,30 @@ import brickdestroy.gui.view.GameWinView;
 import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
+/**
+ * A child class of {@link AbstractController} that handles the gameplay. It is
+ * responsible for handling user inputs to control the {@code Game} and
+ * switching between the different Views relating to the gameplay.
+ * <p>
+ * In addition to {@code ActionListener}, the {@code GameController} implements
+ * {@code KeyListener} and {@code WindowFocusListener} to listen for the user's
+ * keyboard inputs to control the game and stop the game upon losing focus of
+ * the game window respectively.
+ * <p>
+ * The {@code GameController} also handles saving the user's username and score
+ * into a .csv file via the {@code ScorePromptView} and {@code ScoreModel}. It
+ * will prompt the user to enter a username before the game starts. It will then
+ * save the score every time the user exits the game via the
+ * {@code GameEndViews}. The score will not be saved upon exiting via the
+ * {@code GamePauseView}.
+ * 
+ * @see Game
+ * @see GameView
+ * @see GamePauseView
+ * @see AbstractGameEndView
+ * @see ScorePromptView
+ * @see ScoreModel
+ */
 public class GameController extends AbstractController implements KeyListener, WindowFocusListener {
 
     private Game game;
@@ -37,15 +61,30 @@ public class GameController extends AbstractController implements KeyListener, W
     private boolean isPaused = false;
 
     /**
-     * The {@code GameController} class is the Controller for the game's actual
-     * gameplay, which includes the {@code Game} and {@code GamePause} views. It is
-     * responsible for getting the user input to switch between the two views as
-     * well as controlling the game.
+     * A child class of {@link AbstractController} that handles the gameplay. It is
+     * responsible for handling user inputs to control the {@code Game} and
+     * switching between the different Views relating to the gameplay.
      * <p>
-     * The {@code GameFrame} parameter is necessary in order for the GameController
-     * to call the GameFrame to change Controllers.
+     * In addition to {@code ActionListener}, the {@code GameController} implements
+     * {@code KeyListener} and {@code WindowFocusListener} to listen for the user's
+     * keyboard inputs to control the game and stop the game upon losing focus of
+     * the game window respectively.
+     * <p>
+     * The {@code GameController} also handles saving the user's username and score
+     * into a .csv file via the {@code ScorePromptView} and {@code ScoreModel}. It
+     * will prompt the user to enter a username before the game starts. It will then
+     * save the scores every time the user exits the game via the
+     * {@code GameEndViews}. The score will not be saved upon exiting via the
+     * {@code GamePauseView}.
      * 
-     * @param frame - The {@code GameFrame}.
+     * @param frame The {@code MainFrame}
+     * 
+     * @see Game
+     * @see GameView
+     * @see GamePauseView
+     * @see AbstractGameEndView
+     * @see ScorePromptView
+     * @see ScoreModel
      */
     public GameController(MainFrame frame) {
         // Call the super constructor and define some extra properties
@@ -60,6 +99,9 @@ public class GameController extends AbstractController implements KeyListener, W
         addView(prompt);
     }
 
+    /**
+     * Initialises the game.
+     */
     private void initialise() {
         // Define the Game and its view
         game = new Game();
@@ -117,7 +159,7 @@ public class GameController extends AbstractController implements KeyListener, W
     }
 
     /**
-     * Exit the game.
+     * Exist the game.
      */
     private void exitGame() {
         MyTimer.stopTimer();
@@ -125,6 +167,11 @@ public class GameController extends AbstractController implements KeyListener, W
         frame.addMenuController();
     }
 
+    /**
+     * Defines the {@code GameEndViews'} buttons' actions.
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -196,6 +243,9 @@ public class GameController extends AbstractController implements KeyListener, W
     }
 
     /**
+     * Handles controlling player movements, starting/stopping the game, pausing the
+     * game, and enabling the {@link DebugConsole}.
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -239,6 +289,9 @@ public class GameController extends AbstractController implements KeyListener, W
     }
 
     /**
+     * Calls for the {@code Player} to stop moving left or right, depending on the
+     * key released.
+     * <p>
      * {@inheritDoc}
      */
     @Override
@@ -253,7 +306,9 @@ public class GameController extends AbstractController implements KeyListener, W
     }
 
     /**
-     * Pause the game upon lost focus
+     * Stops the {@code Game} upon losing focus of the game window.
+     * <p>
+     * {@inheritDoc}
      */
     @Override
     public void windowLostFocus(WindowEvent e) {
@@ -261,11 +316,20 @@ public class GameController extends AbstractController implements KeyListener, W
             game.setGameStopped(true);
     }
 
-    // Unused
+    /**
+     * <b>Unused in this game.</b>
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void windowGainedFocus(WindowEvent e) {
     }
 
+    /**
+     * <b>Unused in this game.</b>
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void keyTyped(KeyEvent keyEvent) {
     }
