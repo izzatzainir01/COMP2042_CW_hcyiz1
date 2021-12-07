@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 /**
- * An abstract child class of {@link MyAbstractView} that represents the View
+ * An abstract child class of {@link AbstractAllView} that represents the View
  * for when the game is stopped due to completing a round or the game, or losing
  * the game. This class predefines a template that extends its parents' template
  * that all Game End Views follow. Since all Game End Views have an Exit button,
@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
  * The {@code AbstractGameEndView} class's content consists of a title and a
  * display of the score.
  */
-public abstract class AbstractGameEndView extends MyAbstractView {
+public abstract class AbstractGameEndView extends AbstractAllView {
 
     public static final String EXIT = "END_VIEW";
 
@@ -25,7 +25,7 @@ public abstract class AbstractGameEndView extends MyAbstractView {
     private int score = 0;
 
     /**
-     * An abstract child class of {@link MyAbstractView} that represents the View
+     * An abstract child class of {@link AbstractAllView} that represents the View
      * for when the game is stopped due to completing a round or the game, or losing
      * the game. This class predefines a template that extends its parents' template
      * that all Game End Views follow. Since all Game End Views have an Exit button,

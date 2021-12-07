@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JTextField;
 
-public class ScorePromptView extends MyAbstractView {
+public class ScorePromptView extends AbstractAllView {
 
     public static final String PLAY = "PROMPT_PLAY";
     public static final String EXIT = "PROMPT_EXIT";

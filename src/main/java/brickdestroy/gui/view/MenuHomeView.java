@@ -8,7 +8,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class MenuHomeView extends MyAbstractView {
+public class MenuHomeView extends AbstractAllView {
 
     public static final String START = "MENU_START";
     public static final String INFO = "MENU_INFO";

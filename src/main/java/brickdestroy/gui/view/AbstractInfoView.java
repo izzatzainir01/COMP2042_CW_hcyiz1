@@ -14,7 +14,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.InfoModel;
 
 /**
- * An abstract child class of {@link MyAbstractView} that represents the Views
+ * An abstract child class of {@link AbstractAllView} that represents the Views
  * of the Info section of the game. This class predefines a template that
  * extends its parent's template that all Info Views follow. Since all Info
  * Views have a Back button, this class also predefines the text and the action
@@ -23,7 +23,7 @@ import brickdestroy.gui.model.InfoModel;
  * The {@code AbstractInfoView} class's content consists of a title and a
  * {@code JTextArea} that displays information relating to that View.
  */
-public abstract class AbstractInfoView extends MyAbstractView {
+public abstract class AbstractInfoView extends AbstractAllView {
 
     public static final String BACK = "INFO_BACK";
 
@@ -35,7 +35,7 @@ public abstract class AbstractInfoView extends MyAbstractView {
     private JScrollPane scrollPane;
 
     /**
-     * An abstract child class of {@link MyAbstractView} that represents the Views
+     * An abstract child class of {@link AbstractAllView} that represents the Views
      * of the Info section of the game. This class predefines a template that
      * extends its parent's template that all Info Views follow. Since all Info
      * Views have a Back button, this class also predefines the text and the action

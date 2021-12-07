@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
-import brickdestroy.gui.view.MyAbstractView;
+import brickdestroy.gui.view.AbstractAllView;
 
 /**
  * An abstract class that represents a Controller for this game. It provides a
@@ -106,7 +106,7 @@ public abstract class AbstractController implements ActionListener {
      * 
      * @param view The new view to be added to this controller
      */
-    protected void addView(MyAbstractView view) {
+    protected void addView(AbstractAllView view) {
         panel.add(view);
         panel.revalidate();
         panel.repaint();
@@ -133,7 +133,7 @@ public abstract class AbstractController implements ActionListener {
      * 
      * @param view The view to be removed from this controller
      */
-    protected void removeView(MyAbstractView view) {
+    protected void removeView(AbstractAllView view) {
         panel.remove(view);
         panel.revalidate();
         panel.repaint();

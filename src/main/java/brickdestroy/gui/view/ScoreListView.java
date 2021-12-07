@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import brickdestroy.gui.model.ScoreModel;
 
-public class ScoreListView extends MyAbstractView {
+public class ScoreListView extends AbstractAllView {
 
     public static final String BACK = "BACK";
 

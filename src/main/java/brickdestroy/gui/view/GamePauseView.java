@@ -9,7 +9,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class GamePauseView extends MyAbstractView {
+public class GamePauseView extends AbstractAllView {
 
     public static final String CONTINUE = "PAUSE_CONTINUE";
     public static final String RESTART = "PAUSE_RESTART";
