@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import brickdestroy.gui.MainFrame;
-import brickdestroy.gui.view.AbstractAllView;
+import brickdestroy.gui.view.AllView;
 
 /**
  * An abstract class that represents a Controller for this game. It provides a
@@ -23,14 +23,14 @@ import brickdestroy.gui.view.AbstractAllView;
  * {@code JPanel} as more of a screen while the {@code MainFrame} as more of a
  * phone frame that holds the screen.
  * <p>
- * The {@code AbstractController} is responsible for predefining some properties
+ * The {@code Controller} is responsible for predefining some properties
  * of the {@code JPanel} that it uses and methods to add and remove a View from
  * the {@code JPanel}.
  * 
  * @see MainFrame
  * @see JPanel
  */
-public abstract class AbstractController implements ActionListener {
+public abstract class Controller implements ActionListener {
 
     protected MainFrame frame;
     protected int width = MainFrame.WIDTH;
@@ -52,7 +52,7 @@ public abstract class AbstractController implements ActionListener {
      * {@code JPanel} as more of a screen while the {@code MainFrame} as more of a
      * phone frame that holds the screen.
      * <p>
-     * The {@code AbstractController} is responsible for predefining some properties
+     * The {@code Controller} is responsible for predefining some properties
      * of the {@code JPanel} that it uses and methods to add and remove a View from
      * the {@code JPanel}.
      * 
@@ -61,7 +61,7 @@ public abstract class AbstractController implements ActionListener {
      * @see MainFrame
      * @see JPanel
      */
-    protected AbstractController(MainFrame frame) {
+    protected Controller(MainFrame frame) {
 
         // Define the frame
         this.frame = frame;
@@ -106,7 +106,7 @@ public abstract class AbstractController implements ActionListener {
      * 
      * @param view The new view to be added to this controller
      */
-    protected void addView(AbstractAllView view) {
+    protected void addView(AllView view) {
         panel.add(view);
         panel.revalidate();
         panel.repaint();
@@ -133,7 +133,7 @@ public abstract class AbstractController implements ActionListener {
      * 
      * @param view The view to be removed from this controller
      */
-    protected void removeView(AbstractAllView view) {
+    protected void removeView(AllView view) {
         panel.remove(view);
         panel.revalidate();
         panel.repaint();

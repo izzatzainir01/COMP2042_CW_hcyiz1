@@ -12,7 +12,7 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.ScoreModel;
 import brickdestroy.gui.view.GamePauseView;
 import brickdestroy.gui.view.GameRoundWinView;
-import brickdestroy.gui.view.AbstractGameEndView;
+import brickdestroy.gui.view.GameEndView;
 import brickdestroy.gui.view.GameLoseView;
 import brickdestroy.gui.view.GameView;
 import brickdestroy.gui.view.GameWinView;
@@ -20,7 +20,7 @@ import brickdestroy.gui.view.ScorePromptView;
 import brickdestroy.utility.MyTimer;
 
 /**
- * A child class of {@link AbstractController} that handles the Game section of
+ * A child class of {@link Controller} that handles the Game section of
  * the game. It is responsible for handling user inputs to control the
  * {@code Game} and switching between the different Views relating to the
  * gameplay.
@@ -40,11 +40,11 @@ import brickdestroy.utility.MyTimer;
  * @see Game
  * @see GameView
  * @see GamePauseView
- * @see AbstractGameEndView
+ * @see GameEndView
  * @see ScorePromptView
  * @see ScoreModel
  */
-public class GameController extends AbstractController implements KeyListener, WindowFocusListener {
+public class GameController extends Controller implements KeyListener, WindowFocusListener {
 
     private Game game;
     private GameView gameView;
@@ -62,7 +62,7 @@ public class GameController extends AbstractController implements KeyListener, W
     private boolean isPaused = false;
 
     /**
-     * A child class of {@link AbstractController} that handles the Game section of
+     * A child class of {@link Controller} that handles the Game section of
      * the game. It is responsible for handling user inputs to control the
      * {@code Game} and switching between the different Views relating to the
      * gameplay.
@@ -84,7 +84,7 @@ public class GameController extends AbstractController implements KeyListener, W
      * @see Game
      * @see GameView
      * @see GamePauseView
-     * @see AbstractGameEndView
+     * @see GameEndView
      * @see ScorePromptView
      * @see ScoreModel
      */
@@ -233,7 +233,7 @@ public class GameController extends AbstractController implements KeyListener, W
                 break;
 
             // For all GameEndView's exit button
-            case AbstractGameEndView.EXIT:
+            case GameEndView.EXIT:
                 scores.addScore(game.getTotalScore());
                 exitGame();
                 break;

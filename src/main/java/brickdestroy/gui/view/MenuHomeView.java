@@ -9,16 +9,16 @@ import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
 /**
- * A child class of {@link AbstractAllView} that represents the game's Home
+ * A child class of {@link AllView} that represents the game's Home
  * Menu. It is the first View that users will see upon launching the game.
- * Although it extends from {@code AbstractAllView}, it doesn't actually use any
+ * Although it extends from {@code AllView}, it doesn't actually use any
  * of its buttons or even the background image. It only uses the parent's
  * {@code setActionListener} method.
  * <p>
  * It is responsible for defining all the components that make up this View and
  * adding them to itself.
  */
-public class MenuHomeView extends AbstractAllView {
+public class MenuHomeView extends AllView {
 
     public static final String START = "MENU_START";
     public static final String INFO = "MENU_INFO";
@@ -40,9 +40,9 @@ public class MenuHomeView extends AbstractAllView {
     private int buttonH;
 
     /**
-     * A child class of {@link AbstractAllView} that represents the game's Home
+     * A child class of {@link AllView} that represents the game's Home
      * Menu. It is the first View that users will see upon launching the game.
-     * Although it extends from {@code AbstractAllView}, it doesn't actually use any
+     * Although it extends from {@code AllView}, it doesn't actually use any
      * of its buttons or even the background image. It only uses the parent's
      * {@code setActionListener} method.
      * <p>

@@ -8,7 +8,7 @@ import brickdestroy.gui.view.MenuHomeView;
 import brickdestroy.gui.view.ScoreListView;
 
 /**
- * A child class of {@link AbstractController} that handles the Main Menu
+ * A child class of {@link Controller} that handles the Main Menu
  * section of the game. It is responsible for switching between the different
  * sections of the game, namely the Game section, the Info section and the High
  * Scores section.
@@ -17,13 +17,13 @@ import brickdestroy.gui.view.ScoreListView;
  * @see InfoController
  * @see GameController
  */
-public class MenuController extends AbstractController {
+public class MenuController extends Controller {
 
     private MenuHomeView home;
     private ScoreListView scores;
 
     /**
-     * A child class of {@link AbstractController} that handles the Main Menu
+     * A child class of {@link Controller} that handles the Main Menu
      * section of the game. It is responsible for switching between the different
      * sections of the game, namely the Game section, the Info section and the High
      * Scores section.

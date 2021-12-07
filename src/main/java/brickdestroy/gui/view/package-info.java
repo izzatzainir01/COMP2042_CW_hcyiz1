@@ -1,9 +1,9 @@
 /**
  * A GUI package that contains all of the game's Views.
  * 
- * @see brickdestroy.gui.view.AbstractAllView AbstractAllView
- * @see brickdestroy.gui.view.AbstractInfoView AbstractInfoView
- * @see brickdestroy.gui.view.AbstractGameEndView AbstractGameEndView
+ * @see brickdestroy.gui.view.AllView AllView
+ * @see brickdestroy.gui.view.InfoView InfoView
+ * @see brickdestroy.gui.view.GameEndView GameEndView
  * @see brickdestroy.gui.view.MenuHomeView MenuHomeView
  * @see brickdestroy.gui.view.InfoDescriptionView InfoDescriptionView
  * @see brickdestroy.gui.view.InfoControlsView InfoControlsView

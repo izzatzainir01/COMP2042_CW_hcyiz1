@@ -13,7 +13,7 @@ import brickdestroy.gui.MainFrame;
 
 /**
  * A View class that provides a visual representation of the {@link Game}.
- * It is the only View class that does not extend {@code AbstractAllView} as
+ * It is the only View class that does not extend {@code AllView} as
  * there is no background image nor buttons in it. It draws all the game
  * elements as well as some other information about the game onto itself.
  * <p>
@@ -35,7 +35,7 @@ public class GameView extends JLabel {
 
     /**
      * A View class that provides a visual representation of the {@link Game}.
-     * It is the only View class that does not extend {@code AbstractAllView} as
+     * It is the only View class that does not extend {@code AllView} as
      * there is no background image nor buttons in it. It draws all the game
      * elements as well as some other information about the game onto itself.
      * <p>

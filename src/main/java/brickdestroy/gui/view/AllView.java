@@ -29,7 +29,7 @@ import brickdestroy.utility.MyImage;
  * 
  * @see JLabel
  */
-public abstract class AbstractAllView extends JLabel {
+public abstract class AllView extends JLabel {
 
     protected final int width = MainFrame.WIDTH;
     protected final int height = MainFrame.HEIGHT;
@@ -60,7 +60,7 @@ public abstract class AbstractAllView extends JLabel {
      * 
      * @see JLabel
      */
-    protected AbstractAllView(String button1Text, String button2Text, String button1Command, String button2Command) {
+    protected AllView(String button1Text, String button2Text, String button1Command, String button2Command) {
         // Define background image
         background = new MyImage("cement_wall.jpg");
 

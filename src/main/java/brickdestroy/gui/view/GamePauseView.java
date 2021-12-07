@@ -6,16 +6,16 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 
 /**
- * A child class of {@link AbstractAllView} that represents the Pause screen
+ * A child class of {@link AllView} that represents the Pause screen
  * during the gameplay. Although this class inherits from
- * {@code AbstractAllView}, it doesn't actually use any of its parent's buttons.
+ * {@code AllView}, it doesn't actually use any of its parent's buttons.
  * It uses its own buttons with distinct action commands and text from that of
  * the parent's.
  * <p>
  * The {@code GamePauseView} is responsible for defining its buttons and adding
  * them to itself.
  */
-public class GamePauseView extends AbstractAllView {
+public class GamePauseView extends AllView {
 
     public static final String CONTINUE = "PAUSE_CONTINUE";
     public static final String RESTART = "PAUSE_RESTART";
@@ -35,9 +35,9 @@ public class GamePauseView extends AbstractAllView {
     private int buttonH;
 
     /**
-     * A child class of {@link AbstractAllView} that represents the Pause screen
+     * A child class of {@link AllView} that represents the Pause screen
      * during the gameplay. Although this class inherits from
-     * {@code AbstractAllView}, it doesn't actually use any of its parent's buttons.
+     * {@code AllView}, it doesn't actually use any of its parent's buttons.
      * It uses its own buttons with distinct action commands and text from that of
      * the parent's.
      * <p>

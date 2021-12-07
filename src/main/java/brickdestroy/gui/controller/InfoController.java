@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.InfoModel;
-import brickdestroy.gui.view.AbstractInfoView;
+import brickdestroy.gui.view.InfoView;
 import brickdestroy.gui.view.InfoControlsView;
 import brickdestroy.gui.view.InfoDescriptionView;
 
 /**
- * A child class of {@link AbstractController} that handles the Info section of
+ * A child class of {@link Controller} that handles the Info section of
  * the game, accessible through the Main Menu. It is responsible for fetching
  * information from the resources, displaying it in its respective View and
  * switching between the Views that take up the Info section.
@@ -20,16 +20,16 @@ import brickdestroy.gui.view.InfoDescriptionView;
  * @see InfoDescriptionView
  * @see InfoControlsView
  */
-public class InfoController extends AbstractController {
+public class InfoController extends Controller {
 
-    private AbstractInfoView description;
+    private InfoView description;
     private InfoModel descriptionInfo;
 
-    private AbstractInfoView controls;
+    private InfoView controls;
     private InfoModel controlsInfo;
 
     /**
-     * A child class of {@link AbstractController} that handles the Info section of
+     * A child class of {@link Controller} that handles the Info section of
      * the game, accessible through the Main Menu. It is responsible for fetching
      * information from the resources, displaying it in its respective View and
      * switching between the Views that take up the Info section.
@@ -67,7 +67,7 @@ public class InfoController extends AbstractController {
         switch (e.getActionCommand()) {
 
             // Back button
-            case AbstractInfoView.BACK:
+            case InfoView.BACK:
                 frame.addMenuController();
                 break;
 

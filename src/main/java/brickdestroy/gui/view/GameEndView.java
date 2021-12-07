@@ -6,17 +6,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 /**
- * An abstract child class of {@link AbstractAllView} that represents the View
+ * An abstract child class of {@link AllView} that represents the View
  * for when the game is stopped due to completing a round or the game, or losing
  * the game. This class predefines a template that extends its parents' template
  * that all Game End Views follow. Since all Game End Views have an Exit button,
  * this class also predefines the text and the action command of the Second
  * button.
  * <p>
- * The {@code AbstractGameEndView} class's content consists of a title and a
+ * The {@code GameEndView} class's content consists of a title and a
  * display of the score.
  */
-public abstract class AbstractGameEndView extends AbstractAllView {
+public abstract class GameEndView extends AllView {
 
     public static final String EXIT = "END_VIEW";
 
@@ -25,21 +25,21 @@ public abstract class AbstractGameEndView extends AbstractAllView {
     private int score = 0;
 
     /**
-     * An abstract child class of {@link AbstractAllView} that represents the View
+     * An abstract child class of {@link AllView} that represents the View
      * for when the game is stopped due to completing a round or the game, or losing
      * the game. This class predefines a template that extends its parents' template
      * that all Game End Views follow. Since all Game End Views have an Exit button,
      * this class also predefines the text and the action command of the Second
      * button.
      * <p>
-     * The {@code AbstractGameEndView} class's content consists of a title and a
+     * The {@code GameEndView} class's content consists of a title and a
      * display of the score.
      * 
      * @param title          The title of this view
      * @param button1Text    The text of the First button
      * @param button1Command The action command of the First button
      */
-    public AbstractGameEndView(String title, String button1Text, String button1Command) {
+    public GameEndView(String title, String button1Text, String button1Command) {
         // Call the super constructor
         super(button1Text, "Exit", button1Command, EXIT);
 

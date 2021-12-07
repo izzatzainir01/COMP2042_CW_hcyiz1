@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import brickdestroy.gui.model.ScoreModel;
 
 /**
- * A child class of {@link AbstractAllView} that represents the High Score List
+ * A child class of {@link AllView} that represents the High Score List
  * section of the game, accessible through the Home Menu. It displays a list of
  * usernames and scores that is sorted from the highest score to the lowest and
  * only displays 20 entries.
@@ -24,7 +24,7 @@ import brickdestroy.gui.model.ScoreModel;
  * 
  * @see ScoreModel
  */
-public class ScoreListView extends AbstractAllView {
+public class ScoreListView extends AllView {
 
     public static final String BACK = "BACK";
 
@@ -36,7 +36,7 @@ public class ScoreListView extends AbstractAllView {
     private final String[] columns = { "ID", "Username", "Score" };
 
     /**
-     * A child class of {@link AbstractAllView} that represents the High Score List
+     * A child class of {@link AllView} that represents the High Score List
      * section of the game, accessible through the Home Menu. It displays a list of
      * usernames and scores that is sorted from the highest score to the lowest and
      * only displays 20 entries.

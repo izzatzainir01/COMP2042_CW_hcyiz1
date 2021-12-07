@@ -14,16 +14,16 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.InfoModel;
 
 /**
- * An abstract child class of {@link AbstractAllView} that represents the Views
+ * An abstract child class of {@link AllView} that represents the Views
  * of the Info section of the game. This class predefines a template that
  * extends its parent's template that all Info Views follow. Since all Info
  * Views have a Back button, this class also predefines the text and the action
  * command of the Second button.
  * <p>
- * The {@code AbstractInfoView} class's content consists of a title and a
+ * The {@code InfoView} class's content consists of a title and a
  * {@code JTextArea} that displays information relating to that View.
  */
-public abstract class AbstractInfoView extends AbstractAllView {
+public abstract class InfoView extends AllView {
 
     public static final String BACK = "INFO_BACK";
 
@@ -35,13 +35,13 @@ public abstract class AbstractInfoView extends AbstractAllView {
     private JScrollPane scrollPane;
 
     /**
-     * An abstract child class of {@link AbstractAllView} that represents the Views
+     * An abstract child class of {@link AllView} that represents the Views
      * of the Info section of the game. This class predefines a template that
      * extends its parent's template that all Info Views follow. Since all Info
      * Views have a Back button, this class also predefines the text and the action
      * command of the Second button.
      * <p>
-     * The {@code AbstractInfoView} class's content consists of a title and a
+     * The {@code InfoView} class's content consists of a title and a
      * {@code JTextArea} that displays information relating to that View.
      * 
      * @param info           The Info model
@@ -49,7 +49,7 @@ public abstract class AbstractInfoView extends AbstractAllView {
      * @param title          The title of this View
      * @param button2Text    The Second button text
      */
-    protected AbstractInfoView(InfoModel info, String button2Command, String title, String button2Text) {
+    protected InfoView(InfoModel info, String button2Command, String title, String button2Text) {
         super("Back", button2Text, BACK, button2Command);
 
         // Define content size

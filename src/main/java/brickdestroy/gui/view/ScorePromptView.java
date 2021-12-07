@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JTextField;
 
 /**
- * A child class of {@link AbstractAllView} that represents a View that prompts
+ * A child class of {@link AllView} that represents a View that prompts
  * the user for their username before the {@code Game} starts. If the user did
  * not enter anything for their username, the {@code ScoreModel} will assign the
  * current user with a "Guest_x" username, where x is the guest ID.
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
  * 
  * @see brickdestroy.gui.model.ScoreModel ScoreModel
  */
-public class ScorePromptView extends AbstractAllView {
+public class ScorePromptView extends AllView {
 
     public static final String PLAY = "PROMPT_PLAY";
     public static final String EXIT = "PROMPT_EXIT";
@@ -30,7 +30,7 @@ public class ScorePromptView extends AbstractAllView {
     private int fieldH;
 
     /**
-     * A child class of {@link AbstractAllView} that represents a View that prompts
+     * A child class of {@link AllView} that represents a View that prompts
      * the user for their username before the {@code Game} starts. If the user did
      * not enter anything for their username, the {@code ScoreModel} will assign the
      * current user with a "Guest_x" username, where x is the guest ID.

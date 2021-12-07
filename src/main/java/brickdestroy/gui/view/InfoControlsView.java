@@ -3,16 +3,16 @@ package brickdestroy.gui.view;
 import brickdestroy.gui.model.InfoModel;
 
 /**
- * A child class of {@link AbstractInfoView} that represents the Description
+ * A child class of {@link InfoView} that represents the Description
  * part of the Info section. It is responsible for defining the title, the
  * Second button action command and text, and the Info model.
  */
-public class InfoControlsView extends AbstractInfoView {
+public class InfoControlsView extends InfoView {
 
     public static final String DESCRIPTION = "INFO_DESCRIPTION";
 
     /**
-     * A child class of {@link AbstractInfoView} that represents the Description
+     * A child class of {@link InfoView} that represents the Description
      * part of the Info section. It is responsible for defining the title, the
      * Second button action command and text, and the Info model.
      */
