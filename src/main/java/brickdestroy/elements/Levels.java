@@ -5,6 +5,20 @@ import java.awt.Point;
 
 import brickdestroy.gui.MainFrame;
 
+/**
+ * A class for creating levels for the {@link Game}. The methods used in this
+ * class were originally from the {@code Game} class but I decided to separate
+ * them as I personally believe that the {@code Game} shouldn't be responsible
+ * for creating levels, rather only getting them.
+ * <p>
+ * As of writing this, there are current two types of levels:
+ * <ul>
+ * <li><b>Single</b> type level</li>
+ * <li><b>Chessboard</b> type level</li>
+ * </ul>
+ * <p>
+ * It is responsible for defining level types and creating an array of levels.
+ */
 public class Levels {
 
     private static final int frameW = MainFrame.WIDTH;
@@ -13,13 +27,13 @@ public class Levels {
     private static final int sizeRatio = 3;
 
     /**
-     * The {@code Levels} class creates levels for the Game. I separated these
-     * methods from the {@code Game} class as I personally believe that the Game
-     * should not be responsible for <b>creating</b> levels.
+     * Creates 4 levels, one of which is a single type level while the other three
+     * are chessboard type levels with varying types of bricks.
+     * 
+     * @param brickCount The number of bricks
+     * @param lineCount  The number of rows of bricks
+     * @return A 2D array of {@code Bricks}
      */
-    public Levels() {
-    }
-
     public static Brick[][] makeLevels(int brickCount, int lineCount) {
         // Minimum amount of bricks is six
         if (brickCount < 6)

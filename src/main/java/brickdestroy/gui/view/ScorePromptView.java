@@ -7,7 +7,18 @@ import java.awt.Graphics2D;
 
 import javax.swing.JTextField;
 
-public class ScorePromptView extends MyAbstractView {
+/**
+ * A child class of {@link AllView} that represents a View that prompts
+ * the user for their username before the {@code Game} starts. If the user did
+ * not enter anything for their username, the {@code ScoreModel} will assign the
+ * current user with a "Guest_x" username, where x is the guest ID.
+ * <p>
+ * It is responsible for defining the components that make up this View and
+ * adding them to itself.
+ * 
+ * @see brickdestroy.gui.model.ScoreModel ScoreModel
+ */
+public class ScorePromptView extends AllView {
 
     public static final String PLAY = "PROMPT_PLAY";
     public static final String EXIT = "PROMPT_EXIT";
@@ -18,6 +29,17 @@ public class ScorePromptView extends MyAbstractView {
     private int fieldW;
     private int fieldH;
 
+    /**
+     * A child class of {@link AllView} that represents a View that prompts
+     * the user for their username before the {@code Game} starts. If the user did
+     * not enter anything for their username, the {@code ScoreModel} will assign the
+     * current user with a "Guest_x" username, where x is the guest ID.
+     * <p>
+     * It is responsible for defining the components that make up this View and
+     * adding them to itself.
+     * 
+     * @see brickdestroy.gui.model.ScoreModel ScoreModel
+     */
     public ScorePromptView() {
         // Call the super constructor
         super("Play", "Exit", PLAY, EXIT);
@@ -38,7 +60,7 @@ public class ScorePromptView extends MyAbstractView {
     }
 
     /**
-     * Draw the prompt string.
+     * Draws the prompt string.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -54,7 +76,7 @@ public class ScorePromptView extends MyAbstractView {
     }
 
     /**
-     * Get the username that was input in the text field.
+     * Gets the username that was entered in the text field.
      * 
      * @return A {@code String} of the username
      */

@@ -7,7 +7,14 @@ import java.awt.geom.Point2D;
 import javax.swing.ImageIcon;
 
 /**
- * My own image class with some functions that make my life easier.
+ * A utility class that contains methods for images that I use somewhat
+ * oftenly and didn't want to write it over and over again throughout the
+ * program.
+ * <p>
+ * Basically, it's just a compilation of methods for images.
+ * 
+ * @see ImageIcon
+ * @see Image
  */
 public class MyImage {
 
@@ -15,11 +22,16 @@ public class MyImage {
     private Point2D location;
 
     /**
-     * The {@code MyImage} class is a class I made to also make my life easier. It's
-     * mainly for defining methods that I find tedious to write all the time and use
-     * somewhat frequently.
+     * A utility class that contains methods for images that I use somewhat
+     * oftenly and didn't want to write it over and over again throughout the
+     * program.
+     * <p>
+     * Basically, it's just a compilation of methods for images.
      * 
-     * @param fileName - The name of the image file.
+     * @param fileName The name of the image file
+     * 
+     * @see ImageIcon
+     * @see Image
      */
     public MyImage(String fileName) {
         // Format the path to the image file
@@ -28,9 +40,9 @@ public class MyImage {
     }
 
     /**
-     * Rescale the image while preserving the original aspect ratio.
+     * Rescales the image while preserving the original aspect ratio.
      * 
-     * @param width - The new width of the image.
+     * @param width - The new width
      */
     public void rescale(double width) {
         double ratio = width / image.getWidth(null);
@@ -39,10 +51,10 @@ public class MyImage {
     }
 
     /**
-     * Resize the image without perserving the original aspect ratio.
+     * Resizes the image without perserving the original aspect ratio.
      * 
-     * @param width  - The new width of the image.
-     * @param height - The new height of the image.
+     * @param width  - The new width
+     * @param height - The new height
      */
     public void resize(int width, int height) {
         image = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
@@ -50,65 +62,65 @@ public class MyImage {
     }
 
     /**
-     * Set the location of the image. While this doesn't technically do anything
+     * Sets the location of the image. While this doesn't technically do anything
      * functionally, it stores the location that I want to put the image at.
      * 
-     * @param x - The X coordinate.
-     * @param y - The Y coordinate.
+     * @param x - The X coordinate
+     * @param y - The Y coordinate
      */
     public void setLocation(int x, int y) {
         location = new Point(x, y);
     }
 
     /**
-     * Get the X coordinate of the image.
+     * Gets the X coordinate of the image.
      * 
-     * @return An {@code int} of the X coordinate.
+     * @return An {@code int} of the X coordinate
      */
     public int getX() {
         return (int) location.getX();
     }
 
     /**
-     * Get the Y coordinate of the image.
+     * Gets the Y coordinate of the image.
      * 
-     * @return An {@code int} of the Y coordinate.
+     * @return An {@code int} of the Y coordinate
      */
     public int getY() {
         return (int) location.getY();
     }
 
     /**
-     * Get the width of the image.
+     * Gets the width of the image.
      * 
-     * @return An {@code int} of the image's width.
+     * @return An {@code int} of the image's width
      */
     public int getWidth() {
         return image.getWidth(null);
     }
 
     /**
-     * Get the height of the image.
+     * Gets the height of the image.
      * 
-     * @return An {@code int} of the image's height.
+     * @return An {@code int} of the image's height
      */
     public int getHeight() {
         return image.getHeight(null);
     }
 
     /**
-     * Get an {@code ImageIcon} object of the image.
+     * Gets an {@code ImageIcon} object of the image.
      * 
-     * @return An {@code ImageIcon} object of the image.
+     * @return An {@code ImageIcon} object of the image
      */
     public ImageIcon getImageIcon() {
         return new ImageIcon(image);
     }
 
     /**
-     * Get an {@code Image} object of the image.
+     * Gets an {@code Image} object of the image.
      * 
-     * @return An {@code Image} object of the image.
+     * @return An {@code Image} object of the image
      */
     public Image getImage() {
         return new ImageIcon(image).getImage();

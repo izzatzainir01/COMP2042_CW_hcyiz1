@@ -8,38 +8,56 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+/**
+ * A child class of {@link Brick}. It is mid level brick that has slightly more
+ * strength than {@link BrickClay}. It is a rectangular shaped brick with a dark
+ * gray border and a gray inner colour that has the ability to crack upon
+ * impact.
+ * <p>
+ * It is responsible for defining its colours and its strength.
+ */
 public class BrickCement extends Brick {
 
-    private static final Color BORDER = new Color(217, 199, 175);
+    private static final Color BORDER = Color.GRAY.darker();
     private static final Color INNER = new Color(147, 147, 147);
     private static final int STRENGTH = 2;
 
-    private final int CRACK_DEPTH = 1;
+    private final int CRACK_DEPTH = 2;
     private final int STEPS = 35;
 
     private Crack crack;
-    private Shape cementFace;
+
+    private Point2D pos;
+    private int width;
+    private int height;
 
     /**
-     * The {@code BrickCement} class is a child class of {@code Brick}. It has a
-     * {@code strength} of 2 and is able to create cracks upon impact.
+     * A child class of {@link Brick}. It is mid level brick that has slightly more
+     * strength than {@link BrickClay}. It is a rectangular shaped brick with a dark
+     * gray border and a gray inner colour that has the ability to crack upon
+     * impact.
      * <p>
-     * It is responsible for defining its colours, strength and {@code Crack}
-     * properties.
+     * It is responsible for defining its colours and its strength.
      * 
-     * @param pos    - The top left corner.
-     * @param width  - The width.
-     * @param height - The height.
+     * @param pos    The top left corner
+     * @param width  The width
+     * @param height The height
      */
     public BrickCement(Point2D pos, int width, int height) {
         super(pos, width, height, STRENGTH, BORDER, INNER);
 
+        this.pos = pos;
+        this.width = width;
+        this.height = height;
+
         this.crack = new Crack(CRACK_DEPTH, STEPS);
-        this.cementFace = super.getSuperShape();
     }
 
     /**
      * {@inheritDoc}
+     * <p>
+     * The {@code BrickCement} class uses a {@link Rectangle} to define its
+     * {@code Shape}.
      */
     @Override
     protected Shape makeBrickFace(Point2D pos, int width, int height) {
@@ -48,14 +66,9 @@ public class BrickCement extends Brick {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    protected Shape getBrick() {
-        return cementFace;
-    }
-
-    /**
-     * {@inheritDoc}
+     * <p>
+     * If the brick impacted is a {@code BrickCement}, then it will also determine
+     * how to draw cracks on the brick.
      */
     @Override
     public boolean setImpact(Point2D point, String dir) {
@@ -84,13 +97,16 @@ public class BrickCement extends Brick {
     }
 
     /**
-     * Calls the parent's {@code repair()} method and resets the cracks.
+     * {@inheritDoc}
+     * <p>
+     * If the brick impacted is a {@code BrickCement}, then it will also reset the
+     * cracks.
      */
     @Override
     public void repair() {
         super.repair();
         crack.reset();
-        cementFace = super.getSuperShape();
+        brickFace = makeBrickFace(pos, width, height);
     }
 
     /**
@@ -99,8 +115,8 @@ public class BrickCement extends Brick {
     private void updateBrick() {
         if (!isBroken()) {
             GeneralPath path = crack.draw();
-            path.append(super.getSuperShape(), false);
-            cementFace = path;
+            path.append(brickFace, false);
+            brickFace = path;
         }
     }
 }

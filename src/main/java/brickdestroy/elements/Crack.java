@@ -6,6 +6,13 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+/**
+ * Imma be honest I didn't really touch the {@code Crack} class at all cause it
+ * looks really complicated and I'm too scared to touch it. Therefore, I know
+ * next to nothing about it. I just know that it creates cracks on the Bricks.
+ * <p>
+ * ¯\_(ツ)_/¯
+ */
 public class Crack {
 
     public static final int LEFT = 10;
@@ -33,8 +40,8 @@ public class Crack {
      * <p>
      * ¯\_(ツ)_/¯
      * 
-     * @param crackDepth
-     * @param steps
+     * @param crackDepth The depth of the crack, probably
+     * @param steps      steps
      */
     public Crack(int crackDepth, int steps) {
         crack = new GeneralPath();

@@ -8,7 +8,17 @@ import brickdestroy.gui.MainFrame;
 import brickdestroy.utility.MyButton;
 import brickdestroy.utility.MyImage;
 
-public class MenuHomeView extends MyAbstractView {
+/**
+ * A child class of {@link AllView} that represents the game's Home
+ * Menu. It is the first View that users will see upon launching the game.
+ * Although it extends from {@code AllView}, it doesn't actually use any
+ * of its buttons or even the background image. It only uses the parent's
+ * {@code setActionListener} method.
+ * <p>
+ * It is responsible for defining all the components that make up this View and
+ * adding them to itself.
+ */
+public class MenuHomeView extends AllView {
 
     public static final String START = "MENU_START";
     public static final String INFO = "MENU_INFO";
@@ -30,12 +40,14 @@ public class MenuHomeView extends MyAbstractView {
     private int buttonH;
 
     /**
-     * The {@code MenuHome} class is the view for the game's home menu. It extends
-     * {@code JLabel} as I need to access the {@code paintComponent()} method to
-     * draw the images.
+     * A child class of {@link AllView} that represents the game's Home
+     * Menu. It is the first View that users will see upon launching the game.
+     * Although it extends from {@code AllView}, it doesn't actually use any
+     * of its buttons or even the background image. It only uses the parent's
+     * {@code setActionListener} method.
      * <p>
-     * It is responsible for defining and adding the components that make up the
-     * home menu.
+     * It is responsible for defining all the components that make up this View and
+     * adding them to itself.
      */
     public MenuHomeView() {
         super(null, null, null, null);
@@ -94,13 +106,10 @@ public class MenuHomeView extends MyAbstractView {
     }
 
     /**
-     * Set an {@code ActionListener} for this view.
-     * 
-     * @param l An {@code ActionListener}
+     * {@inheritDoc}
      */
     @Override
     public void setActionListener(ActionListener l) {
-        super.setActionListener(l);
         start.addActionListener(l);
         info.addActionListener(l);
         scores.addActionListener(l);

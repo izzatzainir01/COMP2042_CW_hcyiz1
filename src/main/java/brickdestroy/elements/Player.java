@@ -8,6 +8,20 @@ import java.awt.geom.Point2D;
 
 import brickdestroy.gui.MainFrame;
 
+/**
+ * A class the represents the player's model in the game, a paddle. The
+ * {@code Player} in the game is represented by a rectangular shape with a dark
+ * green border and a lighter green inner colour. It is responsible for storing
+ * data that allows the {@link Game} to make decisions during gameplay.
+ * <p>
+ * Similar to the {@link Ball}, the {@code Player} uses its center point as
+ * its location, rather than the top-left corner, for similar reasons as the
+ * {@code Ball}.
+ * <p>
+ * While not ideal, the {@code Player} also checks for its collisions with the
+ * frame's borders. It is the only game element that checks for any collisions
+ * within itself.
+ */
 public class Player {
 
     private final Color BORDER = Color.GREEN.darker().darker();
@@ -26,16 +40,22 @@ public class Player {
     private boolean moveRight;
 
     /**
-     * The {@code Player} class creates the model that the player will be
-     * controlling. It is responsible for defining its shape, colours and location.
+     * A class the represents the player's model in the game, a paddle. The
+     * {@code Player} in the game is represented by a rectangular shape with a dark
+     * green border and a lighter green inner colour. It is responsible for storing
+     * data that allows the {@link Game} to make decisions during gameplay.
      * <p>
-     * It is not responsible for defining its behaviour in the game within itself,
-     * with the exception of stopping its movements upon colliding with the game's
-     * frame.
+     * Similar to the {@link Ball}, the {@code Player} uses its center point as
+     * its location, rather than the top-left corner, for similar reasons as the
+     * {@code Ball}.
+     * <p>
+     * While not ideal, the {@code Player} also checks for its collisions with the
+     * frame's borders. It is the only game element that checks for any collisions
+     * within itself.
      * 
-     * @param center - The center position.
-     * @param width  - The width.
-     * @param height - The height.
+     * @param center - The center position
+     * @param width  - The width
+     * @param height - The height
      */
     public Player(Point2D center, int width, int height) {
         // Define size
@@ -52,38 +72,8 @@ public class Player {
     }
 
     /**
-     * Create the Player's model, which is a Rectangle.
-     * 
-     * @param center - The center position.
-     * @param width  - The width.
-     * @param height - The height.
-     * @return A {@code Rectangle} object.
-     */
-    private Rectangle makeRectangle(Point2D center, int width, int height) {
-        // Getting the top left corner of the Shape
-        int tempX = (int) center.getX() - width / 2;
-        int tempY = (int) center.getY() - height / 2;
-
-        return new Rectangle(tempX, tempY, width, height);
-    }
-
-    /**
-     * Get the bounds of the Player.
-     * 
-     * @return A {@code Rectangle} of the Player's bounds.
-     */
-    public Rectangle getBounds() {
-        return playerFace.getBounds();
-    }
-
-    /**
-     * Increment the Player's position by {@code SPEED} only if called to do so by
-     * the Game.
-     * <p>
-     * Ideally, it is not supposed to be responsible for checking its collision with
-     * the game's frame borders. However, I could not figure out a way to make it
-     * work as I intend it to from the {@code GameController}. Thus, the collision
-     * check is done here.
+     * Increments the {@code Player's} position by {@code SPEED}. This method calls
+     * the {@code setLocation} method to move the {@code Player}.
      */
     public void move() {
         // Check when Player hits the left side of the frame
@@ -101,31 +91,30 @@ public class Player {
             centerX += speed;
 
         setLocation(new Point(centerX, centerY));
-        // setLocation(new Point((int)Ball.centerX, centerY));
     }
 
     /**
-     * Set the {@code moveLeft} variable to whatever is given in the argument.
+     * Sets the {@code moveLeft} variable to the specified {@code boolean value}.
      * 
-     * @param bool - A {@code boolean} value.
+     * @param bool - A {@code boolean} value
      */
     public void moveLeft(boolean bool) {
         moveLeft = bool;
     }
 
     /**
-     * Set the {@code moveRight} variable to whatever is give in the argument.
+     * Sets the {@code moveRight} variable to the specified {@code boolean value}.
      * 
-     * @param bool - A {@code boolean} value.
+     * @param bool - A {@code boolean} value
      */
     public void moveRight(boolean bool) {
         moveRight = bool;
     }
 
     /**
-     * Set a new center location.
+     * Sets a new center location of the {@code Player}.
      * 
-     * @param p - The new center location.
+     * @param p - The new center location
      */
     public void setLocation(Point2D p) {
 
@@ -141,7 +130,7 @@ public class Player {
     }
 
     /**
-     * Set the speed of the Player.
+     * Sets the speed of the {@code Player}.
      * 
      * @param speed The speed of the player
      */
@@ -150,9 +139,25 @@ public class Player {
     }
 
     /**
-     * Render the Player's inner and border colours.
+     * Gets the bounds of the {@code Player}.
      * 
-     * @param g - A {@code Graphics2D} object.
+     * @return A {@code Rectangle} of the Player's bounds
+     */
+    public Rectangle getBounds() {
+        return playerFace.getBounds();
+    }
+
+    /**
+     * Render the Player's inner and border colours.
+     * <p>
+     * While this method doesn't draw the {@code Player} by itself, it is intended
+     * to be used inside a {@link JComponent} within the {@code paint} method in
+     * order to be drawn onto the GUI. This method is defined within the
+     * {@code Player} class to ensure that other classes have limited access to the
+     * fields required to draw the {@code Player}. Thus, minimising the need for
+     * getters.
+     * 
+     * @param g - A {@code Graphics2D} object
      */
     public void render(Graphics2D g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -164,5 +169,22 @@ public class Player {
         // Set the border colour
         g2d.setColor(BORDER);
         g2d.draw(playerFace);
+    }
+
+    /**
+     * Creates the {@link Shape} of the {@code Player}, which is a
+     * {@link Rectangle}.
+     * 
+     * @param center - The center position
+     * @param width  - The width
+     * @param height - The height
+     * @return A {@code Rectangle} object
+     */
+    private Rectangle makeRectangle(Point2D center, int width, int height) {
+        // Getting the top left corner of the Shape
+        int tempX = (int) center.getX() - width / 2;
+        int tempY = (int) center.getY() - height / 2;
+
+        return new Rectangle(tempX, tempY, width, height);
     }
 }

@@ -8,37 +8,46 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+/**
+ * A child class of {@link Brick}. It is a high level brick that potentially has
+ * more strength than {@link BrickCement}. It is a rectangular shaped brick with
+ * a dark gray border and a light gray inner colour that only breaks based on a
+ * probability.
+ * <p>
+ * It is responsible for defining its colours, its strength, and its impact
+ * probability.
+ */
 public class BrickSteel extends Brick {
 
-    private static final Color BORDER = Color.BLACK;
+    private static final Color BORDER = Color.GRAY.darker();
     private static final Color INNER = new Color(203, 203, 201);
     private static final int STRENGTH = 1;
     private static final double STEEL_PROBABILITY = 0.4;
 
-    private Shape steelFace;
-
     private Random rand = new Random();
 
     /**
-     * The {@code BrickSteel} class is a child class of {@code Brick}. Although its
-     * {@code strength} is only 1, it only loses its strength based on a
+     * A child class of {@link Brick}. It is a high level brick that potentially has
+     * more strength than {@link BrickCement}. It is a rectangular shaped brick with
+     * a dark gray border and a light gray inner colour that only breaks based on a
      * probability.
      * <p>
-     * It is responsible for defining its colours and the probability of losing its
-     * {@code strength}.
+     * It is responsible for defining its colours, its strength, and its impact
+     * probability.
      * 
-     * @param pos    - The top left corner.
-     * @param width  - The width.
-     * @param height - The height.
+     * @param pos    The top left corner
+     * @param width  The width
+     * @param height The height
      */
     public BrickSteel(Point2D pos, int width, int height) {
         super(pos, width, height, STRENGTH, BORDER, INNER);
-
-        this.steelFace = super.getSuperShape();
     }
 
     /**
      * {@inheritDoc}
+     * <p>
+     * The {@code BrickSteel} class uses a {@link Rectangle} to define its
+     * {@code Shape}.
      */
     @Override
     protected Shape makeBrickFace(Point2D pos, int width, int height) {
@@ -47,14 +56,9 @@ public class BrickSteel extends Brick {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    protected Shape getBrick() {
-        return steelFace;
-    }
-
-    /**
-     * Calls the parent's {@code impact()} method based on the probability.
+     * <p>
+     * If the brick impacted is a {@code BrickSteel}, then it will also determine
+     * the probability of it breaking.
      */
     @Override
     public void impact() {

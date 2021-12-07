@@ -5,7 +5,18 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public abstract class AbstractGameEndView extends MyAbstractView {
+/**
+ * An abstract child class of {@link AllView} that represents the View
+ * for when the game is stopped due to completing a round or the game, or losing
+ * the game. This class predefines a template that extends its parents' template
+ * that all Game End Views follow. Since all Game End Views have an Exit button,
+ * this class also predefines the text and the action command of the Second
+ * button.
+ * <p>
+ * The {@code GameEndView} class's content consists of a title and a
+ * display of the score.
+ */
+public abstract class GameEndView extends AllView {
 
     public static final String EXIT = "END_VIEW";
 
@@ -14,19 +25,21 @@ public abstract class AbstractGameEndView extends MyAbstractView {
     private int score = 0;
 
     /**
-     * The {@code GameEndView} class is a View class that represents the View for
-     * when the game is stopped due to completing a round/game, or losing the game.
+     * An abstract child class of {@link AllView} that represents the View
+     * for when the game is stopped due to completing a round or the game, or losing
+     * the game. This class predefines a template that extends its parents' template
+     * that all Game End Views follow. Since all Game End Views have an Exit button,
+     * this class also predefines the text and the action command of the Second
+     * button.
      * <p>
-     * It is responsible for defining the common components that make up the
-     * different variations of this View and adding them to itself. It contains a
-     * 'Secondary' button that users can define its text and action from the
-     * controller.
+     * The {@code GameEndView} class's content consists of a title and a
+     * display of the score.
      * 
-     * @param title      The title of the view
-     * @param score      The score that is displayed on the view
-     * @param button1Text The text on the Secondary button
+     * @param title          The title of this view
+     * @param button1Text    The text of the First button
+     * @param button1Command The action command of the First button
      */
-    public AbstractGameEndView(String title, String button1Text, String button1Command) {
+    public GameEndView(String title, String button1Text, String button1Command) {
         // Call the super constructor
         super(button1Text, "Exit", button1Command, EXIT);
 
@@ -35,7 +48,7 @@ public abstract class AbstractGameEndView extends MyAbstractView {
     }
 
     /**
-     * Draw the background image and texts.
+     * Draw the background image, the title and the score.
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -64,7 +77,7 @@ public abstract class AbstractGameEndView extends MyAbstractView {
     }
 
     /**
-     * Set the score of this view.
+     * Sets the score of this view.
      * 
      * @param score The new score
      */

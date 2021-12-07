@@ -13,6 +13,17 @@ import brickdestroy.gui.MainFrame;
 
 import javax.swing.JButton;
 
+/**
+ * A utility class that represents a custom button in the game using
+ * {@code JButton}. It predefines many properties of the button in order to ease
+ * the process of creating a button in the game.
+ * 
+ * @param text   The button text
+ * @param width  The width
+ * @param height The height
+ * 
+ * @see JButton
+ */
 public class MyButton extends JButton implements MouseListener {
 
     private MyImage buttonBG;
@@ -25,14 +36,15 @@ public class MyButton extends JButton implements MouseListener {
     private int fontSize;
 
     /**
-     * The {@code MyButton} class is a class I made to make my life easier. It
-     * predefines some properties to help me create the buttons a lot faster.
-     * <p>
-     * It is responsible for defining its size and looks.
+     * A utility class that represents a custom button in the game using
+     * {@code JButton}. It predefines many properties of the button in order to ease
+     * the process of creating a button in the game.
      * 
-     * @param text   - The text on the button.
-     * @param width  - The width.
-     * @param height - The height.
+     * @param text   The button text
+     * @param width  The width
+     * @param height The height
+     * 
+     * @see JButton
      */
     public MyButton(String text, int width, int height) {
 
@@ -68,7 +80,7 @@ public class MyButton extends JButton implements MouseListener {
     }
 
     /**
-     * Change the button's border colour to white upon mouse entry.
+     * Changes the button's border colour to white upon mouse entry.
      */
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -77,7 +89,7 @@ public class MyButton extends JButton implements MouseListener {
     }
 
     /**
-     * Change button's border colour to dark gray upon mouse exit.
+     * Changes button's border colour to dark gray upon mouse exit.
      */
     @Override
     public void mouseExited(MouseEvent e) {
@@ -85,15 +97,23 @@ public class MyButton extends JButton implements MouseListener {
         this.setBorder(border);
     }
 
-    // Unused methods from here on
+    /**
+     * Unused
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
     }
 
+    /**
+     * Unused
+     */
     @Override
     public void mousePressed(MouseEvent e) {
     }
 
+    /**
+     * Unused
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
     }
