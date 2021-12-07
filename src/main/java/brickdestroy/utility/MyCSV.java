@@ -8,6 +8,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * A class to handle data in .csv files. I decided to write my own CSV API
+ * instead of using an external library because it's a fun challenge. Also cause
+ * why not lmao.
+ * <p>
+ * It is responsible for reading and writing data to and from the specified .csv
+ * file. If the file does not exist, it creates a new file with the same name
+ * and copies an existing resource into it in the project's root directory. In
+ * the case of running the game from a .jar file, it creates the file in the
+ * same directory as the .jar file.
+ * <p>
+ * It's worth noting that this CSV API is very basic and tailored specifically
+ * to this game. Please don't use it outside the game.
+ * <h1>
+ * Please.
+ * 
+ * @param fileName The name of the .csv file
+ */
 public class MyCSV {
 
     private String fileName;
@@ -16,15 +34,20 @@ public class MyCSV {
     private int size = 0;
 
     /**
-     * The {@code MyCSV} class is a tool I made to handle data in .csv files. I
-     * decided to write my own CSV API instead of using an external library because
-     * it's a fun challenge. Also cause why not lmao.
+     * A class to handle data in .csv files. I decided to write my own CSV API
+     * instead of using an external library because it's a fun challenge. Also cause
+     * why not lmao.
      * <p>
      * It is responsible for reading and writing data to and from the specified .csv
      * file. If the file does not exist, it creates a new file with the same name
      * and copies an existing resource into it in the project's root directory. In
      * the case of running the game from a .jar file, it creates the file in the
      * same directory as the .jar file.
+     * <p>
+     * It's worth noting that this CSV API is very basic and tailored specifically
+     * to this game. Please don't use it outside the game.
+     * <h1>
+     * Please.
      * 
      * @param fileName The name of the .csv file
      */
@@ -50,7 +73,7 @@ public class MyCSV {
     }
 
     /**
-     * Get an array of all rows in the form of {@code Strings}.
+     * Gets an array of all rows in the form of {@code Strings}.
      * <p>
      * All carriage return and newline characters are removed from the rows
      * automatically.
@@ -77,7 +100,7 @@ public class MyCSV {
     }
 
     /**
-     * Get a 2D array of all rows in the form of {@code Strings}. The first
+     * Gets a 2D array of all rows in the form of {@code Strings}. The first
      * dimension of the array represents a row, while the second dimension
      * represents elements in that row.
      * <p>
@@ -97,7 +120,7 @@ public class MyCSV {
     }
 
     /**
-     * Get the row at the specified index in the form of a {@code String}.
+     * Gets the row at the specified index in the form of a {@code String}.
      * <p>
      * Any carriage return and newline characters are removed from the row
      * automatically.
@@ -110,7 +133,7 @@ public class MyCSV {
     }
 
     /**
-     * Get an array of the elements in the row at the specified index.
+     * Gets an array of the elements in the row at the specified index.
      * <p>
      * Any carriage return and newline characters are removed from the row
      * automatically.
@@ -119,14 +142,13 @@ public class MyCSV {
      * @return An array of {@code Strings} of the elements in the row
      */
     public String[] getRow(int index) {
-        return getRowAsString(index).split(",");
+        return all[index].split(",");
     }
 
     /**
-     * Append a row at the end of the file.
+     * Appends a row of type {@code String} at the end of the file.
      * 
-     * @param first  The first element of the row
-     * @param second The second element of the row
+     * @param row The row of type {@code String}
      */
     public void appendRow(String row) {
         // Remove any space characters
@@ -143,7 +165,7 @@ public class MyCSV {
     }
 
     /**
-     * Get the amount of rows in the csv file.
+     * Gets the amount of rows in the csv file.
      * 
      * @return An {@code int} of the amount of rows
      */
