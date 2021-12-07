@@ -22,7 +22,7 @@ public class BrickCement extends Brick {
     private static final Color INNER = new Color(147, 147, 147);
     private static final int STRENGTH = 2;
 
-    private final int CRACK_DEPTH = 10;
+    private final int CRACK_DEPTH = 2;
     private final int STEPS = 35;
 
     private Crack crack;
