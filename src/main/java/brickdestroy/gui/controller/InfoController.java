@@ -8,6 +8,18 @@ import brickdestroy.gui.view.AbstractInfoView;
 import brickdestroy.gui.view.InfoControlsView;
 import brickdestroy.gui.view.InfoDescriptionView;
 
+/**
+ * A child class of {@link AbstractController} that handles the Info section of
+ * the game, accessible through the Main Menu. It is responsible for fetching
+ * information from the resources, displaying it in its respective View and
+ * switching between the Views that take up the Info section.
+ * <p>
+ * Currently, the Info section consists of the {@code InfoDescriptionView} and
+ * the {@code InfoControlsView}.
+ * 
+ * @see InfoDescriptionView
+ * @see InfoControlsView
+ */
 public class InfoController extends AbstractController {
 
     private AbstractInfoView description;
@@ -17,34 +29,42 @@ public class InfoController extends AbstractController {
     private InfoModel controlsInfo;
 
     /**
-     * The {@code InfoController} class is the controller for the menu's information
-     * views, which include variations of the {@code MenuInfoView} class.
+     * A child class of {@link AbstractController} that handles the Info section of
+     * the game, accessible through the Main Menu. It is responsible for fetching
+     * information from the resources, displaying it in its respective View and
+     * switching between the Views that take up the Info section.
      * <p>
-     * It is responsible for defining the different variations of the info views and
-     * getting user input to switch between the different Info views.
+     * Currently, the Info section consists of the {@code InfoDescriptionView} and
+     * the {@code InfoControlsView}.
      * 
      * @param frame The {@code MainFrame}
+     * 
+     * @see InfoDescriptionView
+     * @see InfoControlsView
      */
     public InfoController(MainFrame frame) {
         // Call the super constructor
         super(frame);
 
-        // Define the description model and view
+        // Define the description info model
         descriptionInfo = new InfoModel("description.txt");
         descriptionInfo.setTitle("Description");
         descriptionInfo.setSwitcherText("Controls");
-        description = new InfoDescriptionView(descriptionInfo);
 
-        // Define the controls model and view
+        // Define the controls info model
         controlsInfo = new InfoModel("controls.txt");
         controlsInfo.setTitle("Controls");
         controlsInfo.setSwitcherText("Description");
-        controls = new InfoControlsView(controlsInfo);
 
         // Add the description view
-        addView(description);
+        addView(description = new InfoDescriptionView(descriptionInfo));
     }
 
+    /**
+     * Defines the {@code InfoViews'} buttons' actions.
+     * <p>
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -57,13 +77,13 @@ public class InfoController extends AbstractController {
 
             // InfoDescriptionView secondary button
             case InfoDescriptionView.CONTROLS:
-                addView(controls);
+                addView(controls = new InfoControlsView(controlsInfo));
                 removeView(description);
                 break;
 
             // InfoConstrolsView secondary button
             case InfoControlsView.DESCRIPTION:
-                addView(description);
+                addView(description = new InfoDescriptionView(descriptionInfo));
                 removeView(controls);
                 break;
 
