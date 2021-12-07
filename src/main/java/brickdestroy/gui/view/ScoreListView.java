@@ -13,6 +13,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import brickdestroy.gui.model.ScoreModel;
 
+/**
+ * A child class of {@link AbstractAllView} that represents the High Score List
+ * section of the game, accessible through the Home Menu. It displays a list of
+ * usernames and scores that is sorted from the highest score to the lowest and
+ * only displays 20 entries.
+ * <p>
+ * It is responsible for defining the components that make up this View and
+ * adding them to itself.
+ * 
+ * @see ScoreModel
+ */
 public class ScoreListView extends AbstractAllView {
 
     public static final String BACK = "BACK";
@@ -25,16 +36,21 @@ public class ScoreListView extends AbstractAllView {
     private final String[] columns = { "ID", "Username", "Score" };
 
     /**
-     * The {@code ScoreListView} class is the View for the High Scores List that can
-     * be accessed through the Home Menu.
+     * A child class of {@link AbstractAllView} that represents the High Score List
+     * section of the game, accessible through the Home Menu. It displays a list of
+     * usernames and scores that is sorted from the highest score to the lowest and
+     * only displays 20 entries.
      * <p>
-     * It responsible for defining its components and adding them to itself. It uses
-     * a {@code JTable} and {@code JScrollPane} to display the list of high scores,
-     * which is sorted in descending order by scores.
+     * It is responsible for defining the components that make up this View and
+     * adding them to itself.
+     * 
+     * @param model The score model
+     * 
+     * @see ScoreModel
      */
     public ScoreListView(ScoreModel model) {
         // Call the super constructor
-        super("Back", "null", BACK, null);
+        super("Back", null, BACK, null);
 
         // Define table size
         int tableW = (int) (width * 0.8);
@@ -90,7 +106,7 @@ public class ScoreListView extends AbstractAllView {
     }
 
     /**
-     * Paint the title
+     * Draws the title text
      */
     @Override
     public void paintComponent(Graphics g) {

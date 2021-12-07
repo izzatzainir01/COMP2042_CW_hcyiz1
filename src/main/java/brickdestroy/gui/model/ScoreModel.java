@@ -2,26 +2,52 @@ package brickdestroy.gui.model;
 
 import brickdestroy.utility.MyCSV;
 
+/**
+ * A Model class thath handles writing score information to a .csv file during
+ * gameplay. It stores the user's username and score of the current gaming
+ * session until the {@code GameController} calls for it to save the information
+ * into a .csv file.
+ * <p>
+ * It is responsible for loading the .csv file where the scores are stored,
+ * parsing the username to remove any commas, extra spaces and other control
+ * characters, assigning the user with a Guest username, and storing the
+ * information into the .csv file.
+ * 
+ * @see brickdestroy.gui.controller.GameController GameController
+ * @see brickdestroy.gui.view.ScorePromptView ScorePromptView
+ * @see brickdestroy.gui.view.ScoreListView ScoreListView
+ */
 public class ScoreModel {
 
     private MyCSV csv;
     private String username = "";
 
     /**
-     * The {@code ScoreModel} class is the Model for handling Scores in the game.
+     * A Model class that handles writing score information to a .csv file during
+     * gameplay. It stores the user's username and score of the current gaming
+     * session until the {@code GameController} calls for it to save the information
+     * into a .csv file.
      * <p>
-     * It is responsible for temporarily storing the username and total score for
-     * the current game session and storing them into the database. It is also
-     * responsible for properly formatting the data before storing them into the
-     * database.
+     * It is responsible for loading the .csv file where the scores are stored,
+     * parsing the username to remove any commas, extra spaces and other control
+     * characters, assigning the user with a Guest username, and storing the
+     * information into the .csv file.
      * 
-     * @param username The username of the current game session
+     * @see brickdestroy.gui.controller.GameController GameController
+     * @see brickdestroy.gui.view.ScorePromptView ScorePromptView
+     * @see brickdestroy.gui.view.ScoreListView ScoreListView
      */
     public ScoreModel() {
         // Define the highscore file
         csv = new MyCSV("highscore.csv");
     }
 
+    /**
+     * Gets the data contained in the .csv file sorted by the score from highest to
+     * lowest.
+     * 
+     * @return A 2D {@code String} array of the sorted data
+     */
     public String[][] getSortedData() {
         // Get data and sort it
         String[][] all = csv.getAllRows();
@@ -46,8 +72,9 @@ public class ScoreModel {
     }
 
     /**
+     * Sets the username of the current gaming session.
      * 
-     * @param username
+     * @param username The username
      */
     public void setUsername(String username) {
         // Assign the parsed username
@@ -55,7 +82,7 @@ public class ScoreModel {
     }
 
     /**
-     * Add the score to the database
+     * Adds the score to the database.
      * 
      * @param score The score
      */
