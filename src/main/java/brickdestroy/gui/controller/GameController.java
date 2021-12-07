@@ -110,7 +110,7 @@ public class GameController extends AbstractController implements KeyListener, W
         gameView = new GameView(game);
 
         // Define the debug console
-        debugConsole = new DebugConsole(game, this);
+        debugConsole = new DebugConsole(game);
 
         // Set the timer action
         MyTimer.addTimerAction(e -> {

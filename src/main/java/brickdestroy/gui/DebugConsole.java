@@ -11,8 +11,17 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 
 import brickdestroy.elements.Game;
-import brickdestroy.gui.controller.GameController;
 
+/**
+ * A class the represents a dialog to modify some of the properties of the
+ * {@code Game}. This is mainly for developer's use in order to easily debug the
+ * {@code Game} in the middle of gameplay.
+ * <p>
+ * It is responsible for defining its components, adding them to itself and
+ * taking user input to modify the {@code Game}.
+ * 
+ * @see Game
+ */
 public class DebugConsole extends JDialog {
 
     private Game game;
@@ -27,16 +36,18 @@ public class DebugConsole extends JDialog {
     private JSlider speedSlider;
 
     /**
-     * The {@code DebugConsole} class is a GUI that allows the user to modify some
-     * parts of the gameplay.
+     * A class the represents a dialog to modify some of the properties of the
+     * {@code Game}. This is mainly for developer's use in order to easily debug the
+     * {@code Game} in the middle of gameplay.
      * <p>
-     * It is responsible for defining its components and taking user input to modify
-     * the gameplay.
+     * It is responsible for defining its components, adding them to itself and
+     * taking user input to modify the {@code Game}.
      * 
-     * @param game       The {@code Game}
-     * @param controller The {@code GameController}
+     * @param game The {@code Game}
+     * 
+     * @see Game
      */
-    public DebugConsole(Game game, GameController controller) {
+    public DebugConsole(Game game) {
 
         // Define the Game and its Controller
         this.game = game;

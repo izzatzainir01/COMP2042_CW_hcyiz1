@@ -9,6 +9,15 @@ import brickdestroy.gui.controller.MenuController;
 import brickdestroy.utility.MyImage;
 import brickdestroy.utility.MyTimer;
 
+/**
+ * A class handles the game's window frame using {@code JFrame}. In a way, it
+ * can be considered as the Main or Super Controller as it switches between the
+ * different Controllers of the game. However, since it doesn't take any input
+ * from the user directly, I do not consider it a Controller.
+ * <p>
+ * It is responsible for defining the {@code JFrame's} properties and switching
+ * between the different Controllers.
+ */
 public class MainFrame {
 
     public static final int WIDTH = 800;
@@ -23,13 +32,13 @@ public class MainFrame {
     private GameController game;
 
     /**
-     * The {@code GameFrame} class handles the game's window frame using JFrame. It
-     * is responsible for defining its size, location and some other properties.
+     * A class handles the game's window frame using {@code JFrame}. In a way, it
+     * can be considered as the Main or Super Controller as it switches between the
+     * different Controllers of the game. However, since it doesn't take any input
+     * from the user directly, I do not consider it a Controller.
      * <p>
-     * To some extent, it can also be considered as the Main Controller as it is
-     * responsible for switching between the two Controllers, {@code MenuController}
-     * and {@code GameController}. However, since it does not take any input from
-     * the user, I do not consider it a Controller.
+     * It is responsible for defining the {@code JFrame's} properties and switching
+     * between the different Controllers.
      */
     public MainFrame() {
 
@@ -55,8 +64,8 @@ public class MainFrame {
     }
 
     /**
-     * Add the Menu Controller to the frame. This method automatically removes the
-     * previous controller after adding the new one.
+     * Adds the {@code MenuController} to the frame. This method automatically
+     * removes the previous controller after adding the new one.
      */
     public void addMenuController() {
         menu = new MenuController(this);
@@ -64,8 +73,8 @@ public class MainFrame {
     }
 
     /**
-     * Add the Info Controller to the frame. This method automatically removes the
-     * previous controller after adding the new one.
+     * Adds the {@code InfoController} to the frame. This method automatically
+     * removes theprevious controller after adding the new one.
      */
     public void addInfoController() {
         info = new InfoController(this);
@@ -73,8 +82,9 @@ public class MainFrame {
     }
 
     /**
-     * Add the Game Controller to the frame and initialise the game. This method
-     * automatically removes the previous controller after adding the new one.
+     * Adds the {@code GameController} to the frame and initialise the game. This
+     * method automatically removes the previous controller after adding the new
+     * one.
      */
     public void addGameController() {
         game = new GameController(this);
@@ -83,7 +93,7 @@ public class MainFrame {
     }
 
     /**
-     * Close/exit the game.
+     * Closes the game.
      */
     public void exit() {
         System.out.println("Exiting game...");
@@ -92,7 +102,7 @@ public class MainFrame {
     }
 
     /**
-     * Add a controller to the frame. This method replaces the previous controller
+     * Adds a controller to the frame. This method replaces the previous controller
      * with a new one, then it removes the old one.
      * 
      * @param controller The new controller
