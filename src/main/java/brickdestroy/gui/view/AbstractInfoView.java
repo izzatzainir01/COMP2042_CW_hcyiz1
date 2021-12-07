@@ -1,15 +1,28 @@
 package brickdestroy.gui.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import brickdestroy.gui.MainFrame;
 import brickdestroy.gui.model.InfoModel;
 
+/**
+ * An abstract child class of {@link MyAbstractView} that represents the Views
+ * of the Info section of the game. This class predefines a template that
+ * extends its parent's template that all Info Views follow. Since all Info
+ * Views have a Back button, this class also predefines the text and the action
+ * command of the Second button.
+ * <p>
+ * The {@code AbstractInfoView} class's content consists of a title and a
+ * {@code JTextArea} that displays information relating to that View.
+ */
 public abstract class AbstractInfoView extends MyAbstractView {
 
     public static final String BACK = "INFO_BACK";
@@ -19,29 +32,34 @@ public abstract class AbstractInfoView extends MyAbstractView {
 
     private String title = "";
     private JTextArea content;
+    private JScrollPane scrollPane;
 
     /**
-     * The {@code MenuInfoView} class is an abstract class that provides a template
-     * for the Info view.
+     * An abstract child class of {@link MyAbstractView} that represents the Views
+     * of the Info section of the game. This class predefines a template that
+     * extends its parent's template that all Info Views follow. Since all Info
+     * Views have a Back button, this class also predefines the text and the action
+     * command of the Second button.
      * <p>
-     * It is responsible for defining its components and taking in arguments in the
-     * constructor from its child classes to create the content. The Info View
-     * contains a 'Switcher' button that you can define to make it switch between
-     * the different views. That being said, it is technically just a normal button
-     * that you can set any action to from the controller.
+     * The {@code AbstractInfoView} class's content consists of a title and a
+     * {@code JTextArea} that displays information relating to that View.
      * 
-     * @param title        The title of the view
-     * @param contentFile  The file name that contains the data for the content
-     * @param switcherText The text inside the switcher button
+     * @param info           The Info model
+     * @param button2Command The Second button command
+     * @param title          The title of this View
+     * @param button2Text    The Second button text
      */
-    protected AbstractInfoView(InfoModel info, String button1Command, String button2Command, String title,
-            String button2Text) {
+    protected AbstractInfoView(InfoModel info, String button2Command, String title, String button2Text) {
         super("Back", button2Text, BACK, button2Command);
+
+        // Define content size
+        int contentW = (int) (width * 0.8);
+        int contentH = (int) (height * 0.5);
 
         // Define description text area and set its properties
         content = new JTextArea();
-        content.setSize((int) (width * 0.8), (int) (height * 0.5));
-        content.setLocation(width / 2 - content.getWidth() / 2, (int) (height * 0.22));
+        content.setSize(contentW, contentH);
+        content.setLocation(width / 2 - contentW / 2, (int) (height * 0.22));
         content.setOpaque(false);
         content.setEditable(false);
         content.setWrapStyleWord(true);
@@ -49,6 +67,20 @@ public abstract class AbstractInfoView extends MyAbstractView {
         content.setFont(setFontSize((int) (width * 0.033)));
         content.setText(info.getContent());
         content.setForeground(Color.BLACK);
+        content.setCaretPosition(0);
+
+        // Define the scroll pane
+        scrollPane = new JScrollPane(content);
+        // Set size and location
+        scrollPane.setSize(contentW, contentH);
+        scrollPane.setPreferredSize(new Dimension(contentW, contentH));
+        scrollPane.setLocation(width / 2 - contentW / 2, (int) (height * 0.22));
+        // Remove background and borders
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Define title
         this.title = title;
@@ -58,11 +90,11 @@ public abstract class AbstractInfoView extends MyAbstractView {
         button2.setLocation((int) (width * 0.9 - button2.getWidth()), (int) (height * 0.75));
 
         // Add the description label
-        this.add(content);
+        this.add(scrollPane);
     }
 
     /**
-     * Paint the background image and the title
+     * Draw the background image and the title
      */
     @Override
     public void paintComponent(Graphics g) {
