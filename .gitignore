@@ -5,7 +5,7 @@
 target/
 
 # Documentation folder, for submission, not for public repo
-docs/
+javadoc/
 
 # Local file for testing
 highscore.csv
