@@ -9,40 +9,41 @@ This is a simple arcade game based on the classic game, Breakout, and is an exte
 
 ## Changes
 ### General Refactoring
- - Removed unused and/or redundant variables, imports and methods
-   throughout all the classes.
- - Rearranged some methods and/or variables in a particular order to
-   make it more readable personally.
- - Added comments everywhere to help with readability and ease of
-   knowing what something does.
- - Reorganised the classes into packages and sub-packages.
+ - Removed unused and/or redundant variables, imports and methods throughout all the classes.
  - Renamed classes/methods/variables into names that make more sense personally.
- - Encapsulated most of the variables throughout all classes, with the
-   exception of constants.
+ - Encapsulated most of the variables throughout all classes, excluding constants.
+ - Rearranged some methods and/or variables in a particular order to make it more readable personally.
+ - Reduced the responsibilities of some classes by moving methods to other classes and/or creating new classes.
+ - Added comments everywhere to help with readability.
+ - Reorganised the classes into packages and sub-packages.
    
 ### Class Separation
-Separated some large classes into smaller ones. A notable class that received this treatment is the Crack class, which was separated from Brick. This was done in order to allow for any future additions to easily access the Crack class as well as to reduce bloat in the Brick class.
-
-Another notable separation is the Levels class, which used to be some methods in the Wall (now Game) class for creating levels.
+ - Separated Crack from Brick to allow future additions with easier access to Crack and reduce bloat. 
+ - Separated level creation from Game (formerly Wall) into a Levels class to reduce the Game's responsibilities.
 
 ### Design Patterns
-Attempted to implement the MVC (Model-View-Controller) design pattern to the project. A lot of classes were added as a result of this, notably View classes. Another notable design pattern that I attempted to implement is the Factory design pattern, which I implemented on the Brick classes.
+ - Attempted to implement MVC (Model-View-Controller) design pattern to the project.
+ - Implemented the Factory pattern on the Brick classes, resulting in a BrickFactory class.
 
 ### Game Changes
-Made it so that when the user loses a level, they'd have to start from the very beginning, rather than from the same level. The same goes for when the user restarts the game via the pause screen, the winning screen or the losing screen.
-
-Implemented a score system that keeps track of the user's username and total score throughout the game and saves them into a .csv file upon leaving the game. The score is reduced every time the ball is lost. To make this work, I managed to write a basic CSV API that eased this process.
-
-Other minor changes include making the Ball and Player move faster as the original game's speed was painfully slow. Besides that, I improved the collision system which made the bounces feel a bit smoother. I also made the Ball randomise its angle of travel every time it collides with a Brick to promote unpredictability, which makes the game much more fun personally.
+ - Implemented a `tick` system, where every `tick`, the game checks the states of the different elements to make decisions. The `tick` is called by the GameController in a loop. This system was originally in the GameBoard (now GameController); I simply moved it to the Game.
+ - Implemented a score system, with different types of Bricks contributing different scores. The score is reduced every time the ball is lost.
+ - Increased the speed of Player and Ball because the original speed was painfully slow.
+ - Moved all collision checks except Player into Game and improved the collision system.
+ - Randomised the Ball's travel angle after every impact with a Brick to promote unpredictability.
+ - Made players restart from the first level rather than from the same level.
 
 ### Cosmetic Changes
-Added many new Views to the game in addition to improving the existing Views in the original project. Some notable new Views are the following:
- - Info Views
- - High Score list
- - Username prompt
- - Game End Views (cleared a round, all rounds, or lost the game)
+ - Improved the original Views (Home Menu, Pause screen) and used JButtons instead of Rectangles.
+ - Added Info Views accessible from Home Menu for the game's description and controls.
+ - Added a High Score List View accessible from Home Menu that displays a ranking of the top 20 users and their scores.
+ - Added a View that prompts the user for their username before the Game starts.
+ - Added Views for when the game is stopped due to the player clearing a level, clearing all levels or loses the game.
 
 ### Other Changes
+ - Abstracted a Controller class and some View classes with similar templates to avoid rewriting code.
+ - Wrote some utility classes to help with repetitive code.
+ - Implemented a static Timer to avoid creating a new instance of a Timer for every new game.
  - Used Maven build tools
  - Did some JUnit tests
  - Added Javadocs
