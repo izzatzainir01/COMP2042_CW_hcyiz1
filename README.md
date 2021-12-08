@@ -1,34 +1,43 @@
-
 # Brick Destroy
 ## Description
-This is a simple arcade game based on the classic game, Brick Breaker. The objective of the game is to destroy all bricks with a ball. You have 3 attempts until you lose the game. After which, you have to restart from the first round.
-
-Scores are counted by the amount of impacts that happen between the ball and a brick. Different types of bricks will contribute different scores. The score will be displayed after every round. If you complete all rounds, the score displayed will be your total score from all rounds. If you lose the game, it will display your total score up until you lost.
-
-Credit goes to [Filippo Ranza](https://github.com/FilippoRanza/Brick_Destroy) for the original project.
-
-## Controls
-| Key | Description |
-|--|--|
-| SPACE | Start/stop the game |
-| ESC | Pause the game |
-| A | Move the paddle left
-| D | Move the paddle right
-| F1 | Open debug console
+This is a simple arcade game based on the classic game, Breakout, and is an extension of [Filippo Ranza's](https://github.com/FilippoRanza/Brick_Destroy)  original implementation of the game. This is my coursework for COMP2042 Developing Maintainable Software in the University of Nottingham Malaysia Campus.
 
 ## Changes
-### Refactoring
- - Restructured the project into packages and sub-packages.
- - Removed unused imports/variables/methods and renamed some variables/methods.
- - Added comments everywhere.
- - Encapsulated and isolated most of the classes from one another.
- - Separated large classes.
- - Improved on some of the game mechanics.
- - Implemented the MVC design pattern.
+### General Refactoring
+ - Removed unused and/or redundant variables, imports and methods
+   throughout all the classes.
+ - Rearranged some methods and/or variables in a particular order to
+   make it more readable personally.
+ - Added comments everywhere to help with readability and ease of
+   knowing what something does.
+ - Reorganised the classes into packages and sub-packages.
+ - Renamed classes/methods/variables into names that make more sense personally.
+ - Encapsulated most of the variables throughout all classes, with the
+   exception of constants.
+   
+### Class Separation
+Separated some large classes into smaller ones. A notable Class that received this treatment is the Crack class, which was separated from Brick. This was done in order to allow for any future additions to easily access the Crack class as well as to reduce bloat in the Brick class.
 
-### Additions
- - Used Maven build tools.
- - Implemented a score system.
- - Changed the look of the Main Menu and Pause screen.
- - Added an Info section.
- - Added displays for when the player clears a round, clears all rounds and loses the game.
+Another notable separation is the Levels class, which used to be some methods in the Wall (now Game) class for creating levels. These separations are done to support the concept of Single Responsibility.
+
+### Design Patterns
+Attempted to implement the MVC (Model-View-Controller) design pattern to the project. A lot of classes were added as a result of this, notably View classes. Another notable design pattern that I attempted to implement is the Factory design pattern, which I implemented on the Brick classes.
+
+### Game Changes
+Made it so that when the user loses a level, they'd have to start from the very beginning, rather than from the same level. The same goes for when the user restarts the game via the pause screen, the winning screen or the losing screen.
+
+Implemented a score system that keeps track of the user's username and total score throughout the game and saves them into a .csv file upon leaving the game. To make this work, I managed to write a basic CSV API that eased this process.
+
+Other minor changes include making the Ball and Player move faster as the original game's speed was painfully slow. Besides that, I improved the collision system which made the bounces feel a bit smoother. I also made the Ball randomise its angle of travel every time it collides with a Brick. This is done to promote unpredictability, which makes the game much more fun in my opinion.
+
+### Cosmetic Additions
+Added many new Views to the game in addition to improving the existing Views in the original project. Some notable new Views are the following:
+ - Info Views
+ - High Score list
+ - Username prompt
+ - Game End Views (cleared a round, all rounds, or lost the game)
+
+### Other Changes
+ - Used Maven build tools
+ - Did some JUnit tests
+ - Added Javadocs
