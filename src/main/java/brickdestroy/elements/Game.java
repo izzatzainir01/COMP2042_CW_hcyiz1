@@ -123,8 +123,9 @@ public class Game {
             checkImpacts();
             if (ballLost) {
                 // Decreses the player's score by a third
-                score = (int) (score * 0.66);
+                score = (int) (score * 0.75);
                 stopped = true;
+                attempts--;
                 ballReset();
             } else if (brickCount == 0) {
                 if (level < levels.length) {
@@ -282,10 +283,9 @@ public class Game {
             ball.reverseX();
         if (checkBallBorderImpact() == 1) // Border vertical
             ball.reverseY();
-        if (ball.getDown().getY() >= height) { // Ball hits bottom border
-            attempts--;
+        if (ball.getDown().getY() >= height) // Ball hits bottom border
             ballLost = true;
-        }
+
         // Check Player's impacts
         if (checkPlayerImpact()) // Ball hits Player
             ball.reverseY();

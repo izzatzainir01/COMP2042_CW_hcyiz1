@@ -1,3 +1,5 @@
-The objective of the game is to destroy all bricks with a ball. You have 3 attempts until you lose the game.
+The objective of the game is to destroy all bricks with a ball. You have 3 attempts until you lose the game. When you complete a level, your balls will be restored back to 3 attempts for the next round.
 
-Scores are counted by the amount of impacts that happen between the ball and a brick. Your total score will be displayed after every round.
+Scores are counted by the amount of impacts that happen between the ball and a brick. If you lose your ball, your score will be reduced by a quarter of itself. The game will display your cumulative score once you've completed a level, won the game or lost the game. When you exit the game in any of these circumstances, your score will be saved.
+
+Good luck soldier.
