@@ -263,48 +263,61 @@ public class GameController extends Controller implements KeyListener, WindowFoc
     }
 
     /**
-     * Handles controlling player movements, starting/stopping the game, pausing the
+     * Handles controlling {@code Player} movements, starting/stopping the game, pausing the
      * game, and enabling the {@link DebugConsole}.
      * <p>
      * {@inheritDoc}
      */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        int keyCode = keyEvent.getKeyCode();
-        // A key pressed
-        if (keyCode == KeyEvent.VK_A)
-            game.movePlayerLeft(true);
-        // D key pressed
-        if (keyCode == KeyEvent.VK_D)
-            game.movePlayerRight(true);
-        // Space pressed
-        if (keyCode == KeyEvent.VK_SPACE) {
-            if (!isPaused)
-                if (!game.isGameStopped()) {
+        if (this.game != null) {
+            switch (keyEvent.getKeyCode()) {
+
+                // A key pressed
+                case KeyEvent.VK_A:
+                    game.movePlayerLeft(true);
+                    break;
+
+                // D key pressed
+                case KeyEvent.VK_D:
+                    game.movePlayerRight(true);
+                    break;
+
+                // Space pressed
+                case KeyEvent.VK_SPACE:
+                    if (!isPaused)
+                        if (!game.isGameStopped()) {
+                            game.setGameStopped(true);
+                            gameView.repaint();
+                        } else {
+                            game.setGameStopped(false);
+                        }
+                    break;
+
+                // Escape pressed
+                case KeyEvent.VK_ESCAPE:
+                    isPaused = !isPaused;
+                    if (isPaused) {
+                        MyTimer.stopTimer();
+                        game.setGameStopped(true);
+                        addView(pause = new GamePauseView());
+                        removeView(gameView);
+                    } else {
+                        MyTimer.startTimer();
+                        addView(gameView);
+                        removeView(pause);
+                    }
+                    break;
+
+                // F1 pressed
+                case KeyEvent.VK_F1:
                     game.setGameStopped(true);
-                    gameView.repaint();
-                } else {
-                    game.setGameStopped(false);
-                }
-        }
-        // Escape pressed
-        if (keyCode == KeyEvent.VK_ESCAPE) {
-            isPaused = !isPaused;
-            if (isPaused) {
-                MyTimer.stopTimer();
-                game.setGameStopped(true);
-                addView(pause = new GamePauseView());
-                removeView(gameView);
-            } else {
-                MyTimer.startTimer();
-                addView(gameView);
-                removeView(pause);
+                    debugConsole.setVisible(true);
+                    break;
+
+                default:
+                    break;
             }
-        }
-        // F1 pressed
-        if (keyCode == KeyEvent.VK_F1) {
-            game.setGameStopped(true);
-            debugConsole.setVisible(true);
         }
     }
 
@@ -316,13 +329,19 @@ public class GameController extends Controller implements KeyListener, WindowFoc
      */
     @Override
     public void keyReleased(KeyEvent keyEvent) {
-        int keyCode = keyEvent.getKeyCode();
-        // A key released
-        if (keyCode == KeyEvent.VK_A)
-            game.movePlayerLeft(false);
-        // D key released
-        if (keyCode == KeyEvent.VK_D)
-            game.movePlayerRight(false);
+        if (this.game != null) {
+            switch (keyEvent.getKeyCode()) {
+                // A key released
+                case KeyEvent.VK_A:
+                    game.movePlayerLeft(false);
+                    break;
+
+                // D key released
+                case KeyEvent.VK_D:
+                    game.movePlayerRight(false);
+                    break;
+            }
+        }
     }
 
     /**
