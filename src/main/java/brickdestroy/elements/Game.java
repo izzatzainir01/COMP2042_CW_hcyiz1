@@ -76,7 +76,7 @@ public class Game {
 
         // Defining the player and initialising its speed
         this.player = new Player(initialPos, (int) (width * 1.0 / 4.0), (int) (height * 1.0 / 45.0));
-        player.setSpeed(6);
+        player.setSpeed(7);
 
         // Defining the Ball and setting its properties
         this.ball = new BallRubber(initialPos, (int) (width * 1.0 / 60.0));
@@ -109,6 +109,7 @@ public class Game {
                 ballReset();
             } else if (brickCount == 0) {
                 if (level < levels.length) {
+                    attempts = 3;
                     stopped = true;
                 } else {
                     completed = true;

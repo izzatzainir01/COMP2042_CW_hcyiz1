@@ -36,8 +36,8 @@ public class Levels {
      */
     public static Brick[][] makeLevels(int brickCount, int lineCount) {
         // Minimum amount of bricks is six
-        if (brickCount < 6)
-            brickCount = 6;
+        if (brickCount < 12)
+            brickCount = 12;
 
         Brick[][] tmp = new Brick[LEVELS_COUNT][];
         tmp[0] = makeSingleTypeLevel(brickCount, lineCount, BrickFactory.CLAY);
