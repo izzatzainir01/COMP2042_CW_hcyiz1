@@ -97,6 +97,17 @@ public class MyButton extends JButton implements MouseListener {
     }
 
     /**
+     * Calls the super's {@code setSize} method and rescales this button's
+     * background image to the new size.
+     */
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+        buttonBG.rescale(width);
+        this.setIcon(buttonBG.getImageIcon());
+    }
+
+    /**
      * Changes the button's border colour to white upon mouse entry.
      */
     @Override
