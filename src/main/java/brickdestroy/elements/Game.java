@@ -122,6 +122,8 @@ public class Game {
             ball.move();
             checkImpacts();
             if (ballLost) {
+                // Decreses the player's score by a third
+                score = (int) (score * 0.66);
                 stopped = true;
                 ballReset();
             } else if (brickCount == 0) {
