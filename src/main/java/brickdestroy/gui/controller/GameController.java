@@ -137,6 +137,7 @@ public class GameController extends Controller implements KeyListener, WindowFoc
 
             // When the player clears all rounds
             if (game.isGameCompleted()) {
+                scores.addScore(game.getTotalScore());
                 // Add the total score to the view
                 gameComplete = new GameWinView();
                 gameComplete.setScore(game.getTotalScore());
@@ -161,6 +162,7 @@ public class GameController extends Controller implements KeyListener, WindowFoc
 
             // When the player loses the game
             else if (game.getAttemptCount() == 0) {
+                scores.addScore(game.getTotalScore());
                 // Add the total score to the view
                 gameOver = new GameLoseView();
                 gameOver.setScore(game.getTotalScore());
@@ -251,7 +253,6 @@ public class GameController extends Controller implements KeyListener, WindowFoc
 
             // For all GameEndView's exit button
             case GameEndView.EXIT:
-                scores.addScore(game.getTotalScore());
                 exitGame();
                 break;
 
