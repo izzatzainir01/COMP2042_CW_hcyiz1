@@ -225,12 +225,12 @@ abstract public class Ball {
      * Randomises this {@code Ball's} angle of travel using the hypothenuse formula
      * to keep the speed consistent in all directions.
      * <p>
-     * This method takes in a {@code boolean} that determines whether to change the
+     * This method takes in a {@code boolean} that determines whether to reverse the
      * Y direction of this {@code Ball} or not.
      * 
-     * @param up A {@code boolean}
+     * @param reverseY A {@code boolean}
      */
-    public void randomBallAngle(boolean up) {
+    public void randomBallAngle(boolean reverseY) {
         Random rand = new Random();
 
         speedX = speed * rand.nextDouble(0.2, 0.8); // X speed = random ratio of speed
@@ -238,7 +238,7 @@ abstract public class Ball {
 
         speedX *= rand.nextBoolean() ? 1 : -1; // randomly determine left or right
 
-        if (up)
+        if (reverseY)
             speedY *= -1;
     }
 
